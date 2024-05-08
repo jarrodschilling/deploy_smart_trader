@@ -1,8 +1,13 @@
 import getAllUsers from "@/lib/getAllUsers"
 import Link from "next/link"
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Smart Trader | Users',   
+}
 
 
-export default async function Users() {
+export default async function UsersPage() {
     const usersData: Promise<User[]> = getAllUsers()
 
     const users = await usersData
