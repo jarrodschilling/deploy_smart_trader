@@ -1,0 +1,1 @@
+// copy over from board game once Next Auth library installed.
