@@ -1,4 +1,4 @@
-type Post = {
+type Transaction = {
     "userId": number,
     "id": number,
     "title": string,

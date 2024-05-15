@@ -1,7 +1,7 @@
 import getUser from "@/lib/getUser"
-import getUserPosts from "@/lib/getUserPosts"
+import getUserTransactions from "@/lib/getUserTransactions"
 import { Suspense } from "react"
-import UserPosts from "./components/UserPosts"
+import UserTransactions from "./components/UserTransactions"
 import type { Metadata } from "next"
 
 type Params = {
@@ -23,7 +23,7 @@ Params): Promise<Metadata> {
 
 export default async function UserPage({ params: { userId }}: Params) {
     const userData: Promise<User> = getUser(userId)
-    const userPostsData: Promise<Post[]> = getUserPosts(userId)
+    const userTransactionsData: Promise<Transaction[]> = getUserTransactions(userId)
     
     // const [user, userPosts] = await Promise.all([userData, userPostsData])
 
@@ -34,7 +34,7 @@ export default async function UserPage({ params: { userId }}: Params) {
             <h2>{user.name}</h2>
             <br />
             <Suspense fallback={<h2>loading...</h2>}>
-                <UserPosts promise={userPostsData} />
+                <UserTransactions promise={userTransactionsData} />
             </Suspense>
         </>
     )
