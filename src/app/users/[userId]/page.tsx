@@ -25,7 +25,7 @@ export default async function UserPage({ params: { userId }}: Params) {
     const userData: Promise<User> = getUser(userId)
     const userTransactionsData: Promise<Transaction[]> = getUserTransactions(userId)
     
-    // const [user, userPosts] = await Promise.all([userData, userPostsData])
+    // const [user, userPosts] = await Promise.all([userData, userTransactionsData])
 
     const user = await userData
 

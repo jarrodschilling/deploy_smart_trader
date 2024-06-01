@@ -12,9 +12,8 @@ export default async function UserTransactions({ promise }: Props) {
                 <h1>{transaction.title}</h1>
                 <p>{transaction.body}</p>
                 <br />
-
             </article>
         )
     })
-  return content
+    return content
 }

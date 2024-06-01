@@ -1,3 +1,4 @@
+// Using POSTS from vid as Transactions
 type Transaction = {
     "userId": number,
     "id": number,
@@ -5,6 +6,7 @@ type Transaction = {
     "body": string,
 }
 
+// Will need to be updated to User Model
 type User =
     {
         "id": number,

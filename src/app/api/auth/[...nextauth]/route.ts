@@ -4,6 +4,7 @@ import CognitoProvider from "next-auth/providers/cognito";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 
+
 export const authOptions = {
     providers: [
     GoogleProvider({

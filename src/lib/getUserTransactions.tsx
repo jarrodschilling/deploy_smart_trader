@@ -1,4 +1,4 @@
-
+// Use UserID to get their transactions
 
 export default async function getUserTransactions(userId: string) {
     const res = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`)
