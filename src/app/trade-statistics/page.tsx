@@ -1,8 +1,13 @@
 import getAllTrades from "@/services/getAllTrades"
 import TradeStatsCalcs from "./components/TradeStatsCalcs"
-import { dateChanger, formatedCost, formatedPercent, formatedPrice } from "@/lib/formatFunctions"
-import { avgClosePrice, avgOpenPrice, gainLoss, getCloseDate, getOpenDate, getOwnedShares, openTradeTrue, percentGainLoss, totalCost, totalSold } from "@/lib/tradeStatFunctions"
+import { dateChanger, formatedCost, 
+  formatedPercent, formatedPrice } from "@/lib/formatFunctions"
+
+import { avgClosePrice, avgOpenPrice, gainLoss, getCloseDate, getOpenDate, getOwnedShares, 
+  openTradeTrue, percentGainLoss, totalCost, totalSold } from "@/lib/tradeStatFunctions"
+
 import groupTrades from "@/lib/groupTrades"
+
 
 export default async function TradeStatistics() {
   const tradesData: Promise<Trade[]> = getAllTrades()
@@ -37,7 +42,7 @@ export default async function TradeStatistics() {
           <tbody>
               {
                 trades
-                // .sort((a, b) => new Date(a[0].date) - new Date(b[0].date))
+                .sort((a, b) => new Date(a[0].date) - new Date(b[0].date))
                 .map((trade: Trade[], index: number) => (
                     <tr key={index} className={`${(openTradeTrue(trade) === false)? '':(gainLoss(trade)>0)? 'ledgerBuy': 'ledgerSell'}`}>
                         <td>{trade[0].ticker}</td>

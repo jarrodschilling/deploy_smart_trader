@@ -34,7 +34,7 @@ export default async function TradeLedger() {
         <tbody>
             {
               trades
-              // .sort((a, b) => new Date(a.date) - new Date(b.date))
+              .sort((a, b) => new Date(a.date) - new Date(b.date))
               .map((trade) => (
                   <tr key={trade.id} 
                   className={`${(trade.openTrade === true)? 'ledgerOpen'

@@ -3,7 +3,6 @@ const portfolio = 1000000
 
 
 function gainLoss (tradeList: Trade[]) {
-    // console.log(`gainloss test ${tradeList}`)
     let totalGainLoss = 0
     for (let i = 0; i < tradeList.length; i++) {
         if (tradeList[i].buySell === "buy") {
@@ -26,7 +25,6 @@ function totalCost (tradeList: Trade[]) {
     }
     return cost
 }
-// console.log(`Total Cost: ${totalCost(trades)}`)
 
 
 function avgOpenPrice (tradeList: Trade[]) {
@@ -50,7 +48,7 @@ function totalSold (tradeList: Trade[]) {
     }
     return value
 }
-// console.log(`Total Sold: ${totalSold(trades)}`)
+
 
 function avgClosePrice (tradeList: Trade[]) {
     let totalShares = 0
@@ -64,20 +62,20 @@ function avgClosePrice (tradeList: Trade[]) {
     let avgPrice = totalValue/totalShares
     return avgPrice
 }
-// console.log(`Avg Close Price: ${avgClosePrice(trades)}`)
+
 
 function percentGainLoss(tradeList: Trade[]) {
     let prctGainLoss = 100 * gainLoss(tradeList)/totalCost(tradeList)
     return prctGainLoss
 }
-// console.log(`% Gain/Loss: ${percentGainLoss(trades)}%`)
+
 
 
 function portfolioPercentImpact (portValue: number, tradeList: Trade[]) {
     let portImpact = 100 * gainLoss(tradeList)/portValue
     return portImpact
 }
-// console.log(`% Portfolio Impact: ${portfolioPercentImpact(portfolio, trades)}%`)
+
 
 
 function getOpenDate (trades: Trade[]) {

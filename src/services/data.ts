@@ -43,4 +43,46 @@ export const TRADES: Trade[] = [
         closeTrade: true,
         openTrade: false
     },
+    {
+        id: '4',
+        ticker: 'SN',
+        name: 'SharkNinja',
+        // date: new Date(2024, 2, 3),
+        date: '2024-01-02T07:00:00.000Z',
+        buySell: 'buy',
+        shares: 1000,
+        price: 60.55,
+        shaper: 'Cup',
+        tactical: 'DTL',
+        closeTrade: false,
+        openTrade: true
+    },
+    {
+        id: '5',
+        ticker: 'SN',
+        name: 'SharkNinja',
+        // date: new Date(2024, 2, 4),
+        date: '2024-02-10T07:00:00.000Z',
+        buySell: 'buy',
+        shares: 300,
+        price: 67.80,
+        shaper: 'Head and Shoulders',
+        tactical: 'Pattern BO',
+        closeTrade: false,
+        openTrade: false
+    },
+    {
+        id: '6',
+        ticker: 'SN',
+        name: 'SharkNinja',
+        // date: new Date(2024, 3, 5),
+        date: '2024-04-20T07:00:00.000Z',
+        buySell: 'sell',
+        shares: 1300,
+        price: 77,
+        shaper: 'Earnings Soon',
+        tactical: 'Stop Hit',
+        closeTrade: true,
+        openTrade: false
+    },
 ];
