@@ -31,3 +31,20 @@ type User =
             "bs": string
         }
     }
+
+type Trade = {
+    id: string,
+    ticker: string,
+    name: string,
+    // date: Date,
+    date: string,
+    buySell: string,
+    shares: number,
+    price: number,
+    shaper: string,
+    tactical: string,
+    closeTrade: Boolean,
+    openTrade: Boolean
+}
+
+type GroupedTrades = Trade[]
