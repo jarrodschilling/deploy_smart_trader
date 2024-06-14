@@ -1,7 +1,7 @@
-import getAllUsers from "@/lib/getAllUsers"
 import Link from "next/link"
 import type { Metadata } from 'next'
 import { getServerSession } from "next-auth"
+import GetAllUsers from "@/services/getAllUsers"
 
 export const metadata: Metadata = {
     title: 'Smart Trader | Users',   
@@ -9,12 +9,11 @@ export const metadata: Metadata = {
 
 
 export default async function UsersPage() {
-    const usersData: Promise<User[]> = getAllUsers()
+    const usersData = await GetAllUsers()
+    const users = await usersData.data
 
-    const users = await usersData
     const session = await getServerSession()
-
-    console.log("Hello")
+    // console.log(users[0].trades[0].ticker)
 
     const content = (
         <section>
@@ -23,18 +22,25 @@ export default async function UsersPage() {
                 <Link href="/">Back to HOME</Link>
             </h2>
             <br />
-            {users.map(user => {
-                return(
-                    <>
-                        <p key={user.id}>
-                            <Link href={`/users/${user.id}`}>{user.name}</Link>
+            {users.map((user: User) => (
+                <p key={user.id}>
+                    <h2>{user.firstName}</h2>
+                    {user.trades.map((trade: Trade) => (
+                        <p key={trade.id}>
+                            <p>{trade.name}</p>
+                            <p>{trade.ticker}</p>
+                            <p>{trade.shares}</p>
+                            <p>{trade.price}</p>
+                            <p>{trade.date}</p>
                         </p>
-                        <br />
-                    </>
-                )
-            })}
+                    ))}
+                </p>
+            )
+        )}
         </section>
     )
     
-    return content
+    return(
+        content
+    )
 }

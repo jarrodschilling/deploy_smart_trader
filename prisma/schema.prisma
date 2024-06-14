@@ -38,7 +38,7 @@ model Trade {
   ticker      String
   name        String
   date        String
-  buySell     BuySell
+  buySell     String
   shares      Int
   price       Float
   shaper      String?
@@ -50,10 +50,6 @@ model Trade {
   
 }
 
-enum BuySell {
-  BUY
-  SELL
-}
 
 model ToDo {
   id          String    @id @default(uuid())
@@ -62,7 +58,7 @@ model ToDo {
   ticker      String
   name        String
   date        String
-  buySell     BuySell
+  buySell     String
   shares      Int
   price       Float
   shaper      String?

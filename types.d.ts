@@ -9,11 +9,13 @@ type Transaction = {
 // Will need to be updated to User Model
 type User =
     {
+        id: string,
         firstName: string,
         lastName: string,
         email: string,
         userName: string,
         password: string,
+        trades: Trade[]
     }
 
 type Trade = {

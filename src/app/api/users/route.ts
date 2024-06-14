@@ -4,8 +4,13 @@ import db from "@/lib/prisma";
 
 // const db = new PrismaClient()
 
-export async function GET() {
-    const users = await db.user.findMany()
+export async function GET(req: any) {
+    console.log(req)
+    const users = await db.user.findMany({
+        include: {
+            trades: true
+        }
+    })
 
     return NextResponse.json(
         {
@@ -18,6 +23,25 @@ export async function GET() {
         }
     )
 }
+
+// export async function GET() {
+//     const users = await db.user.findUniqueOrThrow({
+//         where: {
+//             id: 
+//         }
+//     })
+
+//     return NextResponse.json(
+//         {
+//             success: true,
+//             message: "List all users",
+//             data: users
+//         },
+//         {
+//             status: 200,
+//         }
+//     )
+// }
 
 
 export async function POST(request: Request) {
