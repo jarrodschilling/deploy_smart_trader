@@ -38,7 +38,7 @@ type GroupedTrades = Trade[]
 type RegisterFormData = {
     firstName: string,
     lastName: string,
-    username: string,
+    userName: string,
     email: string,
     password: string
 }

@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { userRegisterSchema } from "../../../../schemas/schema"
+import CreateUser from "@/services/createUser"
 
 export default function RegisterForm() {
     const {
@@ -15,6 +16,7 @@ export default function RegisterForm() {
         })
     async function handleRegister(data: RegisterFormData) {
         console.log(data)
+        CreateUser(data)
     }
     return (
         <>
@@ -65,17 +67,17 @@ export default function RegisterForm() {
                         )
                     }
 
-                    <label htmlFor="username">username</label>
+                    <label htmlFor="userName">username</label>
                     <input
-                        {...register("username")}
+                        {...register("userName")}
                         type="text"
-                        name="username"
-                        id="username"
+                        name="userName"
+                        id="userName"
                     />
                     {
-                        errors.username && (
+                        errors.userName && (
                             <p>
-                                {errors.username.message}
+                                {errors.userName.message}
                             </p>
                         )
                     }

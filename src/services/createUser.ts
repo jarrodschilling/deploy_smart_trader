@@ -1,6 +1,7 @@
-export default async function GetAllUsers() {
+export default async function CreateUser(data: RegisterFormData) {
     const res = await fetch('http://localhost:3000/api/users', {
-        method: "GET"
+        method: "POST",
+        body: JSON.stringify(data)
     })
 
     if (!res.ok) throw new Error("failed to fetch data")

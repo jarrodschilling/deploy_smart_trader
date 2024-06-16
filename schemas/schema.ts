@@ -101,7 +101,7 @@ export const userRegisterSchema = z.object({
         .email({
             message: "Invalid email"
         }),
-    username: z
+    userName: z
         .string({
             required_error: "Username required"
         })

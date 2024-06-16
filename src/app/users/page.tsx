@@ -16,7 +16,7 @@ export default async function UsersPage() {
 
     const tradeData = await GetAllTrades()
     const allTrades = await tradeData.data
-    console.log(allTrades)
+    // console.log(allTrades)
 
     const session = await getServerSession()
     // console.log(users[0].trades)
