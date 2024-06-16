@@ -34,3 +34,11 @@ type Trade = {
 }
 
 type GroupedTrades = Trade[]
+
+type RegisterFormData = {
+    firstName: string,
+    lastName: string,
+    username: string,
+    email: string,
+    password: string
+}

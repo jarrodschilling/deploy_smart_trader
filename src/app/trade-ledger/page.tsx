@@ -1,13 +1,13 @@
-import getAllTrades from '@/services/getAllTrades'
+import GetAllTrades from '@/services/getAllTrades'
 import { dateChanger, totalCostFmt, formatedPrice } from '@/lib/formatFunctions'
 import groupTrades from '@/lib/groupTrades'
 import Link from 'next/link'
 
 export default async function TradeLedger() {
-  const tradesData: Promise<Trade[]> = getAllTrades()
-  const trades = await tradesData
-
-  console.log(groupTrades(trades))
+  const tradesData = await GetAllTrades()
+  const trades = await tradesData.data
+  console.log(trades)
+  // console.log(groupTrades(trades))
 
   return (
     <>
