@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const addTradeFromSchema = z.object({
+export const addTransactionFormSchema = z.object({
     ticker: z
         .string({
             required_error: "Ticker required"
@@ -15,13 +15,12 @@ export const addTradeFromSchema = z.object({
     date: z
         .string({
             required_error: "Transaction date required"
-        })
-        .date(),
+        }),
     buySell: z
-        .enum(["BUY", "SELL"], {
+        .enum(["buy", "sell"], {
             required_error: "Required"
         }),
-    shares: z
+    shares: z.coerce
         .number({
             required_error: "Shares required"
         })
@@ -29,7 +28,7 @@ export const addTradeFromSchema = z.object({
             message: "1,000,000 share max"
         })
         .positive(),
-    price: z
+    price: z.coerce
         .number({
             required_error: "Price required"
         })
@@ -45,7 +44,7 @@ export const addTradeFromSchema = z.object({
             z.string({
                 message: "Must be a string"
             })
-            .max(5, {
+            .max(50, {
                 message: "Cannot be longer than 50 characters"
             })
         ),
@@ -54,19 +53,35 @@ export const addTradeFromSchema = z.object({
             z.string({
                 message: "Must be a string"
             })
-            .max(5, {
+            .max(50, {
                 message: "Cannot be longer than 50 characters"
             })
         ),
     closeTrade: z
         .optional(
-            z.boolean()
+            z.coerce.boolean()
         ),
     openTrade: z
         .optional(
-            z.boolean()
+            z.coerce.boolean()
         ),
+    name: z
+        .string({
+            required_error: "Name required"
+        })
+        .min(1, {
+            message: "Must be at least 1 character"
+        }),
+    userId: z
+        .string({
+            required_error: "Name required"
+        })
+        .min(1, {
+            message: "Must be at least 1 character"
+        }),
 })
+
+
 
 const passwordValidation = new RegExp(
     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);

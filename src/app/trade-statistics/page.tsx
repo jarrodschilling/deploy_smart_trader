@@ -1,4 +1,3 @@
-import getAllTrades from "@/services/getAllTrades"
 import TradeStatsCalcs from "./components/TradeStatsCalcs"
 import { dateChanger, formatedCost, 
   formatedPercent, formatedPrice } from "@/lib/formatFunctions"
@@ -7,14 +6,15 @@ import { avgClosePrice, avgOpenPrice, gainLoss, getCloseDate, getOpenDate, getOw
   openTradeTrue, percentGainLoss, totalCost, totalSold } from "@/lib/tradeStatFunctions"
 
 import groupTrades from "@/lib/groupTrades"
+import GetAllTransactions from "@/services/getAllTransactions"
+
 
 
 export default async function TradeStatistics() {
-  const tradesData: Promise<Trade[]> = getAllTrades()
-  const combineTrades = await tradesData
+  const tradesData: Promise<FetchedTransactionsData> = GetAllTransactions()
+  const combineTrades = (await tradesData).data
   const trades = groupTrades(combineTrades)
-  // const trades = await tradesData
-  console.log(trades)
+  // console.log(trades)
   const portfolio = 1000000
   
   return (
@@ -43,7 +43,7 @@ export default async function TradeStatistics() {
               {
                 trades
                 .sort((a, b) => new Date(a[0].date) - new Date(b[0].date))
-                .map((trade: Trade[], index: number) => (
+                .map((trade: Transaction[], index: number) => (
                     <tr key={index} className={`${(openTradeTrue(trade) === false)? '':(gainLoss(trade)>0)? 'ledgerBuy': 'ledgerSell'}`}>
                         <td>{trade[0].ticker}</td>
                         <td>{trade[0].name}</td>

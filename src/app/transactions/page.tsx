@@ -1,17 +1,17 @@
-import GetAllTrades from '@/services/getAllTrades'
+import AddTransactionForm from './add-transaction/components/AddTransactionForm'
 import { dateChanger, totalCostFmt, formatedPrice } from '@/lib/formatFunctions'
-import groupTrades from '@/lib/groupTrades'
+import GetAllTransactions from '@/services/getAllTransactions'
 import Link from 'next/link'
 
-export default async function TradeLedger() {
-  const tradesData = await GetAllTrades()
-  const trades = await tradesData.data
-  console.log(trades)
-  // console.log(groupTrades(trades))
+export default async function Transactions() {
+  const tradesData: Promise<FetchedTransactionsData> = GetAllTransactions()
+  const trades = (await tradesData).data
+  // console.log(await tradesData)
 
   return (
     <>
       <h1>Trade Ledger(ALL TRADES)</h1>
+      <AddTransactionForm />
       <br />
       <table>
         <thead>

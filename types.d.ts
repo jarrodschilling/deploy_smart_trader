@@ -1,12 +1,4 @@
-// Using POSTS from vid as Transactions
-type Transaction = {
-    "userId": number,
-    "id": number,
-    "title": string,
-    "body": string,
-}
 
-// Will need to be updated to User Model
 type User =
     {
         id: string,
@@ -15,10 +7,10 @@ type User =
         email: string,
         userName: string,
         password: string,
-        trades: Trade[]
+        transactions: Transaction[]
     }
 
-type Trade = {
+type Transaction = {
     id: string,
     ticker: string,
     name: string,
@@ -33,7 +25,7 @@ type Trade = {
     openTrade: Boolean
 }
 
-type GroupedTrades = Trade[]
+type GroupedTrades = Transaction[]
 
 type RegisterFormData = {
     firstName: string,
@@ -41,4 +33,30 @@ type RegisterFormData = {
     userName: string,
     email: string,
     password: string
+}
+
+type AddTransactionFormData = {
+    ticker: string,
+    name: string,
+    date: string,
+    buySell: string,
+    shares: number,
+    price: number,
+    shaper: string,
+    tactical: string,
+    closeTrade: Boolean,
+    openTrade: Boolean
+    userId: string
+}
+
+type FetchedTransactionsData = {
+    success: boolean,
+    message: string,
+    data: Transaction[]
+}
+
+type FetchedUsersData = {
+    success: boolean,
+    message: string,
+    data: User[]
 }
