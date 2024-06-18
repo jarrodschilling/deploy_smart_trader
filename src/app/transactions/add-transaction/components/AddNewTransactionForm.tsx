@@ -1,27 +1,47 @@
 "use client"
-import { useEffect } from "react"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { addTransactionFormSchema } from "../../../../../schemas/schema"
 import CreateTransaction from "@/services/createTransaction"
+import ChangeHandlerHook from "@/hooks/useFormAddTransaction"
+import { useState } from "react"
 
 
-export default function AddTransactionForm() {
+export default function AddNewTransactionForm() {
     const {
-        register,
-        handleSubmit,
-        formState:{errors},
-        getValues,
-        reset,
-        watch,
-    } = useForm<AddTransactionFormData>({
-        resolver: zodResolver(addTransactionFormSchema)
-        })
-    const watchBuySell = watch("buySell")
-
+        stockState,
+        formErrors,
+        notRequired,
+        handleChange
+    } = ChangeHandlerHook(e)
     async function handleAddTransaction(data: AddTransactionFormData) {
         console.log(data)
         CreateTransaction(data)
+    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const newValue = stockState.ticker
+        let stockName
+        try {
+                const response = await YahooService.getName(newValue);
+                // console.log(response)
+                stockName = response.quoteType.result[0].shortName
+                // console.log(stockName)
+            } catch (error) {
+                console.error("Error fetching stock name:", error);
+            }
+        const updatedStockState = { ...stockState, name: stockName }
+        
+        StockService.addOneStock(updatedStockState)
+            .then(res => {
+            console.log(res)
+            navigate('/ledger')
+            })
+            .catch((err) => {
+                console.log(err);
+                setErrors(err.response.data.errors)
+            })
     }
     return (
         <>
@@ -30,33 +50,26 @@ export default function AddTransactionForm() {
                 <div className="flex flex-wrap -mx-3 mb-2">
                     
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="ticker">Ticker*</label>
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="ticker">ticker</label>
                     <input
-                        {...register("ticker", { required: "This is required." })}
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         type="text"
                         name="ticker"
                         id="ticker"
                         placeholder="NVDA"
                     />
-                    {
-                        errors.ticker && (
-                            <p>
-                                {errors.ticker.message}
-                            </p>
-                        )
-                    }
+                    {formErrors.ticker? <p>{formErrors.ticker}</p>: <p> </p>}
+
                     </div>
                     
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="date">Date*</label>
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="date">date</label>
                     <input 
-                        {...register("date")}
+                        
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="date"
+                        type="text"
                         name="date"
                         id="date"
-                        onChange={(e) => console.log(e.target.value)}
                     />
                     {
                         errors.date && (
@@ -68,10 +81,10 @@ export default function AddTransactionForm() {
                     </div>
                     
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="buySell">Buy/Sell*</label>
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="buySell">buySell</label>
                     <div className="relative">
                     <select
-                        {...register("buySell")}
+                        
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         name="buySell"
                         id="buySell"
@@ -95,9 +108,9 @@ export default function AddTransactionForm() {
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="shares">Shares*</label>
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="shares">shares</label>
                     <input
-                        {...register("shares")}
+                        
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         type="number"
                         name="shares"
@@ -113,9 +126,9 @@ export default function AddTransactionForm() {
                     </div>
 
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="price">Price*</label>
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="price">price</label>
                     <input
-                        {...register("price")}
+                        
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         type="number"
                         name="price"
@@ -132,9 +145,9 @@ export default function AddTransactionForm() {
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="shares">Name*</label>
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="shares">name</label>
                     <input
-                        {...register("name")}
+                        
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         type="text"
                         name="name"
@@ -152,7 +165,7 @@ export default function AddTransactionForm() {
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="price">userId</label>
                     <input
-                        {...register("userId")}
+                        
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         type="text"
                         name="userId"
@@ -169,38 +182,14 @@ export default function AddTransactionForm() {
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="shaper">Shaper</label>
-                    <div className="relative">
-                    <select
-                        {...register("shaper")}
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="shaper">shaper</label>
+                    <input
                         
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        type="text"
                         name="shaper"
                         id="shaper"
-                    >
-                        <option value="none">Pick One</option>
-                        <option value="Cup w/ Handle">Cup w/ Handle</option>
-                        <option value="Cup no Handle">Cup no Handle</option>
-                        <option value="MM VCP">MM VCP</option>
-                        <option value="Coil">Coil</option>
-                        <option value="Flat Base">Flat Base</option>
-                        <option value="High Tight Flag">High Tight Flag</option>
-                        <option value="Double Bottom">Double Bottom</option>
-                        <option value="First Touch of the 10WK SMA">First Touch of the 10WK SMA</option>
-                        <option value="Add on Buy">Add on Buy</option>
-                        <option value="65min Swing">65min Swing</option>
-                        <option value="Inverse Head and Shoulders">Inverse Head and Shoulders</option>
-                        <option value="De-risk">De-risk</option>
-                        <option value="Initial Stop Hit">Initial Stop Hit</option>
-                        <option value="Lock in Profit">Lock in Profit</option>
-                        <option value="Sell into Strength">Sell into Strength</option>
-                        <option value="Earnings Soon">Earnings Soon</option>
-                        <option value="Carry Over">Carry Over</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                    </div>
-                    </div>
+                    />
                     {
                         errors.shaper && (
                             <p>
@@ -211,35 +200,14 @@ export default function AddTransactionForm() {
                     </div>
                     
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="tactical">Tactical</label>
-                    <div className="relative">
-                    <select
-                        {...register("tactical")}
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="tactical">tactical</label>
+                    <input
                         
+                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        type="text"
                         name="tactical"
                         id="tactical"
-                    >
-                        <option value="none">Pick One</option>
-                        <option value="Pattern BO">Pattern BO</option>
-                        <option value="Mini Coil">Mini Coil</option>
-                        <option value="Kicker">Kicker</option>
-                        <option value="Downtrend Line">Downtrend Line</option>
-                        <option value="50MA Res Failure">50MA Res Failure</option>
-                        <option value="Gap Up PB to 8EMA">Gap Up PB to 8EMA</option>
-                        <option value="Breakout PB to 20EMA">Breakout PB to 20EMA</option>
-                        <option value="Pull Back to 50SMA">Pull Back to 50SMA</option>
-                        <option value="Base Re-Test">Base Re-Test</option>
-                        <option value="VWAP BO PB">VWAP BO PB</option>
-                        <option value="Stop Hit">Stop Hit</option>
-                        <option value="Stop to BE">Stop to BE</option>
-                        <option value="Stop for Losing 10WK">Stop for Losing 10WK</option>
-                        <option value="De-risking">De-risking</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                    </div>
-                    </div>
+                    />
                     {
                         errors.tactical && (
                             <p>
@@ -250,12 +218,13 @@ export default function AddTransactionForm() {
                     </div>
                 </div>
                     {
-                        watchBuySell == "sell"?
+                        getValues("buySell") == "sell"?
                     <>
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="openTrade">Close Trade*</label>
+
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="openTrade">Close Trade</label>
                     <div className="relative">
                     <select
-                        {...register("closeTrade")}
+                        
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         name="closeTrade"
                         id="closeTrade"
@@ -278,13 +247,10 @@ export default function AddTransactionForm() {
                     <></>
                     }
                     
-                    {
-                        watchBuySell == "buy"?
-                    <>
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="openTrade">Open Trade*</label>
+                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="openTrade">openTrade</label>
                     <div className="relative">
                     <select
-                        {...register("openTrade")}
+                        
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         name="openTrade"
                         id="openTrade"
@@ -302,9 +268,6 @@ export default function AddTransactionForm() {
                                 {errors.openTrade.message}
                             </p>
                         )
-                    }
-                    </>:
-                    <></>
                     }
 
                     <button 
