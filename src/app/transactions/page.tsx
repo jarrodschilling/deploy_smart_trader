@@ -1,16 +1,22 @@
 import AddTransactionForm from './add-transaction/components/AddTransactionForm'
 import { dateChanger, totalCostFmt, formatedPrice } from '@/lib/formatFunctions'
 import GetAllTransactions from '@/services/getAllTransactions'
+import DeleteTransaction from '@/services/deleteTransaction'
 import Link from 'next/link'
+import { DeleteForm } from './components/DeleteForm'
+
+
 
 export default async function Transactions() {
-  const tradesData: Promise<FetchedTransactionsData> = GetAllTransactions()
-  const trades = (await tradesData).data
+  const transactionsData: Promise<FetchedTransactionsData> = GetAllTransactions()
+  const transactions = (await transactionsData).data
   // console.log(await tradesData)
+
+
 
   return (
     <>
-      <h1>Trade Ledger(ALL TRADES)</h1>
+      <h1>Trade Ledger(ALL TRANSACTIONS)</h1>
       <AddTransactionForm />
       <br />
       <table>
@@ -33,27 +39,28 @@ export default async function Transactions() {
         </thead>
         <tbody>
             {
-              trades
+              transactions
               .sort((a, b) => new Date(a.date) - new Date(b.date))
-              .map((trade) => (
-                  <tr key={trade.id} 
-                  className={`${(trade.openTrade === true)? 'ledgerOpen'
-                  :(trade.closeTrade === true)? 'ledgerClose'
-                  :(trade.buySell === "buy")? 'ledgerBuy'
+              .map((transaction) => (
+                  <tr key={transaction.id} 
+                  className={`${(transaction.openTrade === true)? 'ledgerOpen'
+                  :(transaction.closeTrade === true)? 'ledgerClose'
+                  :(transaction.buySell === "buy")? 'ledgerBuy'
                   :'ledgerSell'}`}>
-                      <td>{dateChanger(trade.date)}</td>
-                      <td>{trade.ticker}</td>
-                      <td>{trade.name}</td>
-                      <td>{trade.buySell}</td>
-                      <td>{formatedPrice(trade.price)}</td>
-                      <td>{trade.shares}</td>
-                      <td>{totalCostFmt(trade.price, trade.shares)}</td>
-                      <td>{trade.shaper}</td>
-                      <td>{trade.tactical}</td>
-                      <td>{trade.openTrade? "Yes": ""}</td>
-                      <td>{trade.closeTrade? "Yes": ""}</td>
-                      <td><button className="editDeleteBtn"><Link href={`/update/${trade.id}`}>EDIT</Link></button></td>
+                      <td>{dateChanger(transaction.date)}</td>
+                      <td>{transaction.ticker}</td>
+                      <td>{transaction.name}</td>
+                      <td>{transaction.buySell}</td>
+                      <td>{formatedPrice(transaction.price)}</td>
+                      <td>{transaction.shares}</td>
+                      <td>{totalCostFmt(transaction.price, transaction.shares)}</td>
+                      <td>{transaction.shaper}</td>
+                      <td>{transaction.tactical}</td>
+                      <td>{transaction.openTrade? "Yes": ""}</td>
+                      <td>{transaction.closeTrade? "Yes": ""}</td>
+                      <td><button className="editDeleteBtn"><Link href={`/update/${transaction.id}`}>EDIT</Link></button></td>
                       {/* <td><button className="editDeleteBtn" onClick={()=>deleteHandler(trade.id)}>DELETE</button></td> */}
+                      <td><DeleteForm id={transaction.id} /></td>
                   </tr>
               )
             )}
