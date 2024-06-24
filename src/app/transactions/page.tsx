@@ -1,24 +1,46 @@
+'use client'
+
 import AddTransactionForm from './add-transaction/components/AddTransactionForm'
 import { dateChanger, totalCostFmt, formatedPrice } from '@/lib/formatFunctions'
 import GetAllTransactions from '@/services/getAllTransactions'
 import DeleteTransaction from '@/services/deleteTransaction'
 import Link from 'next/link'
 import { DeleteForm } from './components/DeleteForm'
+import { useEffect, useState } from 'react'
 
 
 
-export default async function Transactions() {
-  const transactionsData = await GetAllTransactions()
-  const transactions = (await transactionsData).data
+export default function Transactions() {
+  const [transactions, setTransactions] = useState<Transaction[]>()
+  const [isLoading, setIsLoading] = useState(true)
   // console.log(await tradesData)
+  const [error, setError] = useState<string | null>(null)
 
-
+  useEffect (() => {
+    const fetchTransactions = async () => {
+      setIsLoading(true)
+      try {
+        const response = await GetAllTransactions()
+        setTransactions(response.data)
+      } catch(error) {
+        console.log("Error:", error)
+        setError("Failed to load transactions, please reload the page")
+      } finally {
+        setIsLoading(false)
+      }
+    };
+    fetchTransactions()
+  }, [])
 
   return (
     <>
       <h1>Trade Ledger(ALL TRANSACTIONS)</h1>
-      <AddTransactionForm />
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        ><Link href="/transactions/add-transaction">Add New Transaction</Link></button>
       <br />
+      {error && <p>{error}</p>}
+      {isLoading ? (<p>Loading transactions...</p>):
       <table>
         <thead>
           <tr>
@@ -66,6 +88,7 @@ export default async function Transactions() {
             )}
         </tbody>
       </table>
+      }
     </>
   )
 }

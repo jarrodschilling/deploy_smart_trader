@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { addTransactionFormSchema } from "../../../../../schemas/schema"
 import CreateTransaction from "@/services/createTransaction"
+import { useRouter } from "next/navigation"
 
 
 export default function AddTransactionForm() {
@@ -19,9 +20,11 @@ export default function AddTransactionForm() {
         })
     const watchBuySell = watch("buySell")
 
+    const router = useRouter()
     async function handleAddTransaction(data: AddTransactionFormData) {
         console.log(data)
         CreateTransaction(data)
+        router.push('/transactions')
     }
     return (
         <>
