@@ -14,18 +14,17 @@ export async function GET(request: Request, { params }: { params: {id: string} }
             id: transactionId,
         },
     })
-
-    return Response.json(transaction)
-    // return NextResponse.json(
-    //     {
-    //         success: true,
-    //         message: "One Transaction",
-    //         data: transaction
-    //     },
-    //     {
-    //         status: 200,
-    //     }
-    // )
+    
+    return NextResponse.json(
+        {
+            success: true,
+            message: "One Transaction",
+            data: transaction
+        },
+        {
+            status: 200,
+        }
+    )
 }
 
 export async function DELETE(request: Request, { params }: { params: {id: string} }) {

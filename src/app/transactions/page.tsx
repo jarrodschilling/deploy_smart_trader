@@ -8,7 +8,7 @@ import { DeleteForm } from './components/DeleteForm'
 
 
 export default async function Transactions() {
-  const transactionsData: Promise<FetchedTransactionsData> = GetAllTransactions()
+  const transactionsData = await GetAllTransactions()
   const transactions = (await transactionsData).data
   // console.log(await tradesData)
 
@@ -60,7 +60,7 @@ export default async function Transactions() {
                       <td>{transaction.closeTrade? "Yes": ""}</td>
                       <td><button className="editDeleteBtn"><Link href={`/update/${transaction.id}`}>EDIT</Link></button></td>
                       {/* <td><button className="editDeleteBtn" onClick={()=>deleteHandler(trade.id)}>DELETE</button></td> */}
-                      <td><DeleteForm id={transaction.id} /></td>
+                      <td><Link href={`/transactions/delete/${transaction.id}`}>DELETE</Link></td>
                   </tr>
               )
             )}

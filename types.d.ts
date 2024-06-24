@@ -55,6 +55,12 @@ type FetchedTransactionsData = {
     data: Transaction[]
 }
 
+type FetchOneTransactionData = {
+    success: boolean,
+    message: string,
+    data: Transaction
+}
+
 type FetchedUsersData = {
     success: boolean,
     message: string,
