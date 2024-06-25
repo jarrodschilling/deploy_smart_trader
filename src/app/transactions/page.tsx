@@ -32,6 +32,17 @@ export default function Transactions() {
     fetchTransactions()
   }, [])
 
+  const handleDelete = async (id: string) => {
+    try {
+      await DeleteTransaction(id)
+      setTransactions((prevTransactions) => 
+        prevTransactions?.filter((i) => i.id !== id)
+    )
+    } catch(error) {
+      setError("Failed to delete transaction, please try again")
+    }
+  }
+
   return (
     <>
       <h1>Trade Ledger(ALL TRANSACTIONS)</h1>
@@ -81,8 +92,9 @@ export default function Transactions() {
                       <td>{transaction.openTrade? "Yes": ""}</td>
                       <td>{transaction.closeTrade? "Yes": ""}</td>
                       <td><button className="editDeleteBtn"><Link href={`/update/${transaction.id}`}>EDIT</Link></button></td>
-                      {/* <td><button className="editDeleteBtn" onClick={()=>deleteHandler(trade.id)}>DELETE</button></td> */}
-                      <td><Link href={`/transactions/delete/${transaction.id}`}>DELETE</Link></td>
+                      {/* <td><button onClick={() => handleDelete(transaction.id)}>DELETE Render</button></td> */}
+                      
+                      <td><Link href={`/transactions/delete/${transaction.id}`}>DELETE Form</Link></td>
                   </tr>
               )
             )}
