@@ -2,7 +2,7 @@ const portfolio = 1000000
 
 
 
-function gainLoss (tradeList: Trade[]) {
+function gainLoss (tradeList: Transaction[]) {
     let totalGainLoss = 0
     for (let i = 0; i < tradeList.length; i++) {
         if (tradeList[i].buySell === "buy") {
@@ -16,7 +16,7 @@ function gainLoss (tradeList: Trade[]) {
 }
 
 
-function totalCost (tradeList: Trade[]) {
+function totalCost (tradeList: Transaction[]) {
     let cost = 0
     for (let i = 0; i < tradeList.length; i++) {
         if (tradeList[i].buySell === "buy") {
@@ -27,7 +27,7 @@ function totalCost (tradeList: Trade[]) {
 }
 
 
-function avgOpenPrice (tradeList: Trade[]) {
+function avgOpenPrice (tradeList: Transaction[]) {
     let totalShares = 0
     for (let i = 0; i < tradeList.length; i++) {
         if (tradeList[i].buySell === "buy") {
@@ -39,7 +39,7 @@ function avgOpenPrice (tradeList: Trade[]) {
 }
 // console.log(`Avg Open Price: ${avgOpenPrice(trades)}`)
 
-function totalSold (tradeList: Trade[]) {
+function totalSold (tradeList: Transaction[]) {
     let value = 0
     for (let i = 0; i < tradeList.length; i++) {
         if (tradeList[i].buySell === "sell") {
@@ -50,7 +50,7 @@ function totalSold (tradeList: Trade[]) {
 }
 
 
-function avgClosePrice (tradeList: Trade[]) {
+function avgClosePrice (tradeList: Transaction[]) {
     let totalShares = 0
     let totalValue = 0
     for (let i = 0; i < tradeList.length; i++) {
@@ -64,21 +64,21 @@ function avgClosePrice (tradeList: Trade[]) {
 }
 
 
-function percentGainLoss(tradeList: Trade[]) {
+function percentGainLoss(tradeList: Transaction[]) {
     let prctGainLoss = 100 * gainLoss(tradeList)/totalCost(tradeList)
     return prctGainLoss
 }
 
 
 
-function portfolioPercentImpact (portValue: number, tradeList: Trade[]) {
+function portfolioPercentImpact (portValue: number, tradeList: Transaction[]) {
     let portImpact = 100 * gainLoss(tradeList)/portValue
     return portImpact
 }
 
 
 
-function getOpenDate (trades: Trade[]) {
+function getOpenDate (trades: Transaction[]) {
     for (const trade of trades) {
         if (trade.openTrade === true) {
             return trade.date
@@ -86,7 +86,7 @@ function getOpenDate (trades: Trade[]) {
     }
 }
 
-function getCloseDate (trades: Trade[]) {
+function getCloseDate (trades: Transaction[]) {
     for (const trade of trades) {
         if (trade.closeTrade === true) {
             return trade.date
@@ -95,7 +95,7 @@ function getCloseDate (trades: Trade[]) {
 }
 
 
-function getOwnedShares (trades: Trade[]) {
+function getOwnedShares (trades: Transaction[]) {
     let totalShares = 0
     for (const trade of trades) {
         if (trade.buySell === "buy") {
@@ -105,7 +105,7 @@ function getOwnedShares (trades: Trade[]) {
     return totalShares
 }
 
-function currentShares (trades: Trade[]) {
+function currentShares (trades: Transaction[]) {
     let totalShares = 0
     for (const trade of trades) {
         if (trade.buySell === "buy") {
@@ -118,7 +118,7 @@ function currentShares (trades: Trade[]) {
     return totalShares
 }
 
-function openTradeTrue (trades: Trade[]) {
+function openTradeTrue (trades: Transaction[]) {
     let count = 0
     for (const trade of trades) {
         if (trade.closeTrade === true) {
@@ -133,7 +133,7 @@ function openTradeTrue (trades: Trade[]) {
     }
 }
 
-function openCurrentCost (tradeList: Trade[]) {
+function openCurrentCost (tradeList: Transaction[]) {
     let cost = 0
     let sales = 0
     let shares = 0

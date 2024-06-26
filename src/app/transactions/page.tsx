@@ -11,7 +11,8 @@ import { useEffect, useState } from 'react'
 
 
 export default function Transactions() {
-  const [transactions, setTransactions] = useState<Transaction[]>()
+  const [advColors, setAdvColors] = useState<string>("false")
+  const [transactions, setTransactions] = useState<Transaction[]>([])
   const [isLoading, setIsLoading] = useState(true)
   // console.log(await tradesData)
   const [error, setError] = useState<string | null>(null)
@@ -21,7 +22,7 @@ export default function Transactions() {
       setIsLoading(true)
       try {
         const response = await GetAllTransactions()
-        setTransactions(response.data)
+        setTransactions(response)
       } catch(error) {
         console.log("Error:", error)
         setError("Failed to load transactions, please reload the page")
@@ -43,6 +44,14 @@ export default function Transactions() {
     }
   }
 
+  const handleAdvColors = async () => {
+    if (advColors === "false") {
+    setAdvColors("true")
+    }
+    else {setAdvColors('false')}
+    console.log(advColors)
+  }
+
   return (
     <>
       <h1>Trade Ledger(ALL TRANSACTIONS)</h1>
@@ -50,56 +59,67 @@ export default function Transactions() {
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         ><Link href="/transactions/add-transaction">Add New Transaction</Link></button>
       <br />
+      <button
+      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      onClick={handleAdvColors}>Advanced Colors</button>
       {error && <p>{error}</p>}
       {isLoading ? (<p>Loading transactions...</p>):
-      <table>
-        <thead>
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-              <th>Date</th>
-              <th>Ticker</th>
-              <th>Name</th>
-              <th>Buy/Sell</th>
-              <th>Price</th>
-              <th>Shares</th>
-              <th>Total Value</th>
-              <th>Shaper</th>
-              <th>Tactical</th>
-              <th>OPEN</th>
-              <th>CLOSE</th>
-              <th>EDIT</th>
-              <th>DELETE</th>
+              <th scope="col" className="px-0 py-4">Date</th>
+              <th scope="col" className="px-0 py-4">Ticker</th>
+              <th scope="col" className="px-0 py-4">Name</th>
+              <th scope="col" className="px-0 py-4">Buy/Sell</th>
+              <th scope="col" className="px-0 py-4">Price</th>
+              <th scope="col" className="px-0 py-4">Shares</th>
+              <th scope="col" className="px-0 py-4">Total Value</th>
+              <th scope="col" className="px-0 py-4">Shaper</th>
+              <th scope="col" className="px-0 py-4">Tactical</th>
+              <th scope="col" className="px-0 py-4">OPEN</th>
+              <th scope="col" className="px-0 py-4">CLOSE</th>
+              <th scope="col" className="px-0 py-4">EDIT</th>
+              <th scope="col" className="px-0 py-4">DELETE</th>
           </tr>
         </thead>
         <tbody>
             {
               transactions
-              .sort((a, b) => new Date(a.date) - new Date(b.date))
+              .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
               .map((transaction) => (
                   <tr key={transaction.id} 
-                  className={`${(transaction.openTrade === true)? 'ledgerOpen'
-                  :(transaction.closeTrade === true)? 'ledgerClose'
-                  :(transaction.buySell === "buy")? 'ledgerBuy'
-                  :'ledgerSell'}`}>
-                      <td>{dateChanger(transaction.date)}</td>
-                      <td>{transaction.ticker}</td>
-                      <td>{transaction.name}</td>
-                      <td>{transaction.buySell}</td>
-                      <td>{formatedPrice(transaction.price)}</td>
-                      <td>{transaction.shares}</td>
-                      <td>{totalCostFmt(transaction.price, transaction.shares)}</td>
-                      <td>{transaction.shaper}</td>
-                      <td>{transaction.tactical}</td>
-                      <td>{transaction.openTrade? "Yes": ""}</td>
-                      <td>{transaction.closeTrade? "Yes": ""}</td>
-                      <td><button className="editDeleteBtn"><Link href={`/update/${transaction.id}`}>EDIT</Link></button></td>
+                  className={`${
+                  (advColors === "false")?((transaction.buySell === "buy")? 'bg-white border-b dark:bg-lime-800 dark:border-gray-700': 
+                  'bg-white border-b dark:bg-red-800 dark:border-gray-700'): (transaction.openTrade === true)? 'bg-white border-b dark:bg-lime-800 dark:border-gray-700'
+                  :(transaction.closeTrade === true)? 'bg-white border-b dark:bg-red-800 dark:border-gray-700'
+                  :(transaction.buySell === "buy")? 'bg-white border-b dark:bg-lime-600 dark:border-gray-700'
+                  :'bg-white border-b dark:bg-red-600 dark:border-gray-700'}`}>
+                      <td scope="col" className="px-0 py-2">{dateChanger(transaction.date)}</td>
+                      <td scope="col" className="px-0 py-2">{transaction.ticker}</td>
+                      <td scope="col" className="px-0 py-2">{transaction.name}</td>
+                      <td scope="col" className="px-0 py-2">{transaction.buySell}</td>
+                      <td scope="col" className="px-0 py-2">{formatedPrice(transaction.price)}</td>
+                      <td scope="col" className="px-0 py-2">{transaction.shares}</td>
+                      <td scope="col" className="px-0 py-2">{totalCostFmt(transaction.price, transaction.shares)}</td>
+                      <td scope="col" className="px-0 py-2">{transaction.shaper}</td>
+                      <td scope="col" className="px-0 py-2">{transaction.tactical}</td>
+                      <td scope="col" className="px-0 py-2">{transaction.openTrade? "Yes": ""}</td>
+                      <td scope="col" className="px-0 py-2">{transaction.closeTrade? "Yes": ""}</td>
+                      <td scope="col" className="px-0 py-2">
+                        <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline"><Link href={`/update/${transaction.id}`}>EDIT</Link></button>
+                      </td>
                       {/* <td><button onClick={() => handleDelete(transaction.id)}>DELETE Render</button></td> */}
                       
-                      <td><Link href={`/transactions/delete/${transaction.id}`}>DELETE Form</Link></td>
+                      <td scope="col" className="px-0 py-2">
+                        <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline"><Link href={`/transactions/delete/${transaction.id}`}>DELETE Form</Link></button>
+                      </td>
                   </tr>
               )
             )}
         </tbody>
       </table>
+      </div>
       }
     </>
   )

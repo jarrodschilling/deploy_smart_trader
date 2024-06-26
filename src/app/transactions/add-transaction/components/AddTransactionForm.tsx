@@ -12,8 +12,6 @@ export default function AddTransactionForm() {
         register,
         handleSubmit,
         formState:{errors},
-        getValues,
-        reset,
         watch,
     } = useForm<AddTransactionFormData>({
         resolver: zodResolver(addTransactionFormSchema)
@@ -59,7 +57,7 @@ export default function AddTransactionForm() {
                         type="date"
                         name="date"
                         id="date"
-                        onChange={(e) => console.log(e.target.value)}
+                        // onChange={(e) => console.log(e.target.value)}
                     />
                     {
                         errors.date && (
@@ -181,7 +179,7 @@ export default function AddTransactionForm() {
                         name="shaper"
                         id="shaper"
                     >
-                        <option value="none">Pick One</option>
+                        <option value="">Pick One</option>
                         <option value="Cup w/ Handle">Cup w/ Handle</option>
                         <option value="Cup no Handle">Cup no Handle</option>
                         <option value="MM VCP">MM VCP</option>
@@ -223,7 +221,7 @@ export default function AddTransactionForm() {
                         name="tactical"
                         id="tactical"
                     >
-                        <option value="none">Pick One</option>
+                        <option value="">Pick One</option>
                         <option value="Pattern BO">Pattern BO</option>
                         <option value="Mini Coil">Mini Coil</option>
                         <option value="Kicker">Kicker</option>

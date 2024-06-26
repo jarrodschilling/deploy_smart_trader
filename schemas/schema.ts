@@ -59,11 +59,12 @@ export const addTransactionFormSchema = z.object({
         ),
     closeTrade: z
         .optional(
-            z.coerce.boolean()
+            z.enum(['true', 'false']).transform((value) => value === 'true')
         ),
     openTrade: z
         .optional(
-            z.coerce.boolean()
+            // z.coerce.boolean()
+            z.enum(['true', 'false']).transform((value) => value === 'true')
         ),
     name: z
         .string({

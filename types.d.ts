@@ -15,7 +15,7 @@ type Transaction = {
     ticker: string,
     name: string,
     // date: Date,
-    date: string,
+    date: any,
     buySell: string,
     shares: number,
     price: number,

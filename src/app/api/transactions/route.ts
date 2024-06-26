@@ -6,16 +6,17 @@ export async function GET(req: any) {
     // console.log(req)
     const transactions = await db.transaction.findMany()
 
-    return NextResponse.json(
-        {
-            success: true,
-            message: "List all transactions",
-            data: transactions
-        },
-        {
-            status: 200,
-        }
-    )
+    return Response.json(transactions)
+    // return NextResponse.json(
+    //     {
+    //         success: true,
+    //         message: "List all transactions",
+    //         data: transactions
+    //     },
+    //     {
+    //         status: 200,
+    //     }
+    // )
 }
 
 
