@@ -71,7 +71,7 @@ export default function Transactions() {
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-              <th scope="col" className="px-0 py-4">Date</th>
+              <th scope="col" className="px-2 py-4">Date</th>
               <th scope="col" className="px-0 py-4">Ticker</th>
               <th scope="col" className="px-0 py-4">Name</th>
               <th scope="col" className="px-0 py-4">Buy/Sell</th>
@@ -98,7 +98,7 @@ export default function Transactions() {
                   :(transaction.closeTrade === true)? 'bg-white border-b dark:bg-red-800 dark:border-gray-700'
                   :(transaction.buySell === "buy")? 'bg-white border-b dark:bg-lime-600 dark:border-gray-700'
                   :'bg-white border-b dark:bg-red-600 dark:border-gray-700'}`}>
-                      <td scope="col" className="px-0 py-2">{dateChanger(transaction.date)}</td>
+                      <td scope="col" className="px-2 py-2">{dateChanger(transaction.date)}</td>
                       <td scope="col" className="px-0 py-2">{transaction.ticker}</td>
                       <td scope="col" className="px-0 py-2">{transaction.name}</td>
                       <td scope="col" className="px-0 py-2">{transaction.buySell}</td>

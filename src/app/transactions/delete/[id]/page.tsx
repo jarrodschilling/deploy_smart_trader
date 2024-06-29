@@ -11,6 +11,9 @@ export default async function DeleteTransaction({ params }: { params: { id: stri
 
     return (
         <>
+            <br />
+            <br />
+            <br />
             <h1>Are you sure you want to PERMANENTLY DELETE this transaction?</h1>
             <p>{transaction.id}</p>
             <OneTransaction transaction={transaction} />
