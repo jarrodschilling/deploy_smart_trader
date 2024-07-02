@@ -1,10 +1,11 @@
 "use client"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { addTransactionFormSchema } from "../../../../../schemas/schema"
 import CreateTransaction from "@/services/createTransaction"
 import { useRouter } from "next/navigation"
+import UpdateTransaction from "@/services/updateTransaction"
 
 type TransactionProps = {
     transaction: Transaction
@@ -17,6 +18,7 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
         handleSubmit,
         formState:{errors},
         watch,
+        setValue,
     } = useForm<AddTransactionFormData>({
         resolver: zodResolver(addTransactionFormSchema)
         })
@@ -25,9 +27,34 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
     const router = useRouter()
     async function handleAddTransaction(data: AddTransactionFormData) {
         console.log(data)
-        CreateTransaction(data)
+        const id = transaction.id
+        UpdateTransaction(data, id)
         router.push('/transactions')
     }
+
+
+    // useEffect(() => {
+    //     if (transaction) {
+    //         Object.keys(transaction).forEach((key) => {
+    //             setValue(key as keyof AddTransactionFormData, transaction[key as keyof Transaction]);
+    //         });
+    //     }
+    // }, [transaction, setValue]);
+
+
+    useEffect(() => {
+        if (transaction) {
+            const fields: (keyof AddTransactionFormData)[] = ["ticker", "date", "buySell", "shares", "price", "name", "userId", "shaper", "tactical", "openTrade", "closeTrade"]
+            fields.forEach(field => {
+                if (field === "openTrade" || field === "closeTrade") {
+                    setValue(field, transaction[field] ? "true" : "false")
+                } else {
+                    setValue(field, transaction[field])
+                }
+            })
+        }
+    }, [transaction, setValue])
+
     return (
         <>
             <h1>Register User</h1>
@@ -42,8 +69,6 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                         type="text"
                         name="ticker"
                         id="ticker"
-                        placeholder="NVDA"
-                        value={transaction.ticker}
                     />
                     {
                         errors.ticker && (
@@ -62,7 +87,6 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                         type="date"
                         name="date"
                         id="date"
-                        // onChange={(e) => console.log(e.target.value)}
                     />
                     {
                         errors.date && (
@@ -81,7 +105,6 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                         className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         name="buySell"
                         id="buySell"
-                        value={transaction.buySell}
                     >
                         <option value="">Pick One</option>
                         <option value="buy">Buy</option>
@@ -109,7 +132,7 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                         type="number"
                         name="shares"
                         id="shares"
-                        value={transaction.shares}
+
                     />
                     {
                         errors.shares && (
@@ -128,7 +151,6 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                         type="number"
                         name="price"
                         id="price"
-                        value={transaction.price}
                     />
                     {
                         errors.price && (
@@ -148,7 +170,6 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                         type="text"
                         name="name"
                         id="name"
-                        value={transaction.name}
                     />
                     {
                         errors.name && (
@@ -167,7 +188,6 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                         type="text"
                         name="userId"
                         id="userId"
-                        
                     />
                     {
                         errors.userId && (
@@ -185,10 +205,8 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                     <select
                         {...register("shaper")}
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        
                         name="shaper"
                         id="shaper"
-                        value={transaction.shaper}
                     >
                         <option value="">Pick One</option>
                         <option value="Cup w/ Handle">Cup w/ Handle</option>
@@ -231,7 +249,7 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                         
                         name="tactical"
                         id="tactical"
-                        value={transaction.tactical}
+
                     >
                         <option value="">Pick One</option>
                         <option value="Pattern BO">Pattern BO</option>
@@ -324,7 +342,7 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                     <button 
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
                         type="submit">
-                            Add Transaction
+                            Update
                     </button>
                 </form>
         </>

@@ -110,7 +110,7 @@ export default function Transactions() {
                       <td scope="col" className="px-0 py-2">{transaction.openTrade? "Yes": ""}</td>
                       <td scope="col" className="px-0 py-2">{transaction.closeTrade? "Yes": ""}</td>
                       <td scope="col" className="px-0 py-2">
-                        <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline"><Link href={`/update/${transaction.id}`}>EDIT</Link></button>
+                        <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline"><Link href={`/transactions/edit/${transaction.id}`}>EDIT</Link></button>
                       </td>
                       {/* <td><button onClick={() => handleDelete(transaction.id)}>DELETE Render</button></td> */}
                       

@@ -50,3 +50,31 @@ export async function DELETE(request: Request, { params }: { params: {id: string
     //     }
     // )
 }
+
+export async function PUT(request: Request, { params }: { params: {id: string} }) {
+    // console.log(req)
+    const transactionId = params.id
+    const transaction = await request.json()
+    const updatedTransaction = {
+        ticker: transaction.ticker,
+        name: transaction.name,
+        date: transaction.date,
+        buySell: transaction.buySell,
+        shares: transaction.shares,
+        price: transaction.price,
+        shaper: transaction.shaper,
+        tactical: transaction.tactical,
+        closeTrade: transaction.closeTrade,
+        openTrade: transaction.openTrade,
+        userId: transaction.userId,
+    }
+    const updateTransaction = await db.transaction.update({
+        where: {
+            id: transactionId,
+        },
+        data: updatedTransaction
+    })
+    
+    revalidatePath("transactions")
+    return Response.json(transaction)
+}

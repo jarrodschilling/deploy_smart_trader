@@ -14,15 +14,15 @@ type Transaction = {
     id: string,
     ticker: string,
     name: string,
-    // date: Date,
     date: any,
     buySell: string,
     shares: number,
     price: number,
-    shaper: string,
-    tactical: string,
+    shaper?: string,
+    tactical?: string,
     closeTrade: Boolean,
-    openTrade: Boolean
+    openTrade: Boolean,
+    userId?: string,
 }
 
 type GroupedTrades = Transaction[]
@@ -36,6 +36,7 @@ type RegisterFormData = {
 }
 
 type AddTransactionFormData = {
+    id?: string,
     ticker: string,
     name: string,
     date: string,
