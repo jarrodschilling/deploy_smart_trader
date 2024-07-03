@@ -46,7 +46,7 @@ type AddTransactionFormData = {
     shaper: string,
     tactical: string,
     closeTrade: Boolean,
-    openTrade: Boolean
+    openTrade: Boolean,
     userId: string
 }
 

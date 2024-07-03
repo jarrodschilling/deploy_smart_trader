@@ -1,9 +1,8 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { addTransactionFormSchema } from "../../../../../schemas/schema"
-import CreateTransaction from "@/services/createTransaction"
 import { useRouter } from "next/navigation"
 import UpdateTransaction from "@/services/updateTransaction"
 
@@ -26,20 +25,11 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
 
     const router = useRouter()
     async function handleAddTransaction(data: AddTransactionFormData) {
-        console.log(data)
+        
         const id = transaction.id
         UpdateTransaction(data, id)
         router.push('/transactions')
     }
-
-
-    // useEffect(() => {
-    //     if (transaction) {
-    //         Object.keys(transaction).forEach((key) => {
-    //             setValue(key as keyof AddTransactionFormData, transaction[key as keyof Transaction]);
-    //         });
-    //     }
-    // }, [transaction, setValue]);
 
 
     useEffect(() => {

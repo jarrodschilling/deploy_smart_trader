@@ -1,11 +1,9 @@
 'use client'
 
-import AddTransactionForm from './add-transaction/components/AddTransactionForm'
 import { dateChanger, totalCostFmt, formatedPrice } from '@/lib/formatFunctions'
 import GetAllTransactions from '@/services/getAllTransactions'
 import DeleteTransaction from '@/services/deleteTransaction'
 import Link from 'next/link'
-import { DeleteForm } from './components/DeleteForm'
 import { useEffect, useState } from 'react'
 
 
@@ -33,16 +31,16 @@ export default function Transactions() {
     fetchTransactions()
   }, [])
 
-  const handleDelete = async (id: string) => {
-    try {
-      await DeleteTransaction(id)
-      setTransactions((prevTransactions) => 
-        prevTransactions?.filter((i) => i.id !== id)
-    )
-    } catch(error) {
-      setError("Failed to delete transaction, please try again")
-    }
-  }
+  // const handleDelete = async (id: string) => {
+  //   try {
+  //     await DeleteTransaction(id)
+  //     setTransactions((prevTransactions) => 
+  //       prevTransactions?.filter((i) => i.id !== id)
+  //   )
+  //   } catch(error) {
+  //     setError("Failed to delete transaction, please try again")
+  //   }
+  // }
 
   const handleAdvColors = async () => {
     if (advColors === "false") {
@@ -60,7 +58,7 @@ export default function Transactions() {
       <h1>Trade Ledger(ALL TRANSACTIONS)</h1>
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        ><Link href="/transactions/add-transaction">Add New Transaction</Link></button>
+        ><Link href="/transactions/add">Add New Transaction</Link></button>
       <br />
       <button
       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
