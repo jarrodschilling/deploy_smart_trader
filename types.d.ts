@@ -10,6 +10,14 @@ type User =
         transactions: Transaction[]
     }
 
+type RegisterUser = {
+    firstName: string,
+    lastName: string,
+    email: string,
+    userName: string,
+    password: string,
+}
+
 type Transaction = {
     id: string,
     ticker: string,
@@ -66,4 +74,10 @@ type FetchedUsersData = {
     success: boolean,
     message: string,
     data: User[]
+}
+
+type GoogleProfileType = {
+    email: string,
+    name: string,
+    picture: string
 }

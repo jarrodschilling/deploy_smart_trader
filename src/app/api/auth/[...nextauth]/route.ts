@@ -2,6 +2,10 @@ import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import CognitoProvider from "next-auth/providers/cognito";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { Session, User} from "next-auth"
+import { signIn } from "next-auth/react";
+import GetUserByEmail from "@/services/getUserByEmail";
+import CreateUser from "@/services/createUser";
 
 
 
@@ -18,7 +22,7 @@ export const authOptions = {
         // e.g. domain, username, password, 2FA token, etc.
         // You can pass any HTML attribute to the <input> tag through the object.
         credentials: {
-          username: { label: "Username", type: "text", placeholder: "username" },
+          email: { label: "Email", type: "email", placeholder: "email" },
           password: { label: "Password", type: "password", placeholder: "password" }
         },
         async authorize(credentials, req) {
@@ -36,7 +40,36 @@ export const authOptions = {
           }
         }
       })
-    ]
+    ],
+    // callbacks: {
+    //   async session({session}) {
+    //     return session
+    //   },
+    //   async signIn({profile}) {
+    //     console.log(profile)
+    //     try {
+    //       const emailCheck = await profile.email
+    //       console.log(emailCheck)
+    //       const userEmail = await GetUserByEmail(emailCheck)
+
+    //       if(!userEmail) {
+    //         const newUser = {
+    //           firstName: profile.name,
+    //           lastName: profile.name,
+    //           email: profile.email,
+    //           userName: profile.email,
+    //           password: "test123"
+    //         }
+    //         const user = await CreateUser(newUser)
+    //       }
+    //       return true
+
+    //     } catch (error) {
+    //       console.log(error)
+    //       return false
+    //     }
+    //   }
+    // }
 }
 
 export const handler = NextAuth(authOptions)

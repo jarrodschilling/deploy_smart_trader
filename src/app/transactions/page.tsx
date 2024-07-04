@@ -5,6 +5,7 @@ import GetAllTransactions from '@/services/getAllTransactions'
 import DeleteTransaction from '@/services/deleteTransaction'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 
 
 
@@ -14,6 +15,7 @@ export default function Transactions() {
   const [isLoading, setIsLoading] = useState(true)
   // console.log(await tradesData)
   const [error, setError] = useState<string | null>(null)
+  const { data: session, status } = useSession()
 
   useEffect (() => {
     const fetchTransactions = async () => {
@@ -48,6 +50,31 @@ export default function Transactions() {
     }
     else {setAdvColors('false')}
     console.log(advColors)
+  }
+
+  if (status === "loading") {
+    return (
+    <>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <p>Loading...</p>
+    </>)
+  }
+
+  if (status === "unauthenticated") {
+    return (
+      <>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <p>Access Denied</p>
+      </>
+    )
   }
 
   return (

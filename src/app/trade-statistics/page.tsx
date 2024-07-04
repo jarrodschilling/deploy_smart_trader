@@ -40,6 +40,9 @@ export default function TradeStatistics() {
 
   return (
     <>
+        <br />
+        <br />
+        <br />
         <h1>Trade Statistics</h1>
         <TradeStatsCalcs />
         <table>

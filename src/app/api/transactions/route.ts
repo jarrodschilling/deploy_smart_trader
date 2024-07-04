@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 import db from "@/lib/prisma";
-
+import { authOptions } from "../auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 
 export async function GET(req: any) {
-    // console.log(req)
     const transactions = await db.transaction.findMany()
+    const session = await getServerSession(authOptions)
+    console.log(session)
+    if (!session) {
+        return Response.error()
+    }
 
     return Response.json(transactions)
     // return NextResponse.json(

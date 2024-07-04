@@ -1,4 +1,4 @@
-export default async function CreateUser(data: RegisterFormData) {
+export default async function CreateUser(data: RegisterUser) {
     const res = await fetch('http://localhost:3000/api/users', {
         method: "POST",
         body: JSON.stringify(data)
