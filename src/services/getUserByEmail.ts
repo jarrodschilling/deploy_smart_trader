@@ -4,5 +4,8 @@ export default async function GetUserByEmail(email: string) {
     })
 
     if (!res.ok) throw new Error("failed to fetch data")
+    // if (!res.ok) {
+    //     return false
+    // }
     return res.json()
 }

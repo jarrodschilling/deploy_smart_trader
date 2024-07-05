@@ -41,35 +41,35 @@ export const authOptions = {
         }
       })
     ],
-    // callbacks: {
-    //   async session({session}) {
-    //     return session
-    //   },
-    //   async signIn({profile}) {
-    //     console.log(profile)
-    //     try {
-    //       const emailCheck = await profile.email
-    //       console.log(emailCheck)
-    //       const userEmail = await GetUserByEmail(emailCheck)
+    callbacks: {
+      async session({session}) {
+        return session
+      },
+      async signIn({profile}) {
+        console.log(profile)
+        try {
+          const emailCheck = await profile.email
+          // console.log(emailCheck)
+          const userEmail = await GetUserByEmail(emailCheck)
 
-    //       if(!userEmail) {
-    //         const newUser = {
-    //           firstName: profile.name,
-    //           lastName: profile.name,
-    //           email: profile.email,
-    //           userName: profile.email,
-    //           password: "test123"
-    //         }
-    //         const user = await CreateUser(newUser)
-    //       }
-    //       return true
+          if(!userEmail) {
+            const newUser = {
+              firstName: profile.name,
+              lastName: profile.name,
+              email: profile.email,
+              userName: profile.email,
+              password: "test123"
+            }
+            const user = await CreateUser(newUser)
+          }
+          return true
 
-    //     } catch (error) {
-    //       console.log(error)
-    //       return false
-    //     }
-    //   }
-    // }
+        } catch (error) {
+          console.log(error)
+          return false
+        }
+      }
+    }
 }
 
 export const handler = NextAuth(authOptions)
