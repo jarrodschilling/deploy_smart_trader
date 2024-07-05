@@ -5,9 +5,12 @@ import { useForm } from "react-hook-form"
 import { addTransactionFormSchema } from "../../../../../schemas/schema"
 import CreateTransaction from "@/services/createTransaction"
 import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 
 
 export default function AddTransactionForm() {
+    const { data: session, status } = useSession()
+
     const {
         register,
         handleSubmit,
@@ -151,13 +154,14 @@ export default function AddTransactionForm() {
                     </div>
 
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="price">userId</label>
+                    {/* <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="price">userId</label> */}
                     <input
                         {...register("userId")}
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="text"
+                        type="hidden"
                         name="userId"
                         id="userId"
+                        value={session?.user.id}
                     />
                     {
                         errors.userId && (

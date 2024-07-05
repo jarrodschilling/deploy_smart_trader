@@ -1,4 +1,4 @@
-export default async function GetUserByEmail(email: string) {
+export default async function GetUserByEmail(email: string | null | undefined) {
     const res = await fetch(`http://localhost:3000/api/users/${email}`, {
         method: "GET",
     })

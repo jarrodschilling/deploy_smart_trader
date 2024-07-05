@@ -4,7 +4,7 @@ import db from "@/lib/prisma";
 
 
 export async function GET(request: Request, { params }: { params: {email: string} }) {
-    console.log(`route.ts: ${request}`)
+    // console.log(`route.ts: ${request}`)
     const userEmail = params.email
     const user = await db.user.findUnique({
         where: {

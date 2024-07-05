@@ -6,6 +6,7 @@ import DeleteTransaction from '@/services/deleteTransaction'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
+import GetUserByEmail from '@/services/getUserByEmail'
 
 
 
@@ -21,8 +22,10 @@ export default function Transactions() {
     const fetchTransactions = async () => {
       setIsLoading(true)
       try {
-        const response = await GetAllTransactions()
-        setTransactions(response)
+        const userEmail = session?.user?.email
+        const response = await GetUserByEmail(userEmail)
+        console.log("Error:", error)
+        setTransactions(response.transactions)
       } catch(error) {
         console.log("Error:", error)
         setError("Failed to load transactions, please reload the page")

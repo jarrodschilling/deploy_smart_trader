@@ -43,10 +43,14 @@ export const authOptions = {
     ],
     callbacks: {
       async session({session}) {
+        const emailCheck = await session.user.email
+        const sessionUser = await GetUserByEmail(emailCheck)
+
+        session.user.id = sessionUser.id
         return session
       },
       async signIn({profile}) {
-        console.log(profile)
+        // console.log(profile)
         try {
           const emailCheck = await profile.email
           // console.log(emailCheck)
