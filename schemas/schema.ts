@@ -88,44 +88,22 @@ const passwordValidation = new RegExp(
     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
 
 export const userRegisterSchema = z.object({
-    firstName: z
+    name: z
         .string({
-            required_error: "First name required"
+            required_error: "name required"
         })
         .min(1, {
             message: "Must be at least 1 character"
         })
-        .max(20, {
-            message: "Cannot be longer than 20 characters"
+        .max(60, {
+            message: "Cannot be longer than 60 characters"
         }),
-    lastName: z
-        .optional(
-            z.string({
-                message: "Must be a string"
-            })
-            .min(1, {
-                message: "Must be at least 1 character"
-            })
-            .max(20, {
-                message: "Cannot be longer than 20 characters"
-            })
-        ),
     email: z
         .string({
             required_error: "Email required"
         })
         .email({
             message: "Invalid email"
-        }),
-    userName: z
-        .string({
-            required_error: "Username required"
-        })
-        .min(1, {
-            message: "Must be at least 1 character"
-        })
-        .max(20, {
-            message: "Cannot be longer than 20 characters"
         }),
     password: z
         .string({
@@ -136,5 +114,22 @@ export const userRegisterSchema = z.object({
         })
         .regex(passwordValidation, {
             message: "Your password is NOT valid"
+        })
+})
+
+export const userLoginSchema = z.object({
+    email: z
+        .string({
+            required_error: "Email required"
+        })
+        .email({
+            message: "Invalid email"
+        }),
+    password: z
+        .string({
+            required_error: "Password required"
+        })
+        .min(1, {
+            message: "Must be at least 1 character"
         })
 })

@@ -1,22 +1,19 @@
+import { Account, ToDo } from "@prisma/client"
 
 type User =
     {
         id: string,
-        firstName: string,
-        lastName: string,
         email: string,
-        userName: string,
+        emailVarified: any,
+        image: string,
+        name: string,
         password: string,
         transactions: Transaction[]
+        toDos: ToDo[]
+        accounts: Account[]
     }
 
-type RegisterUser = {
-    firstName: string,
-    lastName: string,
-    email: string,
-    userName: string,
-    password: string,
-}
+
 
 type Transaction = {
     id: string,
@@ -36,11 +33,14 @@ type Transaction = {
 type GroupedTrades = Transaction[]
 
 type RegisterFormData = {
-    firstName: string,
-    lastName: string,
-    userName: string,
+    name: string,
     email: string,
     password: string
+}
+
+type LoginFormData = {
+    email: string,
+    password: string,
 }
 
 type AddTransactionFormData = {
