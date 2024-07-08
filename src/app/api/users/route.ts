@@ -1,4 +1,4 @@
-
+import bcrypt from "bcrypt"
 import { NextResponse } from "next/server";
 import db from "@/lib/prisma";
 
@@ -21,13 +21,25 @@ export async function GET(request: Request, { params }: { params: {email: string
 
 export async function POST(request: Request) {
     const user = await request.json()
-    const newUser = {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        userName: user.userName,
-        password: user.password,
+
+    const exist = await db.user.findUnique({
+        where: {
+            email: user.email
+        }
+    })
+
+    if(exist) {
+        throw new Error('email already exists')
     }
+    
+    const hashedPassword = await bcrypt.hash(user.password, 10)
+
+    const newUser = {
+        name: user.name,
+        email: user.email,
+        password: hashedPassword,
+    }
+
     await db.user.create({
         data: newUser
     })

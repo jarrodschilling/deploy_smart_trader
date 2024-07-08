@@ -7,6 +7,8 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import GetUserByEmail from '@/services/getUserByEmail'
+import { useRouter } from 'next/navigation'
+
 
 
 
@@ -17,6 +19,7 @@ export default function Transactions() {
   // console.log(await tradesData)
   const [error, setError] = useState<string | null>(null)
   const { data: session, status } = useSession()
+  const router = useRouter()
 
   useEffect (() => {
     const fetchTransactions = async () => {
@@ -28,6 +31,7 @@ export default function Transactions() {
         setTransactions(response.transactions)
       } catch(error) {
         console.log("Error:", error)
+        // router.push("/")
         setError("Failed to load transactions, please reload the page")
       } finally {
         setIsLoading(false)

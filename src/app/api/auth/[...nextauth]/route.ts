@@ -1,22 +1,25 @@
 import NextAuth from "next-auth/next";
+import db from "@/lib/prisma";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
-import CognitoProvider from "next-auth/providers/cognito";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { Session, User} from "next-auth"
 import { signIn } from "next-auth/react";
 import GetUserByEmail from "@/services/getUserByEmail";
 import CreateUser from "@/services/createUser";
+import { Adapter } from "next-auth/adapters";
 
 
 
 export const authOptions = {
+    adapter: PrismaAdapter(db) as Adapter,
     providers: [
     GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID ?? "",
         clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
     }),
     CredentialsProvider({
-        name: "Credentials",
+        name: "credentials",
         // `credentials` is used to generate a form on the sign in page.
         // You can specify which fields should be submitted, by adding keys to the `credentials` object.
         // e.g. domain, username, password, 2FA token, etc.
@@ -25,9 +28,9 @@ export const authOptions = {
           email: { label: "Email", type: "email", placeholder: "email" },
           password: { label: "Password", type: "password", placeholder: "password" }
         },
-        async authorize(credentials, req) {
+        async authorize(credentials) {
           // Add logic here to look up the user from the credentials supplied
-          const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
+          const user = { id: "1", name: "Jsmith", email: "jsmith@example.com" }
     
           if (user) {
             // Any object returned will be saved in `user` property of the JWT
@@ -41,39 +44,44 @@ export const authOptions = {
         }
       })
     ],
-    callbacks: {
-      async session({session}) {
-        const emailCheck = await session.user.email
-        const sessionUser = await GetUserByEmail(emailCheck)
+    secret: process.env.SECRET,
+    session: {
+      strategy: "jwt",
+    },
+    debug: process.env.NODE_ENV === "development",
+    // callbacks: {
+    //   async session({session}) {
+    //     const emailCheck = await session.user.email
+    //     const sessionUser = await GetUserByEmail(emailCheck)
 
-        session.user.id = sessionUser.id
-        return session
-      },
-      async signIn({profile}) {
-        // console.log(profile)
-        try {
-          const emailCheck = await profile.email
-          // console.log(emailCheck)
-          const userEmail = await GetUserByEmail(emailCheck)
+    //     session.user.id = sessionUser.id
+    //     return session
+    //   },
+    //   async signIn({profile}) {
+        
+    //     try {
+    //       const emailCheck = await profile.email
+          
+    //       const userEmail = await GetUserByEmail(emailCheck)
 
-          if(!userEmail) {
-            const newUser = {
-              firstName: profile.name,
-              lastName: profile.name,
-              email: profile.email,
-              userName: profile.email,
-              password: "test123"
-            }
-            const user = await CreateUser(newUser)
-          }
-          return true
+    //       if(!userEmail) {
+    //         const newUser = {
+    //           firstName: profile.name,
+    //           lastName: profile.name,
+    //           email: profile.email,
+    //           userName: profile.email,
+    //           password: "test123"
+    //         }
+    //         const user = await CreateUser(newUser)
+    //       }
+    //       return true
 
-        } catch (error) {
-          console.log(error)
-          return false
-        }
-      }
-    }
+    //     } catch (error) {
+    //       console.log(error)
+    //       return false
+    //     }
+    //   }
+    // }
 }
 
 export const handler = NextAuth(authOptions)
