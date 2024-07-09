@@ -8,6 +8,7 @@ import { signIn } from "next-auth/react";
 import GetUserByEmail from "@/services/getUserByEmail";
 import CreateUser from "@/services/createUser";
 import { Adapter } from "next-auth/adapters";
+import bcrypt from 'bcrypt'
 
 
 
@@ -29,18 +30,24 @@ export const authOptions = {
           password: { label: "Password", type: "password", placeholder: "password" }
         },
         async authorize(credentials) {
-          // Add logic here to look up the user from the credentials supplied
-          const user = { id: "1", name: "Jsmith", email: "jsmith@example.com" }
-    
-          if (user) {
-            // Any object returned will be saved in `user` property of the JWT
-            return user
-          } else {
-            // If you return null then an error will be displayed advising the user to check their details.
-            return null
-    
-            // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+          
+          if (!credentials?.email || !credentials?.password) {
+            throw new Error('Please enter email and password')
           }
+
+          const user = await GetUserByEmail(credentials?.email)
+
+          if (!user || !user?.password) {
+            throw new Error('No user found')
+          }
+
+          const passwordMatch = await bcrypt.compare(credentials.password, user.password)
+
+          if (!passwordMatch) {
+            throw new Error('Incorrect password')
+          }
+
+          return user
         }
       })
     ],

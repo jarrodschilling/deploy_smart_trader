@@ -5,6 +5,7 @@ import { userLoginSchema } from "../../../../schemas/schema"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { LoginFormData } from "../../../../types"
+import { signIn } from "next-auth/react"
 
 
 
@@ -23,6 +24,8 @@ export default function LoginUserForm() {
     async function handleAddUser(data: LoginFormData) {
         console.log(data)
         // CreateUser(data)
+        signIn('credentials', {...data, redirect: false})
+        .then(() => alert('User has been logged in'))
         router.push('/dashboard')
     }
     return (
@@ -74,7 +77,7 @@ export default function LoginUserForm() {
                 <button 
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
                     type="submit">
-                        Register User
+                        Login
                 </button>
             </form>
         </>
