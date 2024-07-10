@@ -7,6 +7,7 @@ import CreateTransaction from "@/services/createTransaction"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { AddTransactionFormData } from "../../../../../types"
+import getStockName from "@/services/yahoo/getStockNames"
 
 
 export default function AddTransactionForm() {
@@ -18,6 +19,7 @@ export default function AddTransactionForm() {
         handleSubmit,
         formState:{errors},
         watch,
+        setValue,
     } = useForm<AddTransactionFormData>({
         resolver: zodResolver(addTransactionFormSchema)
         })
@@ -25,8 +27,18 @@ export default function AddTransactionForm() {
 
     const router = useRouter()
     async function handleAddTransaction(data: AddTransactionFormData) {
-        // console.log(data)
-        CreateTransaction(data)
+        const newValue = data.ticker
+        let stockName
+        try {
+            const response = await getStockName(newValue)
+            stockName = response.quoteType.result[0].shortName
+            console.log(`stockName: ${stockName}`)
+        } catch (error) {
+            console.error("Error fetching stock name", error)
+        }
+        const updatedData = {...data, name:stockName}
+        console.log(`updatedData: ${updatedData}`)
+        CreateTransaction(updatedData)
         router.push('/transactions')
     }
     return (

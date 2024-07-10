@@ -66,13 +66,15 @@ export const addTransactionFormSchema = z.object({
             // z.coerce.boolean()
             z.enum(['true', 'false']).transform((value) => value === 'true')
         ),
-    name: z
-        .string({
-            required_error: "Name required"
-        })
-        .min(1, {
-            message: "Must be at least 1 character"
-        }),
+    // name: z
+    //     .optional (
+    //         z.string({
+    //             required_error: "Name required"
+    //         })
+    //         .min(1, {
+    //             message: "Must be at least 1 character"
+    //         }),
+    //     ),
     userId: z
         .string({
             required_error: "Name required"

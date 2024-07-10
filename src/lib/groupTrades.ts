@@ -1,6 +1,9 @@
+import { Transaction } from "@prisma/client";
+
 
 // export default function groupTrades(trades: Transaction[]): Transaction {
 //     const tradeGroups = new Map()
+
 
 //     trades.forEach((trade, index) => {
 //         const tickerKey = `${trade.ticker}`
@@ -39,16 +42,17 @@ type GroupedTransaction = Transaction[][];
 
 export default function groupTrades(trades: Transaction[]): GroupedTransaction {
     const tradeGroups = new Map<string, Transaction[][]>();
-
-    trades.forEach((trade) => {
+    
+    trades.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .forEach((trade) => {
         const tickerKey = `${trade.ticker}`;
-        console.log(tradeGroups)
+        
         if (!tradeGroups.has(tickerKey)) {
             tradeGroups.set(tickerKey, []);
         }
 
         const tickerGroup = tradeGroups.get(tickerKey)!; // Use non-null assertion
-
+        
         if (trade.openTrade) {
             // Start a new trade group
             tickerGroup.push([trade]);

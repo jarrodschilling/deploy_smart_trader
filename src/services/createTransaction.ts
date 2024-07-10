@@ -1,3 +1,5 @@
+import { AddTransactionFormData } from "../../types"
+
 export default async function CreateTransaction(data: AddTransactionFormData) {
     const res = await fetch('http://localhost:3000/api/transactions', {
         method: "POST",
