@@ -1,6 +1,7 @@
 'use client'
 
 import TradeStatsCalcs from "./components/TradeStatsCalcs"
+import { Transaction } from "../../../types"
 import { dateChanger, formatedCost, 
   formatedPercent, formatedPrice } from "@/lib/formatFunctions"
 
@@ -10,6 +11,8 @@ import { avgClosePrice, avgOpenPrice, gainLoss, getCloseDate, getOpenDate, getOw
 import groupTrades from "@/lib/groupTrades"
 import GetAllTransactions from "@/services/getAllTransactions"
 import { useEffect, useState } from "react"
+import { useSession } from "next-auth/react"
+import GetUserByEmail from "@/services/getUserByEmail"
 
 
 
@@ -17,6 +20,7 @@ export default function TradeStatistics() {
   const [trades, setTrades] = useState<Transaction[][]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const { data: session, status } = useSession()
 
   const portfolio = 1000000
 
@@ -24,8 +28,10 @@ export default function TradeStatistics() {
     const fetchTransactions = async () => {
       setIsLoading(true)
       try {
-        const response = await GetAllTransactions()
-        const transGroup = groupTrades(response)
+        const userEmail = session?.user?.email
+        const response = await GetUserByEmail(userEmail)
+        // const response = await GetAllTransactions()
+        const transGroup = groupTrades(response.transactions)
         setTrades(transGroup)
       } catch(error) {
         console.log("Error:", error)

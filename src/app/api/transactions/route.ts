@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 export async function GET(req: any) {
     const transactions = await db.transaction.findMany()
     const session = await getServerSession(authOptions)
-    console.log(session)
+    // console.log(session)
     if (!session) {
         return Response.error()
     }

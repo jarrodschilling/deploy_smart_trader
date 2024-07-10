@@ -6,10 +6,12 @@ import { addTransactionFormSchema } from "../../../../../schemas/schema"
 import CreateTransaction from "@/services/createTransaction"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
+import { AddTransactionFormData } from "../../../../../types"
 
 
 export default function AddTransactionForm() {
     const { data: session, status } = useSession()
+    console.log(session)
 
     const {
         register,
@@ -23,7 +25,7 @@ export default function AddTransactionForm() {
 
     const router = useRouter()
     async function handleAddTransaction(data: AddTransactionFormData) {
-        console.log(data)
+        // console.log(data)
         CreateTransaction(data)
         router.push('/transactions')
     }

@@ -22,11 +22,8 @@ export default function LoginUserForm() {
 
     const router = useRouter()
     async function handleAddUser(data: LoginFormData) {
-        console.log(data)
-        // CreateUser(data)
-        signIn('credentials', {...data, redirect: false})
-        .then(() => alert('User has been logged in'))
-        router.push('/dashboard')
+        signIn('credentials', {...data, callbackUrl: 'http://localhost:3000/dashboard'})
+        // router.push('/dashboard')
     }
     return (
         <>
@@ -79,7 +76,13 @@ export default function LoginUserForm() {
                     type="submit">
                         Login
                 </button>
+                
             </form>
+            <h1>Sign Into Google Below</h1>
+            <button 
+                onClick={() => signIn('google', {callbackUrl: 'http://localhost:3000/dashboard'})}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >Sign In</button>
         </>
     )
 }

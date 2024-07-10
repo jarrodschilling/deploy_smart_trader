@@ -33,14 +33,16 @@
 //     }
 
 
-type GroupedTransaction = Transaction[][]; // Assuming the return type is an array of arrays of Transactions
+
+// Assuming the return type is an array of arrays of Transactions
+type GroupedTransaction = Transaction[][]; 
 
 export default function groupTrades(trades: Transaction[]): GroupedTransaction {
     const tradeGroups = new Map<string, Transaction[][]>();
 
     trades.forEach((trade) => {
         const tickerKey = `${trade.ticker}`;
-        
+        console.log(tradeGroups)
         if (!tradeGroups.has(tickerKey)) {
             tradeGroups.set(tickerKey, []);
         }

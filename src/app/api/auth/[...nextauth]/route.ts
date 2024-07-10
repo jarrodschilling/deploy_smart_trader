@@ -13,6 +13,7 @@ import bcrypt from 'bcrypt'
 
 
 export const authOptions = {
+    secret: process.env.NEXTAUTH_SECRET as string,
     adapter: PrismaAdapter(db) as Adapter,
     providers: [
     GoogleProvider({
@@ -51,19 +52,22 @@ export const authOptions = {
         }
       })
     ],
-    secret: process.env.SECRET,
     session: {
       strategy: "jwt",
     },
     debug: process.env.NODE_ENV === "development",
-    // callbacks: {
-    //   async session({session}) {
-    //     const emailCheck = await session.user.email
-    //     const sessionUser = await GetUserByEmail(emailCheck)
+    callbacks: {
+      async session({session}) {
+        const emailCheck = await session.user.email
+        const sessionUser = await GetUserByEmail(emailCheck)
 
-    //     session.user.id = sessionUser.id
-    //     return session
-    //   },
+        session.user.id = sessionUser.id
+        return session
+      },
+    },
+    pages: {
+      signIn: '/login'
+    }
     //   async signIn({profile}) {
         
     //     try {
