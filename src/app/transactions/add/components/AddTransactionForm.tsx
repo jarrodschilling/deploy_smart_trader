@@ -43,12 +43,10 @@ export default function AddTransactionForm() {
     }
     return (
         <>
-            <h1>Register User</h1>
             <form className="w-full max-w-lg" onSubmit={handleSubmit(handleAddTransaction)}>
-                <div className="flex flex-wrap -mx-3 mb-2">
-                    
+                <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="ticker">Ticker*</label>
+                    <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2" htmlFor="ticker">Ticker*</label>
                     <input
                         {...register("ticker", { required: "This is required." })}
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -67,7 +65,7 @@ export default function AddTransactionForm() {
                     </div>
                     
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="date">Date*</label>
+                    <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2" htmlFor="date">Date*</label>
                     <input 
                         {...register("date")}
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -86,7 +84,7 @@ export default function AddTransactionForm() {
                     </div>
                     
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="buySell">Buy/Sell*</label>
+                    <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2" htmlFor="buySell">Buy/Sell*</label>
                     <div className="relative">
                     <select
                         {...register("buySell")}
@@ -113,7 +111,7 @@ export default function AddTransactionForm() {
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="shares">Shares*</label>
+                    <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2" htmlFor="shares">Shares*</label>
                     <input
                         {...register("shares")}
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -131,11 +129,11 @@ export default function AddTransactionForm() {
                     </div>
 
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="price">Price*</label>
+                    <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2" htmlFor="price">Price*</label>
                     <input
                         {...register("price")}
                         className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="number"
+                        
                         name="price"
                         id="price"
                     />
@@ -148,47 +146,10 @@ export default function AddTransactionForm() {
                     }
                     </div>
                 </div>
+                    
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="shares">Name*</label>
-                    <input
-                        {...register("name")}
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="text"
-                        name="name"
-                        id="name"
-                    />
-                    {
-                        errors.name && (
-                            <p>
-                                {errors.name.message}
-                            </p>
-                        )
-                    }
-                    </div>
-
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    {/* <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="price">userId</label> */}
-                    <input
-                        {...register("userId")}
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="hidden"
-                        name="userId"
-                        id="userId"
-                        value={session?.user.id}
-                    />
-                    {
-                        errors.userId && (
-                            <p>
-                                {errors.userId.message}
-                            </p>
-                        )
-                    }
-                    </div>
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="shaper">Shaper</label>
+                    <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2" htmlFor="shaper">Shaper</label>
                     <div className="relative">
                     <select
                         {...register("shaper")}
@@ -230,7 +191,7 @@ export default function AddTransactionForm() {
                     </div>
                     
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="tactical">Tactical</label>
+                    <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2" htmlFor="tactical">Tactical</label>
                     <div className="relative">
                     <select
                         {...register("tactical")}
@@ -325,7 +286,19 @@ export default function AddTransactionForm() {
                     </>:
                     <></>
                     }
-
+                    <input
+                        {...register("name")}
+                        type="hidden"
+                        name="name"
+                        id="name"
+                    />
+                    <input
+                        {...register("userId")}
+                        type="hidden"
+                        name="userId"
+                        id="userId"
+                        value={session?.user?.id}
+                    />
                     <button 
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
                         type="submit">

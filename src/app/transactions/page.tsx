@@ -1,15 +1,13 @@
 'use client'
 
 import { dateChanger, totalCostFmt, formatedPrice } from '@/lib/formatFunctions'
-import GetAllTransactions from '@/services/getAllTransactions'
-import DeleteTransaction from '@/services/deleteTransaction'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import GetUserByEmail from '@/services/getUserByEmail'
 import { useRouter } from 'next/navigation'
-
-
+import { Transaction } from '@prisma/client'
+import PageTitle from '@/components/PageTitle'
 
 
 export default function Transactions() {
@@ -59,49 +57,24 @@ export default function Transactions() {
     console.log(advColors)
   }
 
-  if (status === "loading") {
-    return (
-    <>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <p>Loading...</p>
-    </>)
-  }
-
-  if (status === "unauthenticated") {
-    return (
-      <>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <p>Access Denied</p>
-      </>
-    )
-  }
-
   return (
-    <>
-    <br />
-    <br />
-    <br />
-      <h1>Trade Ledger(ALL TRANSACTIONS)</h1>
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        ><Link href="/transactions/add">Add New Transaction</Link></button>
-      <br />
-      <button
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-      onClick={handleAdvColors}>Advanced Colors</button>
+    <div className='m-4 mt-20'>
+      <PageTitle title={"Transactions"} />
+      <div className='justify-between flex m-1 mb-2'>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+          ><Link href="/transactions/add">Add New Transaction</Link></button>
+        <br />
+        <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+        onClick={handleAdvColors}>Advanced Colors</button>
+        </div>
       {error && <p>{error}</p>}
       {isLoading ? (<p>Loading transactions...</p>):
+      
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
           <tr>
               <th scope="col" className="px-2 py-4">Date</th>
               <th scope="col" className="px-0 py-4">Ticker</th>
@@ -114,8 +87,8 @@ export default function Transactions() {
               <th scope="col" className="px-0 py-4">Tactical</th>
               <th scope="col" className="px-0 py-4">OPEN</th>
               <th scope="col" className="px-0 py-4">CLOSE</th>
-              <th scope="col" className="px-0 py-4">EDIT</th>
-              <th scope="col" className="px-0 py-4">DELETE</th>
+              <th scope="col" className="px-0 py-1"></th>
+              <th scope="col" className="px-0 py-1"></th>
           </tr>
         </thead>
         <tbody>
@@ -133,21 +106,21 @@ export default function Transactions() {
                       <td scope="col" className="px-2 py-2">{dateChanger(transaction.date)}</td>
                       <td scope="col" className="px-0 py-2">{transaction.ticker}</td>
                       <td scope="col" className="px-0 py-2">{transaction.name}</td>
-                      <td scope="col" className="px-0 py-2">{transaction.buySell}</td>
+                      <td scope="col" className="px-4 py-2">{transaction.buySell}</td>
                       <td scope="col" className="px-0 py-2">{formatedPrice(transaction.price)}</td>
-                      <td scope="col" className="px-0 py-2">{transaction.shares}</td>
-                      <td scope="col" className="px-0 py-2">{totalCostFmt(transaction.price, transaction.shares)}</td>
+                      <td scope="col" className="text-center px-0 py-2">{transaction.shares}</td>
+                      <td scope="col" className="px-4 py-2">{totalCostFmt(transaction.price, transaction.shares)}</td>
                       <td scope="col" className="px-0 py-2">{transaction.shaper}</td>
                       <td scope="col" className="px-0 py-2">{transaction.tactical}</td>
                       <td scope="col" className="px-0 py-2">{transaction.openTrade? "Yes": ""}</td>
                       <td scope="col" className="px-0 py-2">{transaction.closeTrade? "Yes": ""}</td>
                       <td scope="col" className="px-0 py-2">
-                        <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline"><Link href={`/transactions/edit/${transaction.id}`}>EDIT</Link></button>
+                        <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/transactions/edit/${transaction.id}`}>EDIT</Link></button>
                       </td>
                       {/* <td><button onClick={() => handleDelete(transaction.id)}>DELETE Render</button></td> */}
                       
                       <td scope="col" className="px-0 py-2">
-                        <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline"><Link href={`/transactions/delete/${transaction.id}`}>DELETE Form</Link></button>
+                        <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/transactions/delete/${transaction.id}`}>DELETE</Link></button>
                       </td>
                   </tr>
               )
@@ -156,6 +129,6 @@ export default function Transactions() {
       </table>
       </div>
       }
-    </>
+    </div>
   )
 }

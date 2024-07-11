@@ -1,9 +1,13 @@
 
 
-export default async function getStockPrices(stockTicker: string) {
-    const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${stockTicker}`)
-
-    if (!res.ok) throw new Error('Failed to fetch stock price')
-
+export default async function getStockName(stockTicker: string) {
+    const res = await fetch(`http://localhost:3000/api/yfQuote/${stockTicker}`,
+        {mode: 'no-cors'}
+    )
+    
+    if (!res.ok) throw new Error("failed to fetch data")
+        // if (!res.ok) {
+        //     return false
+        // }
     return res.json()
 }
