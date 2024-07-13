@@ -13,6 +13,8 @@ import GetAllTransactions from "@/services/getAllTransactions"
 import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import GetUserByEmail from "@/services/getUserByEmail"
+import PageTitle from "@/components/PageTitle"
+import Link from "next/link"
 
 
 
@@ -45,28 +47,26 @@ export default function TradeStatistics() {
 
 
   return (
-    <>
-        <br />
-        <br />
-        <br />
-        <h1>Trade Statistics</h1>
+    <div className='m-4 mt-20'>
+      <PageTitle title={"Trade Statistics"} />
         <TradeStatsCalcs />
-        <table>
-          <thead>
+        <div className="relative border-slate-600 border overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200">
+          <thead className="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
             <tr>
-              <th>Ticker</th>
-              <th>Name</th>
-              <th>Open Date</th>
-              <th>Close Date</th>
-              <th>Avg Open Price</th>
-              <th>Shares</th>
-              <th>Open Cost</th>
-              <th>Close Price</th>
-              <th>Close Value</th>
-              <th>Gain/Loss</th>
-              <th>Gain/Loss %</th>
-              <th>Portfolio P/L</th>
-              <th>Details</th>
+              <th scope="col" className="px-2 py-4">Ticker</th>
+              <th scope="col" className="px-0 py-4">Name</th>
+              <th scope="col" className="px-0 py-4">Open Date</th>
+              <th scope="col" className="px-0 py-4">Close Date</th>
+              <th scope="col" className="px-0 py-4">Avg Open Price</th>
+              <th scope="col" className="px-0 py-4">Shares</th>
+              <th scope="col" className="px-0 py-4">Open Cost</th>
+              <th scope="col" className="px-0 py-4">Close Price</th>
+              <th scope="col" className="px-0 py-4">Close Value</th>
+              <th scope="col" className="px-0 py-4">Gain/Loss</th>
+              <th scope="col" className="px-0 py-4">Gain/Loss %</th>
+              <th scope="col" className="px-0 py-4">Portfolio P/L</th>
+              <th scope="col" className="px-0 py-4"></th>
             </tr>
           </thead>
           <tbody>
@@ -74,19 +74,27 @@ export default function TradeStatistics() {
                 trades
                 .sort((a, b) => new Date(a[0].date).getTime() - new Date(b[0].date).getTime())
                 .map((trade: Transaction[], index: number) => (
-                    <tr key={index} className={`${(openTradeTrue(trade) === false)? '':(gainLoss(trade)>0)? 'ledgerBuy': 'ledgerSell'}`}>
-                        <td>{trade[0].ticker}</td>
-                        <td>{trade[0].name}</td>
-                        <td>{dateChanger(getOpenDate(trade))}</td>
-                        <td>{dateChanger(getCloseDate(trade))}</td>
-                        <td className={`${(openTradeTrue(trade) === false)? 'hidden': ''}`}>{formatedPrice(avgOpenPrice(trade))}</td>
-                        <td className={`${(openTradeTrue(trade) === false)? 'hidden': ''}`}>{getOwnedShares(trade)}</td>
-                        <td className={`${(openTradeTrue(trade) === false)? 'hidden': ''}`}>{formatedCost(totalCost(trade))}</td>
-                        <td className={`${(openTradeTrue(trade) === false)? 'hidden': ''}`}>{formatedPrice(avgClosePrice(trade))}</td>
-                        <td className={`${(openTradeTrue(trade) === false)? 'hidden': ''}`}>{formatedCost(totalSold(trade))}</td>
-                        <td className={`${(openTradeTrue(trade) === false)? 'hidden': ''}`}>{formatedCost(gainLoss(trade))}</td>
-                        <td className={`${(openTradeTrue(trade) === false)? 'hidden': ''}`}>{formatedPercent(percentGainLoss(trade))}</td>
-                        <td className={`${(openTradeTrue(trade) === false)? 'hidden': ''}`}>{formatedPercent(gainLoss(trade)/(portfolio)*100)}</td>
+                    <tr key={index} className={`${(openTradeTrue(trade) === false)? 'border-b border-slate-600':(gainLoss(trade)>0)?
+                      'bg-white border-b hover:bg-blue-400 border-slate-600 dark:bg-lime-800 dark:border-gray-700':
+                      'bg-white border-b border-slate-600 dark:bg-red-800 dark:border-gray-700'}`}>
+                        <td scope="col" className="px-2 py-2">{trade[0].ticker}</td>
+                        <td scope="col" className="px-0 py-2">{trade[0].name}</td>
+                        <td scope="col" className="px-0 py-2">{dateChanger(getOpenDate(trade))}</td>
+                        <td scope="col" className="px-0 py-2">{dateChanger(getCloseDate(trade))}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedPrice(avgOpenPrice(trade))}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{getOwnedShares(trade)}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedCost(totalCost(trade))}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedPrice(avgClosePrice(trade))}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedCost(totalSold(trade))}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedCost(gainLoss(trade))}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedPercent(percentGainLoss(trade))}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedPercent(gainLoss(trade)/(portfolio)*100)}</td>
+                        {
+                          openTradeTrue(trade) === false? <></>:
+                          <td scope="col" className="px-0 py-2">
+                          <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/`}>DETAILS</Link></button>
+                          </td>
+                        }
                         
                         {/* <td><button className="editDeleteBtn" onClick={()=>detailsHandler(trade)}>Details</button></td> */}
                     </tr>
@@ -94,6 +102,7 @@ export default function TradeStatistics() {
               )}
           </tbody>
       </table>
-    </>
+      </div>
+    </div>
   )
 }

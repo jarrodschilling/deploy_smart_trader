@@ -8,14 +8,20 @@ export default function AuthButton() {
     if (session) {
         return (
             <>
-                {session?.user?.name} <br />
+                <span className="mr-2">
+                    WELCOME
+                    <br></br>
+                    {session?.user?.name}
+                </span>
                 <button onClick={() => signOut({callbackUrl: 'http://localhost:3000/'})} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign Out</button>
             </>
         )
     }
     return (
         <>
-            Not signed in <br />
+            <span className="mr-2">
+                    Not Signed In
+                </span>
             {/* <button onClick={() => signIn()} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign In</button> */}
             <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><Link href="/login">Sign In</Link></button>
         </>

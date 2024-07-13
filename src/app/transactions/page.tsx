@@ -54,7 +54,6 @@ export default function Transactions() {
     setAdvColors("true")
     }
     else {setAdvColors('false')}
-    console.log(advColors)
   }
 
   return (
@@ -98,7 +97,7 @@ export default function Transactions() {
               .map((transaction) => (
                   <tr key={transaction.id} 
                   className={`${
-                  (advColors === "false")?((transaction.buySell === "buy")? 'bg-white border-b dark:bg-lime-800 dark:border-gray-700': 
+                  (advColors === "false")?((transaction.buySell === "buy")? 'bg-white hover:bg-blue-400 border-b dark:bg-lime-800 dark:border-gray-700': 
                   'bg-white border-b dark:bg-red-800 dark:border-gray-700'): (transaction.openTrade === true)? 'bg-white border-b dark:bg-lime-800 dark:border-gray-700'
                   :(transaction.closeTrade === true)? 'bg-white border-b dark:bg-red-800 dark:border-gray-700'
                   :(transaction.buySell === "buy")? 'bg-white border-b dark:bg-lime-600 dark:border-gray-700'
