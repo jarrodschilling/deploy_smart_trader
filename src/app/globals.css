@@ -26,3 +26,61 @@ body {
     text-wrap: balance;
   }
 }
+
+@layer components {
+  .noColor {
+    @apply py-2 px-5 bg-violet-500 text-white font-semibold rounded-full shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75;
+  }
+
+  .noColorHighLight {
+
+  }
+
+  .colorsBuy {
+    @apply bg-white border-b dark:bg-lime-800 dark:border-gray-700
+  }
+
+  .colorsSell {
+    @apply bg-white border-b dark:bg-red-800 dark:border-gray-700
+  }
+
+  .colorsHighlightBuy {
+    @apply bg-white hover:bg-blue-400 border-b dark:bg-lime-800 dark:border-gray-700
+  }
+
+  .colorsHighlightSell {
+    @apply bg-white hover:bg-blue-400 border-b dark:bg-red-800 dark:border-gray-700
+  }
+
+  .advancedColorsBuy {
+    @apply bg-white border-b dark:bg-lime-600 dark:border-gray-700
+  }
+
+  .advancedColorsSell {
+    @apply bg-white border-b dark:bg-red-600 dark:border-gray-700
+  }
+
+  .advancedColorsHighlightBuy {
+    @apply bg-white hover:bg-blue-400 border-b dark:bg-lime-600 dark:border-gray-700
+  }
+
+  .advancedColorsHighlightSell {
+    @apply bg-white hover:bg-blue-400 border-b dark:bg-red-600 dark:border-gray-700
+  }
+
+  .advancedColorsOpen {
+    @apply bg-white border-b dark:bg-lime-800 dark:border-gray-700
+  }
+
+  .advancedColorsClose {
+    @apply bg-white border-b dark:bg-red-800 dark:border-gray-700
+  }
+
+  .advancedColorsHighlightOpen {
+    @apply bg-white hover:bg-blue-400 border-b dark:bg-lime-800 dark:border-gray-700
+  }
+
+  .advancedColorsHighlightClose {
+    @apply bg-white hover:bg-blue-400 border-b dark:bg-red-800 dark:border-gray-700
+  }
+}

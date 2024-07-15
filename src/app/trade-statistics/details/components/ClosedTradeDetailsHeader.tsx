@@ -17,10 +17,11 @@ export default function ClosedTradeDetailsHeader({ tradeGroup }: { tradeGroup:Tr
     let tradePortfolioPctImpact = portfolioPercentImpact(portfolio, tradeGroup)
 
     return (
-        <div className='border'>
+        <div className='flex justify-center'>
+        <div className='box-border w-1/2 border p-2'>
             <div className="flex flex-wrap ml-10 mb-6">
                     <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2" htmlFor="ticker">Total Cost</label>
+                    <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-2" htmlFor="ticker">Total Cost</label>
                     <p>{formatedCost(tradeTotalCost)}</p>
                     </div>
                     <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
@@ -36,7 +37,7 @@ export default function ClosedTradeDetailsHeader({ tradeGroup }: { tradeGroup:Tr
                     <p>{formatedPercent(tradePercentGainLoss)}</p>
                     </div>
             </div>
-            <div className="flex flex-wrap ml-10 mb-6">
+            <div className="flex flex-wrap ml-10">
                     <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2" htmlFor="ticker">Avg Open Px</label>
                     <p>{formatedPrice(tradeAvgOpenPrice)}</p>
@@ -54,6 +55,7 @@ export default function ClosedTradeDetailsHeader({ tradeGroup }: { tradeGroup:Tr
                     <p>{formatedPercent(tradePortfolioPctImpact)}</p>
                     </div>
             </div>
+        </div>
         </div>
     )
 }
