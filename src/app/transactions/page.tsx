@@ -11,6 +11,8 @@ import PageTitle from '@/components/PageTitle'
 
 
 export default function Transactions() {
+  const [highlight, setHighlight] = useState<string>("false")
+  const [onColors, setOnColors] = useState<string>("false")
   const [advColors, setAdvColors] = useState<string>("false")
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -48,6 +50,19 @@ export default function Transactions() {
   //     setError("Failed to delete transaction, please try again")
   //   }
   // }
+  const handleHighlight = async () => {
+    if (highlight === "false") {
+    setHighlight("true")
+    }
+    else {setHighlight('false')}
+  }
+
+  const handleOnColors = async () => {
+    if (onColors === "false") {
+    setOnColors("true")
+    }
+    else {setOnColors('false')}
+  }
 
   const handleAdvColors = async () => {
     if (advColors === "false") {
@@ -60,13 +75,26 @@ export default function Transactions() {
     <div className='m-4 mt-20'>
       <PageTitle title={"Transactions"} />
       <div className='justify-between flex m-1 mb-2'>
+        <div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
           ><Link href="/transactions/add">Add New Transaction</Link></button>
+        </div>
         <br />
+        <div>
         <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-        onClick={handleAdvColors}>Advanced Colors</button>
+          className={`${(highlight === "false")?'bg-white text-blue-500 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'
+            :'bg-blue-500 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'}`}
+          onClick={handleHighlight}>Highlight</button>
+        <button
+          className={`${(onColors === "false")?'bg-white text-blue-500 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'
+            :'bg-blue-500 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'}`}
+          onClick={handleOnColors}>Colors</button>
+        <button
+          className={`${(advColors === "false")?'bg-white text-blue-500 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'
+            :'bg-blue-500 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'}`}
+          onClick={handleAdvColors}>Advanced</button>
+        </div>
         </div>
       {error && <p>{error}</p>}
       {isLoading ? (<p>Loading transactions...</p>):
@@ -97,7 +125,7 @@ export default function Transactions() {
               .map((transaction) => (
                   <tr key={transaction.id} 
                   className={`${
-                  (advColors === "false")?((transaction.buySell === "buy")? 'bg-white hover:bg-blue-400 border-b dark:bg-lime-800 dark:border-gray-700': 
+                  (advColors === "false")?((transaction.buySell === "buy")? 'noColor': 
                   'colorsHighlightSell'): (transaction.openTrade === true)? 'bg-white border-b dark:bg-lime-800 dark:border-gray-700'
                   :(transaction.closeTrade === true)? 'bg-white border-b dark:bg-red-800 dark:border-gray-700'
                   :(transaction.buySell === "buy")? 'bg-white border-b dark:bg-lime-600 dark:border-gray-700'
