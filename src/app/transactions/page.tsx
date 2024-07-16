@@ -98,7 +98,7 @@ export default function Transactions() {
                   <tr key={transaction.id} 
                   className={`${
                   (advColors === "false")?((transaction.buySell === "buy")? 'bg-white hover:bg-blue-400 border-b dark:bg-lime-800 dark:border-gray-700': 
-                  'bg-white border-b dark:bg-red-800 dark:border-gray-700'): (transaction.openTrade === true)? 'bg-white border-b dark:bg-lime-800 dark:border-gray-700'
+                  'colorsHighlightSell'): (transaction.openTrade === true)? 'bg-white border-b dark:bg-lime-800 dark:border-gray-700'
                   :(transaction.closeTrade === true)? 'bg-white border-b dark:bg-red-800 dark:border-gray-700'
                   :(transaction.buySell === "buy")? 'bg-white border-b dark:bg-lime-600 dark:border-gray-700'
                   :'bg-white border-b dark:bg-red-600 dark:border-gray-700'}`}>
