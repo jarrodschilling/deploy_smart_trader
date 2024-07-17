@@ -125,15 +125,24 @@ export default function Transactions() {
               .map((transaction) => (
                   <tr key={transaction.id} 
                   className={`${
-                  (advColors === "false")?((transaction.buySell === "buy")? 'noColor': 
-                  'colorsHighlightSell'): (transaction.openTrade === true)? 'bg-white border-b dark:bg-lime-800 dark:border-gray-700'
-                  :(transaction.closeTrade === true)? 'bg-white border-b dark:bg-red-800 dark:border-gray-700'
-                  :(transaction.buySell === "buy")? 'bg-white border-b dark:bg-lime-600 dark:border-gray-700'
-                  :'bg-white border-b dark:bg-red-600 dark:border-gray-700'}`}>
+                    (onColors === "false" && advColors === "false" && highlight === "false")? 'noColor':
+                    (onColors === "false" && advColors === "false" && highlight === "true")? 'noColorHighLight':
+                    (onColors === "true" && advColors === "false" && highlight === "false" && transaction.buySell === "buy")? 'colorsBuy':
+                    (onColors === "true" && advColors === "false" && highlight === "false" && transaction.buySell === "sell")? 'colorsSell':
+                    (onColors === "true" && advColors === "false" && highlight === "true" && transaction.buySell === "buy")? 'colorsHighlightBuy':
+                    (onColors === "true" && advColors === "false" && highlight === "true" && transaction.buySell === "sell")? 'colorsHighlightSell':
+                    (advColors === "true" && highlight === "false" && transaction.buySell === "buy" && transaction.openTrade === false)? 'advancedColorsBuy':
+                    (advColors === "true" && highlight === "false" && transaction.buySell === "sell" && transaction.closeTrade === false)? 'advancedColorsSell':
+                    (advColors === "true" && highlight === "true" && transaction.buySell === "buy" && transaction.openTrade === false)? 'advancedColorsHighlightBuy':
+                    (advColors === "true" && highlight === "true" && transaction.buySell === "sell" && transaction.closeTrade === false)? 'advancedColorsHighlightSell':
+                    (advColors === "true" && highlight === "false" && transaction.openTrade === true)? 'advancedColorsOpen':
+                    (advColors === "true" && highlight === "false" && transaction.closeTrade === true)? 'advancedColorsClose':
+                    (advColors === "true" && highlight === "true" && transaction.openTrade === true)? 'advancedColorsHighlightOpen':
+                    'advancedColorsHighlightClose'}`}>
                       <td scope="col" className="px-2 py-2">{dateChanger(transaction.date)}</td>
                       <td scope="col" className="px-0 py-2">{transaction.ticker}</td>
                       <td scope="col" className="px-0 py-2">{transaction.name}</td>
-                      <td scope="col" className="px-4 py-2">{transaction.buySell}</td>
+                      <td scope="col" className="px-4 py-2">{transaction.buySell.toUpperCase()}</td>
                       <td scope="col" className="px-0 py-2">{formatedPrice(transaction.price)}</td>
                       <td scope="col" className="text-center px-0 py-2">{transaction.shares}</td>
                       <td scope="col" className="px-4 py-2">{totalCostFmt(transaction.price, transaction.shares)}</td>

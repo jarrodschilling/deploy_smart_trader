@@ -1,14 +1,19 @@
 import Link from "next/link";
 import "./globals.css";
+import PageTitle from "@/components/PageTitle";
+import LoginRegisterButton from "@/components/LoginRegisterButton";
+import AboutApp from "@/components/AboutApp";
+import GoogleButton from "@/components/GoogleButton";
 
 
 export default async function Home() {
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>This will be a landing page with about Smart Trader and Link to Login/Reg</h1>
-      <Link href="/about">Link to About Page</Link>
-      <Link href="/users">Link to Users Page</Link>
-    </main>
+    <div className='m-4 mt-20'>
+      <PageTitle title={"Welcome"} />
+      <LoginRegisterButton />
+      <AboutApp />
+      <GoogleButton />
+    </div>
   );
 }

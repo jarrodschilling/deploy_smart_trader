@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { LoginFormData } from "../../../../types"
 import { signIn } from "next-auth/react"
+import Link from "next/link"
+import GoogleButton from "@/components/GoogleButton"
 
 
 
@@ -27,9 +29,6 @@ export default function LoginUserForm() {
     }
     return (
         <>
-        <br />
-        <br />
-        <br />
         <h1>Login User</h1>
         <form className="w-full max-w-lg" onSubmit={handleSubmit(handleAddUser)}>
             <div className="flex flex-wrap -mx-3 mb-2">
@@ -78,11 +77,17 @@ export default function LoginUserForm() {
                 </button>
                 
             </form>
-            <h1>Sign Into Google Below</h1>
-            <button 
+            <br />
+            {/* <button 
                 onClick={() => signIn('google', {callbackUrl: 'http://localhost:3000/dashboard'})}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >Sign In</button>
+                >Sign In</button> */}
+            <GoogleButton />
+            <br />
+            <br />
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    <Link href={"/register"}>Register User</Link>
+            </button>
         </>
     )
 }

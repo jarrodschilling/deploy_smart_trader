@@ -1,4 +1,5 @@
 import { Account, ToDo, Transaction } from "@prisma/client"
+import { number } from "zod"
 
 type User =
     {
@@ -66,4 +67,18 @@ type GoogleProfileType = {
     email: string,
     name: string,
     picture: string
+}
+
+type TradeStatsHeaderType = {
+    winPercent: string,
+    lossPercent: string,
+    avgWinUSD: string,
+    avgLossUSD: string,
+    avgWinPercent: string,
+    avgLossPercent: string,
+    avgPortWin: string,
+    avgPortLoss: string,
+    rlzGainLoss: number,
+    totalPL: string,
+    totalPLPercent: string
 }
