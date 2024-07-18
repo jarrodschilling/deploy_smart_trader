@@ -7,7 +7,9 @@ import { useSession } from "next-auth/react"
 import { LoginFormData } from "../../../../types"
 import { signIn } from "next-auth/react"
 import Link from "next/link"
-import GoogleButton from "@/components/GoogleButton"
+import GoogleButtonLogin from "@/components/GoogleButtonLogin"
+
+
 
 
 
@@ -28,12 +30,14 @@ export default function LoginUserForm() {
         // router.push('/dashboard')
     }
     return (
-        <>
-        <h1>Login User</h1>
-        <form className="w-full max-w-lg" onSubmit={handleSubmit(handleAddUser)}>
-            <div className="flex flex-wrap -mx-3 mb-2">
-                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="email">Email*</label>
+        <div className="flex justify-center mx-auto">
+        <div className="border-2 border-slate-200 bg-black rounded-md w-1/4 flex justify-center mt-10">
+        <div className="w-full max-w-lg p-8">
+        <form className="" onSubmit={handleSubmit(handleAddUser)}>
+            <h1 className="text-3xl font-bold text-slate-200 mb-2">Login to Account</h1>
+            <div className="flex flex-wrap -mx-3 mb-6 mt-6">
+                <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-slate-200 text-sm font-bold mb-2" htmlFor="email">Email*</label>
                 <input 
                     {...register("email")}
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -51,9 +55,9 @@ export default function LoginUserForm() {
                 }
                 </div>
             </div>
-            <div className="flex flex-wrap -mx-3 mb-2">
-                <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="password">Password*</label>
+            <div className="flex flex-wrap -mx-3 mb-6 mt-6">
+                <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-slate-200 text-sm font-bold mb-2" htmlFor="password">Password*</label>
                 <input 
                     {...register("password")}
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -71,23 +75,26 @@ export default function LoginUserForm() {
                 </div>
             </div>
                 <button 
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                    className="mb-6 w-44 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
                     type="submit">
                         Login
                 </button>
                 
+                
             </form>
-            <br />
+            <GoogleButtonLogin />
+                <p className="mt-1 mb-2 w-44 text-center">OR</p>
+                <button className="w-44 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        <Link href={"/register"}>Create Account</Link>
+                </button>
+            </div>
+            
             {/* <button 
                 onClick={() => signIn('google', {callbackUrl: 'http://localhost:3000/dashboard'})}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >Sign In</button> */}
-            <GoogleButton />
-            <br />
-            <br />
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    <Link href={"/register"}>Register User</Link>
-            </button>
-        </>
+            
+        </div>
+        </div>
     )
 }

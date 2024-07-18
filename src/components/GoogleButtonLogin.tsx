@@ -2,7 +2,7 @@
 import { signIn } from 'next-auth/react'
 import React from 'react'
 
-export default function GoogleButton() {
+export default function GoogleButtonLogin() {
     return (
     <>
         <button onClick={() => signIn('google', {callbackUrl: 'http://localhost:3000/dashboard'})}>
