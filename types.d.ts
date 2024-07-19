@@ -82,3 +82,16 @@ type TradeStatsHeaderType = {
     totalPL: string,
     totalPLPercent: string
 }
+
+type CurrentPortfolioHeaderType = {
+    cash: number,
+    totalCost: number,
+    currentValue: number,
+    unrealizedGainLoss: number,
+    unrealizedPercent: number,
+    porfolioGainLoss: number
+}
+
+type StockPricesType = {
+    symbol: number
+}
