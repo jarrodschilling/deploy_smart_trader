@@ -99,9 +99,9 @@ export default function Transactions() {
       {error && <p>{error}</p>}
       {isLoading ? (<p>Loading transactions...</p>):
       
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg max-h-96 -mb-10">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200">
-          <thead className="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
+          <thead className="sticky top-0 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
           <tr>
               <th scope="col" className="px-2 py-4">Date</th>
               <th scope="col" className="px-0 py-4">Ticker</th>
