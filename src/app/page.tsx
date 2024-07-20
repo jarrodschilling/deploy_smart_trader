@@ -1,19 +1,21 @@
 import Link from "next/link";
 import "./globals.css";
-import PageTitle from "@/components/PageTitle";
-import LoginRegisterButton from "@/components/LoginRegisterButton";
 import AboutApp from "@/components/AboutApp";
-import GoogleButton from "@/components/GoogleButton";
+import HomePageTitleBar from "@/components/HomePageTitleBar";
+import CreateAccountButton from "@/components/CreateAccountButton";
 
 
 export default async function Home() {
 
   return (
     <div className='m-4 mt-20'>
-      <PageTitle title={"Welcome"} />
-      <LoginRegisterButton />
+      <div className="flex w-4/5 justify-center mx-auto">
+      <div>
+      <HomePageTitleBar />
+      <CreateAccountButton />
       <AboutApp />
-      <GoogleButton />
+      </div>
+      </div>
     </div>
   );
 }
