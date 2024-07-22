@@ -109,7 +109,7 @@ export default function Transactions() {
               <th scope="col" className="px-0 py-4">Buy/Sell</th>
               <th scope="col" className="px-0 py-4">Price</th>
               <th scope="col" className="px-0 py-4">Shares</th>
-              <th scope="col" className="px-0 py-4">Total Value</th>
+              <th scope="col" className="px-2 py-4">Total Value</th>
               <th scope="col" className="px-0 py-4">Shaper</th>
               <th scope="col" className="px-0 py-4">Tactical</th>
               <th scope="col" className="px-0 py-4">OPEN</th>

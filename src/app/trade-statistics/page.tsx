@@ -1,7 +1,7 @@
 'use client'
 
-import TradeStatsCalcs from "./components/TradeStatsCalcs"
-import { TradeStatsHeaderType, Transaction } from "../../../types"
+
+import { GroupedTrades, TradeStatsHeaderType, Transaction } from "../../../types"
 import { dateChanger, formatedCost, 
   formatedPercent, formatedPrice } from "@/lib/formatFunctions"
 
@@ -17,6 +17,8 @@ import PageTitle from "@/components/PageTitle"
 import Link from "next/link"
 import TradeStatsHeader from "./components/TradeStatsHeader"
 import { avgDollarWinLoss, avgPctWinLoss, avgPortWinLoss, battingAvg, clearOpenTrades, realizedGainLoss, totalDollarPL, totalPctPL } from "@/lib/PortStatsFunctions"
+import getStockPrices from "@/services/yahoo/getStockPrices"
+import { currentGainLoss, currentOpenCost, currentValue } from "@/lib/currentPortfolioCalcs"
 
 
 
@@ -24,6 +26,8 @@ export default function TradeStatistics() {
   const [highlight, setHighlight] = useState<string>("false")
   const [onColors, setOnColors] = useState<string>("false")
   const [trades, setTrades] = useState<Transaction[][]>([])
+  const [openTrades, setOpenTrades] = useState<Transaction[][]>([])
+  const [stockPrices, setStockPrices] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const { data: session, status } = useSession()
@@ -39,6 +43,14 @@ export default function TradeStatistics() {
         // const response = await GetAllTransactions()
         const transGroup = groupTrades(response.transactions)
         setTrades(transGroup)
+        let newTrades = transGroup
+        let openTradesArray = []
+        for (let i = 0; i < newTrades.length; i++) {
+          if (openTradeTrue(newTrades[i]) === false) {
+            openTradesArray.push(newTrades[i])
+          }
+        }
+        setOpenTrades(openTradesArray)
       } catch(error) {
         console.log("Error:", error)
         setError("Failed to load transactions, please reload the page")
@@ -49,6 +61,49 @@ export default function TradeStatistics() {
     fetchTransactions()
   }, [])
 
+  useEffect(() => {
+    const fetchStockPrices = async () => {
+      setIsLoading(true);
+      try {
+        const promises = openTrades.map(async (trade) => {
+          const symbol = trade[0].ticker;
+          const response = await getStockPrices(symbol);
+          const stockPrice = response.chart.result[0].meta.regularMarketPrice;
+          return { symbol, stockPrice };
+        });
+        const prices = await Promise.all(promises);
+        const priceMap = prices.reduce((acc, { symbol, stockPrice }) => {
+          acc[symbol] = stockPrice;
+          return acc;
+        }, {} as Record<string, number>);
+        setStockPrices(priceMap);
+      } catch (error) {
+        console.error("Error fetching stock prices", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (openTrades.length > 0) {
+      fetchStockPrices();
+    }
+  }, [openTrades]);
+
+  function unrealizedPL (openTrades: GroupedTrades[]) {
+    let cost = 0
+    let curValue = 0
+    let unrlzPL = 0
+    let unrlzPLPct = 0
+    for (let i = 0; i < openTrades.length; i++) {
+        const symbol = openTrades[i][0].ticker
+        const price = stockPrices[symbol]
+        cost += currentOpenCost(openTrades[i])
+        curValue += currentValue(price, openTrades[i])
+        unrlzPL += currentGainLoss(price, openTrades[i])
+    }
+    return { cost, curValue, unrlzPL }
+}
+  let unRlzGainLoss = (unrealizedPL(openTrades).unrlzPL)
   // Trade Stats Header Calcs
   let updatedTrades = clearOpenTrades(trades)
   let winPct = formatedPercent(battingAvg(updatedTrades).winPct)
@@ -60,8 +115,9 @@ export default function TradeStatistics() {
   let avgPortWin = formatedPercent(avgPortWinLoss(updatedTrades).finalWin)
   let avgPortLoss = formatedPercent(avgPortWinLoss(updatedTrades).finalLoss)
   let rlzGainLoss = realizedGainLoss(updatedTrades)
-  // let totalPL = totalDollarPL(rlzGainLoss, unRlzGainLoss)
-  // let totalPLPct = totalPctPL(portfolio, totalPL)
+  let totalPL = totalDollarPL(rlzGainLoss, unRlzGainLoss)
+  let totalPLPct = totalPctPL(portfolio, totalPL)
+
   const tradeStats: TradeStatsHeaderType = {
     winPercent: winPct,
     lossPercent: lossPct,
@@ -72,8 +128,9 @@ export default function TradeStatistics() {
     avgPortWin: avgPortWin,
     avgPortLoss: avgPortLoss,
     rlzGainLoss: rlzGainLoss,
-    totalPL: "",
-    totalPLPercent: "",
+    unRlzGainLoss: unRlzGainLoss,
+    totalPL: totalPL,
+    totalPLPercent: totalPLPct,
   }
 
   const handleHighlight = async () => {
@@ -115,17 +172,17 @@ export default function TradeStatistics() {
             <tr>
               <th scope="col" className="px-2 py-4">Ticker</th>
               <th scope="col" className="px-0 py-4">Name</th>
-              <th scope="col" className="px-0 py-4">Open Date</th>
-              <th scope="col" className="px-0 py-4">Close Date</th>
-              <th scope="col" className="px-0 py-4">Avg Open Price</th>
-              <th scope="col" className="px-0 py-4">Shares</th>
-              <th scope="col" className="px-0 py-4">Open Cost</th>
-              <th scope="col" className="px-0 py-4">Close Price</th>
-              <th scope="col" className="px-0 py-4">Close Value</th>
-              <th scope="col" className="px-0 py-4">Gain/Loss</th>
-              <th scope="col" className="px-0 py-4">Gain/Loss %</th>
-              <th scope="col" className="px-0 py-4">Portfolio P/L</th>
-              <th scope="col" className="px-0 py-4"></th>
+              <th scope="col" className="px-2 py-4">Open<br/>Date</th>
+              <th scope="col" className="px-2 py-4">Close<br/>Date</th>
+              <th scope="col" className="px-2 py-4">Avg Open<br/>Price</th>
+              <th scope="col" className="px-2 py-4">Shares</th>
+              <th scope="col" className="px-2 py-4">Open<br/>Cost</th>
+              <th scope="col" className="px-2 py-4">Close<br/>Price</th>
+              <th scope="col" className="px-2 py-4">Close<br/>Value</th>
+              <th scope="col" className="text-center px-2 py-4">Gain/<br/>Loss</th>
+              <th scope="col" className="text-center px-2 py-4">Gain/<br/>Loss %</th>
+              <th scope="col" className="text-center px-1 py-4">Portfolio<br/>Impact</th>
+              <th scope="col" className="text-center px-2 py-4"></th>
             </tr>
           </thead>
           <tbody>
@@ -141,14 +198,14 @@ export default function TradeStatistics() {
                         <td scope="col" className="px-0 py-2">{trade[0].name}</td>
                         <td scope="col" className="px-0 py-2">{dateChanger(getOpenDate(trade))}</td>
                         <td scope="col" className="px-0 py-2">{dateChanger(getCloseDate(trade))}</td>
-                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedPrice(avgOpenPrice(trade))}</td>
-                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{getOwnedShares(trade)}</td>
-                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedCost(totalCost(trade))}</td>
-                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedPrice(avgClosePrice(trade))}</td>
-                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedCost(totalSold(trade))}</td>
-                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedCost(gainLoss(trade))}</td>
-                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedPercent(percentGainLoss(trade))}</td>
-                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-0 py-2'}`}>{formatedPercent(gainLoss(trade)/(portfolio)*100)}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-2 py-2'}`}>{formatedPrice(avgOpenPrice(trade))}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-2 py-2'}`}>{getOwnedShares(trade)}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-2 py-2'}`}>{formatedCost(totalCost(trade))}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-2 py-2'}`}>{formatedPrice(avgClosePrice(trade))}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'px-2 py-2'}`}>{formatedCost(totalSold(trade))}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'text-center px-2 py-2'}`}>{formatedCost(gainLoss(trade))}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'text-center px-2 py-2'}`}>{formatedPercent(percentGainLoss(trade))}</td>
+                        <td scope="col" className={`${(openTradeTrue(trade) === false)? 'hidden': 'text-center px-2 py-2'}`}>{formatedPercent(gainLoss(trade)/(portfolio)*100)}</td>
                         {
                           openTradeTrue(trade) === false? <></>:
                           <td scope="col" className="px-0 py-2">

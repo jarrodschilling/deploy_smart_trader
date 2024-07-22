@@ -43,6 +43,9 @@ export default function AddTransactionForm() {
     }
     return (
         <>
+        <div className="flex justify-start mx-auto">
+        <div className="border-2 border-slate-200 bg-black rounded-md w-lg flex justify-start mt-2">
+        <div className="max-w-lg p-6">
             <form className="w-full max-w-lg" onSubmit={handleSubmit(handleAddTransaction)}>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -305,6 +308,9 @@ export default function AddTransactionForm() {
                             Add Transaction
                     </button>
                 </form>
+        </div>
+        </div>
+        </div>
         </>
     )
 }

@@ -41,8 +41,8 @@ export default function TradeStatsHeader({ tradeStats }: { tradeStats:TradeStats
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                         <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Total P/L($)</label>
                         <p
-                            className={`${(tradeStats.rlzGainLoss > 0)?'border bg-green-700 box-border pl-1':'border bg-red-700 box-border pl-1'}`}>
-                                HOLD
+                            className={`${(tradeStats.totalPL > 0)?'border bg-green-700 box-border pl-1':'border bg-red-700 box-border pl-1'}`}>
+                                {formatedCost(tradeStats.totalPL)}
                         </p>
                     </div>
             </div>
@@ -66,15 +66,15 @@ export default function TradeStatsHeader({ tradeStats }: { tradeStats:TradeStats
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                         <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Unrealized</label>
                         <p
-                            className={`${(tradeStats.rlzGainLoss > 0)?'border bg-green-700 box-border pl-1':'border bg-red-700 box-border pl-1'}`}>
-                                HOLD
+                            className={`${(tradeStats.unRlzGainLoss > 0)?'border bg-green-700 box-border pl-1':'border bg-red-700 box-border pl-1'}`}>
+                                {formatedCost(tradeStats.unRlzGainLoss)}
                         </p>
                     </div>
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                         <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Total P/L(%)</label>
                         <p
-                            className={`${(tradeStats.rlzGainLoss > 0)?'border bg-green-700 box-border pl-1':'border bg-red-700 box-border pl-1'}`}>
-                                HOLD
+                            className={`${(tradeStats.totalPLPercent > 0)?'border bg-green-700 box-border pl-1':'border bg-red-700 box-border pl-1'}`}>
+                                {formatedPercent(tradeStats.totalPLPercent)}
                         </p>
                     </div>
             </div>

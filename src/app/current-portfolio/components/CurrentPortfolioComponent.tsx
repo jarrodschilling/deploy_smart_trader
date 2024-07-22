@@ -11,16 +11,20 @@ import groupTrades from '@/lib/groupTrades'
 import { avgOpenPrice, currentShares, gainLoss, getCloseDate, getOpenDate, openTradeTrue } from '@/lib/tradeStatFunctions'
 import { currentGainLoss, currentOpenCost, currentValue } from '@/lib/currentPortfolioCalcs'
 import getStockPrices from '@/services/yahoo/getStockPrices'
+import { GroupedTrades } from '../../../../types'
 
+interface Props {
+  openTrades: Array<GroupedTrades>,
+  stockPrices: Record<string, number>
+}
 
-export default function CurrentPortfolioComponent() {
+const CurrentPortfolioComponent: React.FC<Props> = ({openTrades, stockPrices}) =>  {
   const [highlight, setHighlight] = useState<string>("false")
   const [onColors, setOnColors] = useState<string>("false")
   const [advColors, setAdvColors] = useState<string>("false")
-  const [transactions, setTransactions] = useState<Transaction[]>([])
-  const [closedTrades, setClosedTrades] = useState<Transaction[][]>([])
-  const [openTrades, setOpenTrades] = useState<Transaction[][]>([])
-  const [stockPrices, setStockPrices] = useState<Record<string, number>>({});
+  // const [closedTrades, setClosedTrades] = useState<Transaction[][]>([])
+  // const [openTrades, setOpenTrades] = useState<Transaction[][]>([])
+  // const [stockPrices, setStockPrices] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(true)
   // console.log(await tradesData)
   const [error, setError] = useState<string | null>(null)
@@ -29,60 +33,61 @@ export default function CurrentPortfolioComponent() {
 
   const portfolio = 1000000
 
-  useEffect (() => {
-    const fetchTransactions = async () => {
-      setIsLoading(true)
-      try {
-        const userEmail = session?.user?.email
-        const response = await GetUserByEmail(userEmail)
-        // const response = await GetAllTransactions()
-        const transGroup = groupTrades(response.transactions)
-        setClosedTrades(transGroup)
-        let newTrades = transGroup
-        let openTradesArray = []
-        for (let i = 0; i < newTrades.length; i++) {
-          if (openTradeTrue(newTrades[i]) === false) {
-            openTradesArray.push(newTrades[i])
-          }
-        }
-        setOpenTrades(openTradesArray)
-      } catch(error) {
-        console.log("Error:", error)
-        setError("Failed to load transactions, please reload the page")
-      } finally {
-        setIsLoading(false)
-      }
-    };
-    fetchTransactions()
-  }, [])
 
-  useEffect(() => {
-    const fetchStockPrices = async () => {
-      setIsLoading(true);
-      try {
-        const promises = openTrades.map(async (trade) => {
-          const symbol = trade[0].ticker;
-          const response = await getStockPrices(symbol);
-          const stockPrice = response.chart.result[0].meta.regularMarketPrice;
-          return { symbol, stockPrice };
-        });
-        const prices = await Promise.all(promises);
-        const priceMap = prices.reduce((acc, { symbol, stockPrice }) => {
-          acc[symbol] = stockPrice;
-          return acc;
-        }, {} as Record<string, number>);
-        setStockPrices(priceMap);
-      } catch (error) {
-        console.error("Error fetching stock prices", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // useEffect (() => {
+  //   const fetchTransactions = async () => {
+  //     setIsLoading(true)
+  //     try {
+  //       const userEmail = session?.user?.email
+  //       const response = await GetUserByEmail(userEmail)
+  //       // const response = await GetAllTransactions()
+  //       const transGroup = groupTrades(response.transactions)
+  //       setClosedTrades(transGroup)
+  //       let newTrades = transGroup
+  //       let openTradesArray = []
+  //       for (let i = 0; i < newTrades.length; i++) {
+  //         if (openTradeTrue(newTrades[i]) === false) {
+  //           openTradesArray.push(newTrades[i])
+  //         }
+  //       }
+  //       setOpenTrades(openTradesArray)
+  //     } catch(error) {
+  //       console.log("Error:", error)
+  //       setError("Failed to load transactions, please reload the page")
+  //     } finally {
+  //       setIsLoading(false)
+  //     }
+  //   };
+  //   fetchTransactions()
+  // }, [])
 
-    if (openTrades.length > 0) {
-      fetchStockPrices();
-    }
-  }, [openTrades]);
+  // useEffect(() => {
+  //   const fetchStockPrices = async () => {
+  //     setIsLoading(true);
+  //     try {
+  //       const promises = openTrades.map(async (trade) => {
+  //         const symbol = trade[0].ticker;
+  //         const response = await getStockPrices(symbol);
+  //         const stockPrice = response.chart.result[0].meta.regularMarketPrice;
+  //         return { symbol, stockPrice };
+  //       });
+  //       const prices = await Promise.all(promises);
+  //       const priceMap = prices.reduce((acc, { symbol, stockPrice }) => {
+  //         acc[symbol] = stockPrice;
+  //         return acc;
+  //       }, {} as Record<string, number>);
+  //       setStockPrices(priceMap);
+  //     } catch (error) {
+  //       console.error("Error fetching stock prices", error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   if (openTrades.length > 0) {
+  //     fetchStockPrices();
+  //   }
+  // }, [openTrades]);
 
   const handleHighlight = async () => {
     if (highlight === "false") {
@@ -115,7 +120,6 @@ export default function CurrentPortfolioComponent() {
         </div>
         </div>
       {error && <p>{error}</p>}
-      {isLoading ? (<p>Loading transactions...</p>):
       
       <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg max-h-96 -mb-10">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200">
@@ -124,7 +128,7 @@ export default function CurrentPortfolioComponent() {
               <th scope="col" className="px-2 py-4">Ticker</th>
               <th scope="col" className="px-0 py-4">Name</th>
               <th scope="col" className="px-0 py-4">Open Date</th>
-              <th scope="col" className="px-0 py-4">Close Date</th>              
+                            
               <th scope="col" className="px-0 py-4">Avg Open Px</th>
               <th scope="col" className="px-0 py-4">Shares</th>
               <th scope="col" className="px-0 py-4">Open Cost</th>
@@ -152,7 +156,7 @@ export default function CurrentPortfolioComponent() {
                       <td scope="col" className="px-2 py-2">{trade[0].ticker}</td>
                       <td scope="col" className="px-0 py-2">{trade[0].name}</td>
                       <td scope="col" className="px-0 py-2">{dateChanger(getOpenDate(trade))}</td>
-                      <td scope="col" className="px-4 py-2">{dateChanger(getCloseDate(trade))}</td>
+                      
                       <td scope="col" className="px-0 py-2">{formatedPrice(avgOpenPrice(trade))}</td>
                       <td scope="col" className="px-0 py-2">{currentShares(trade)}</td>
                       <td scope="col" className="px-4 py-2">{formatedCost(currentOpenCost(trade))}</td>
@@ -175,7 +179,9 @@ export default function CurrentPortfolioComponent() {
         </tbody>
       </table>
       </div>
-      }
+
     </div>
   )
 }
+
+export default CurrentPortfolioComponent

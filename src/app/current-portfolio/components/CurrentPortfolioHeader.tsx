@@ -12,6 +12,7 @@ interface Props {
 
 const CurrentPortfolioHeader: React.FC<Props> = ({closedTrades, openTrades, stockPrices}) => {
   const portfolio = 1000000
+  console.log(portfolio)
   function unrealizedPL (openTrades: GroupedTrades[]) {
     let cost = 0
     let curValue = 0
@@ -42,33 +43,33 @@ let headerCash = formatedCost(portfolio-unrealizedPL(openTrades).cost+rlzGainLos
   return (
     <div className='flex justify-center'>
         <div className='box-border rounded-md w-1/2 border p-2 pb-3'>
-            <div className="flex flex-wrap ml-0 mb-4">
+            <div className="flex flex-wrap justify-between ml-0 mb-4">
                     <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                     <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1">Total Cost</label>
                     <p className='border pl-1'>{headerTotalCost}</p>
                     </div>
                     <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                    <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1">Unrealized P/L ($)</label>
+                    <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1">Unrealized P/L</label>
                     <p 
                       className={`${(headerUnRlzPL > 0)?'border bg-green-700 box-border pl-1':'border bg-red-700 box-border pl-1'}`}>
-                        {headerUnRlzPL}
+                        {formatedCost(headerUnRlzPL)}
                     </p>
                     </div>
                     <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                    <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1">Portfolio P/L (%)</label>
+                    <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1">Portfolio P/L</label>
                     <p
                         className={`${(headerUnRlzPL > 0)?'border bg-green-700 box-border pl-1':'border bg-red-700 box-border pl-1'}`}>
                           {headerPortfolioPL}
                     </p>
                     </div>
             </div>
-            <div className="flex flex-wrap ml-0">
+            <div className="flex flex-wrap justify-between ml-0">
                     <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                     <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1">Current Value</label>
                     <p className='border pl-1'>{headerCurrentValue}</p>
                     </div>
                     <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                    <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1">Unrealized P/L (%)</label>
+                    <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1">Unrealized P/L</label>
                     <p
                         className={`${(headerUnRlzPL > 0)?'border bg-green-700 box-border pl-1':'border bg-red-700 box-border pl-1'}`}>
                           {headerUnrealizedPLPct}

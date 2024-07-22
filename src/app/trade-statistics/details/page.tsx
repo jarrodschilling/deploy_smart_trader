@@ -76,7 +76,7 @@ export default function TradeDetails() {
                         <td scope="col" className="px-2 py-2">{dateChanger(transaction.date)}</td>
                         <td scope="col" className="px-0 py-2">{transaction.ticker}</td>
                         <td scope="col" className="px-0 py-2">{transaction.name}</td>
-                        <td scope="col" className="px-4 py-2">{transaction.buySell}</td>
+                        <td scope="col" className="px-4 py-2">{transaction.buySell.toUpperCase()}</td>
                         <td scope="col" className="px-0 py-2">{formatedPrice(transaction.price)}</td>
                         <td scope="col" className="text-center px-0 py-2">{transaction.shares}</td>
                         <td scope="col" className="px-4 py-2">{totalCostFmt(transaction.price, transaction.shares)}</td>

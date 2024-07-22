@@ -79,8 +79,9 @@ type TradeStatsHeaderType = {
     avgPortWin: string,
     avgPortLoss: string,
     rlzGainLoss: number,
-    totalPL: string,
-    totalPLPercent: string
+    unRlzGainLoss: any,
+    totalPL: any,
+    totalPLPercent: any
 }
 
 type CurrentPortfolioHeaderType = {

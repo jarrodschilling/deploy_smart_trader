@@ -11,8 +11,6 @@ import { useSession } from "next-auth/react";
 import CurrentPortfolioHeader from "./components/CurrentPortfolioHeader";
 
 export default function CurrentPortfolioPage() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [closedTrades, setClosedTrades] = useState<Transaction[][]>([])
   const [openTrades, setOpenTrades] = useState<Transaction[][]>([])
   const [stockPrices, setStockPrices] = useState<Record<string, number>>({});
@@ -30,12 +28,14 @@ export default function CurrentPortfolioPage() {
         const transGroup = groupTrades(response.transactions)
         setClosedTrades(transGroup)
         let newTrades = transGroup
+        console.log(`new trades array? ${newTrades}`)
         let openTradesArray = []
         for (let i = 0; i < newTrades.length; i++) {
           if (openTradeTrue(newTrades[i]) === false) {
             openTradesArray.push(newTrades[i])
           }
         }
+        console.log(`open trades array? ${openTradesArray}`)
         setOpenTrades(openTradesArray)
       } catch(error) {
         console.log("Error:", error)
@@ -84,7 +84,7 @@ export default function CurrentPortfolioPage() {
     <div className='m-4 mt-20'>
       <PageTitle title={"Current Portfolio"} />
       <CurrentPortfolioHeader closedTrades ={closedTrades} openTrades={openTrades} stockPrices={stockPrices} />
-      {/* <CurrentPortfolioComponent /> */}
+      <CurrentPortfolioComponent openTrades={openTrades} stockPrices={stockPrices} />
     </div>
   )
 }
