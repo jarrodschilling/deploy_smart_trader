@@ -18,6 +18,7 @@ export default function AboutApp() {
                 width="800"
                 height="400"
                 allowFullScreen
+                className='aspect-video w-full h-full'
                 
               ></iframe>
             </div>
