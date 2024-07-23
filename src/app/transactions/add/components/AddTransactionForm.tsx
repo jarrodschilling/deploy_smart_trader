@@ -23,6 +23,7 @@ export default function AddTransactionForm() {
     } = useForm<AddTransactionFormData>({
         resolver: zodResolver(addTransactionFormSchema)
         })
+
     const watchBuySell = watch("buySell")
 
     const router = useRouter()
@@ -32,20 +33,20 @@ export default function AddTransactionForm() {
         try {
             const response = await getStockName(newValue)
             stockName = response.quoteType.result[0].shortName
-            console.log(`stockName: ${stockName}`)
+            // console.log(`stockName: ${stockName}`)
         } catch (error) {
-            console.error("Error fetching stock name", error)
+            // console.error("Error fetching stock name", error)
         }
         const updatedData = {...data, name:stockName}
-        console.log(`updatedData: ${updatedData}`)
+        // console.log(`updatedData: ${updatedData}`)
         CreateTransaction(updatedData)
         router.push('/transactions')
     }
     return (
         <>
-        <div className="flex justify-start mx-auto">
+        <div className="flex justify-center mx-auto">
         <div className="border-2 border-slate-200 bg-black rounded-md w-lg flex justify-start mt-2">
-        <div className="max-w-lg p-6">
+        <div className="max-w-xl p-6">
             <form className="w-full max-w-lg" onSubmit={handleSubmit(handleAddTransaction)}>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -193,7 +194,7 @@ export default function AddTransactionForm() {
                     }
                     </div>
                     
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/2 px-3 mb-0 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2" htmlFor="tactical">Tactical</label>
                     <div className="relative">
                     <select
@@ -235,6 +236,7 @@ export default function AddTransactionForm() {
                     {
                         watchBuySell == "sell"?
                     <>
+                    <div className="mb-6">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="openTrade">Close Trade*</label>
                     <div className="relative">
                     <select
@@ -248,6 +250,7 @@ export default function AddTransactionForm() {
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
                     </div>
                     </div>
                     {
@@ -264,6 +267,7 @@ export default function AddTransactionForm() {
                     {
                         watchBuySell == "buy"?
                     <>
+                    <div className="mb-6">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="openTrade">Open Trade*</label>
                     <div className="relative">
                     <select
@@ -277,6 +281,7 @@ export default function AddTransactionForm() {
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
                     </div>
                     </div>
                     {

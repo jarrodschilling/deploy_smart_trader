@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form"
 import { addTransactionFormSchema } from "../../../../../schemas/schema"
 import { useRouter } from "next/navigation"
 import UpdateTransaction from "@/services/updateTransaction"
+import { Transaction } from "@prisma/client"
+import getStockName from "@/services/yahoo/getStockNames"
 
 type TransactionProps = {
     transaction: Transaction
@@ -21,13 +23,24 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
     } = useForm<AddTransactionFormData>({
         resolver: zodResolver(addTransactionFormSchema)
         })
+
     const watchBuySell = watch("buySell")
 
     const router = useRouter()
     async function handleAddTransaction(data: AddTransactionFormData) {
-        
+        const newValue = data.ticker
+        let stockName
+        try {
+            const response = await getStockName(newValue)
+            stockName = response.quoteType.result[0].shortName
+            // console.log(`stockName: ${stockName}`)
+        } catch (error) {
+            // console.error("Error fetching stock name", error)
+        }
+        const updatedData = {...data, name:stockName}
+        // console.log(`updatedData: ${updatedData}`)
         const id = transaction.id
-        UpdateTransaction(data, id)
+        UpdateTransaction(updatedData, id)
         router.push('/transactions')
     }
 
@@ -47,7 +60,9 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
 
     return (
         <>
-            <h1>Register User</h1>
+        <div className="flex justify-center mx-auto">
+        <div className="border-2 border-slate-200 bg-black rounded-md w-lg flex justify-start mt-2">
+        <div className="max-w-xl p-6">
             <form className="w-full max-w-lg" onSubmit={handleSubmit(handleAddTransaction)}>
                 <div className="flex flex-wrap -mx-3 mb-2">
                     
@@ -151,43 +166,7 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                     }
                     </div>
                 </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="shares">Name*</label>
-                    <input
-                        {...register("name")}
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="text"
-                        name="name"
-                        id="name"
-                    />
-                    {
-                        errors.name && (
-                            <p>
-                                {errors.name.message}
-                            </p>
-                        )
-                    }
-                    </div>
-
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="price">userId</label>
-                    <input
-                        {...register("userId")}
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="text"
-                        name="userId"
-                        id="userId"
-                    />
-                    {
-                        errors.userId && (
-                            <p>
-                                {errors.userId.message}
-                            </p>
-                        )
-                    }
-                    </div>
-                </div>
+                
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="shaper">Shaper</label>
@@ -273,6 +252,7 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                     {
                         watchBuySell == "sell"?
                     <>
+                    <div className="mb-6">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="openTrade">Close Trade*</label>
                     <div className="relative">
                     <select
@@ -289,6 +269,7 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                     </div>
                     </div>
+                    </div>
                     {
                         errors.closeTrade && (
                             <p>
@@ -303,6 +284,7 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                     {
                         watchBuySell == "buy"?
                     <>
+                    <div className="mb-6">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="openTrade">Open Trade*</label>
                     <div className="relative">
                     <select
@@ -325,16 +307,33 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                             </p>
                         )
                     }
+                    </div>
                     </>:
                     <></>
+                    
                     }
 
+                    <input
+                        {...register("name")}
+                        type="hidden"
+                        name="name"
+                        id="name"
+                    />
+                    <input
+                        {...register("userId")}
+                        type="hidden"
+                        name="userId"
+                        id="userId"
+                    />
                     <button 
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
                         type="submit">
                             Update
                     </button>
                 </form>
+        </div>
+        </div>
+        </div>
         </>
     )
 }
