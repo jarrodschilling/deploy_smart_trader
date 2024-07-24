@@ -1,11 +1,11 @@
 'use client'
 
-import { dateChanger, formatedCost, formatedPercent } from "@/lib/formatFunctions"
+import { dateChanger, formatedCost, formatedPercent, formatedPrice } from "@/lib/formatFunctions"
 import { GroupedTrades } from "../../../../types"
 import { clearOpenTrades, realizedGainLoss, totalDollarPL, totalPctPL } from "@/lib/PortStatsFunctions"
 import { currentGainLoss, currentOpenCost, currentValue } from "@/lib/currentPortfolioCalcs"
 import Link from "next/link"
-import { gainLoss, getCloseDate, getOpenDate, openTradeTrue } from "@/lib/tradeStatFunctions"
+import { avgClosePrice, avgOpenPrice, gainLoss, getCloseDate, getOpenDate, getOwnedShares, openTradeTrue, percentGainLoss, totalCost, totalSold } from "@/lib/tradeStatFunctions"
 import { Transaction } from "@prisma/client"
 import { useState } from "react"
 

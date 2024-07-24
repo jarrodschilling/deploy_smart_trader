@@ -20,15 +20,15 @@ export default function TradeStatsHeader({ tradeStats }: { tradeStats:TradeStats
                         <p className='border pl-1'>{tradeStats.winPercent}</p>
                     </div>
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
-                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Avg Win (%)</label>
+                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Avg Win</label>
                         <p className='border pl-1'>{tradeStats.avgWinPercent}</p>
                     </div>
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
-                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Avg Win ($)</label>
+                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Avg Win</label>
                         <p className='border pl-1'>{tradeStats.avgWinUSD}</p>
                     </div>
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
-                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Avg Port Win (%)</label>
+                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Avg Port Win</label>
                         <p className='border pl-1'>{tradeStats.avgPortWin}</p>
                     </div>
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
@@ -39,7 +39,7 @@ export default function TradeStatsHeader({ tradeStats }: { tradeStats:TradeStats
                         </p>
                     </div>
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
-                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Total P/L($)</label>
+                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Total P/L</label>
                         <p
                             className={`${(tradeStats.totalPL > 0)?'border bg-green-700 box-border pl-1':'border bg-red-700 box-border pl-1'}`}>
                                 {formatedCost(tradeStats.totalPL)}
@@ -52,15 +52,15 @@ export default function TradeStatsHeader({ tradeStats }: { tradeStats:TradeStats
                         <p className='border pl-1'>{tradeStats.lossPercent}</p>
                     </div>
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
-                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Avg Loss (%)</label>
+                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Avg Loss</label>
                         <p className='border pl-1'>{tradeStats.avgLossPercent}</p>
                     </div>
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
-                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Avg Loss ($)</label>
+                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Avg Loss</label>
                         <p className='border pl-1'>{tradeStats.avgLossUSD}</p>
                     </div>
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">
-                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Avg Port Loss (%)</label>
+                        <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1" htmlFor="date">Avg Port Loss</label>
                         <p className='border pl-1'>{tradeStats.avgPortLoss}</p>
                     </div>
                     <div className="w-full md:w-1/6 px-3 mb-6 md:mb-0">

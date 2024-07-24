@@ -83,7 +83,6 @@ export default function Dashboard() {
   return (
     <div className='m-4 mt-20'>
       <PageTitle title={"Dashboard"} />
-      <br />
       <DashboardCalcs closedTrades={closedTrades} openTrades={openTrades} stockPrices={stockPrices} />
       <CurrentPortfolioComponent openTrades={openTrades} stockPrices={stockPrices} />
       <br />

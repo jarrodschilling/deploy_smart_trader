@@ -29,13 +29,13 @@ export default function RegisterUserForm() {
     }
     return (
         <div className="flex justify-center mx-auto">
-        <div className="border-2 border-slate-200 bg-black rounded-md w-1/4 flex justify-center mt-10">
-        <div className="w-full max-w-lg p-8">
+        <div className="border-2 border-slate-200 bg-black rounded-md w-96 flex justify-center">
+        <div className="w-full max-w-lg p-8 pt-6 pb-6">
         
         <form className="" onSubmit={handleSubmit(handleAddUser)}>
         <h1 className="text-3xl font-bold text-slate-200 mb-2">Create Account</h1>
         <h4 className="text-sm">Take back control of your trading</h4>
-            <div className="flex flex-wrap -mx-3 mb-6 mt-6">
+            <div className="flex flex-wrap -mx-3 mb-4 mt-6">
                 <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-slate-200 text-sm font-bold mb-2" htmlFor="name">Name*</label>
                 <input
@@ -55,7 +55,7 @@ export default function RegisterUserForm() {
                 }
                 </div>
             </div>
-            <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-slate-200 text-sm font-bold mb-2" htmlFor="email">Email*</label>
                 <input 
@@ -76,7 +76,7 @@ export default function RegisterUserForm() {
                 }
                 </div>
             </div>
-            <div className="flex flex-wrap -mx-3 mb-10">
+            <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-slate-200 text-sm font-bold mb-2" htmlFor="password">Password*</label>
                 <input 
@@ -91,6 +91,26 @@ export default function RegisterUserForm() {
                     errors.password && (
                         <p>
                             {errors.password.message}
+                        </p>
+                    )
+                }
+                </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-10">
+                <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-slate-200 text-sm font-bold mb-2" htmlFor="confirmPassword">Confirm Password*</label>
+                <input 
+                    {...register("confirmPassword")}
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    type="password"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    placeholder="**********"
+                />
+                {
+                    errors.confirmPassword && (
+                        <p>
+                            {errors.confirmPassword.message}
                         </p>
                     )
                 }

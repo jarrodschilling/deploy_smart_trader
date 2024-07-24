@@ -20,8 +20,8 @@ interface Props {
 
 const CurrentPortfolioComponent: React.FC<Props> = ({openTrades, stockPrices}) =>  {
   const [highlight, setHighlight] = useState<string>("false")
-  const [onColors, setOnColors] = useState<string>("false")
-  const [advColors, setAdvColors] = useState<string>("false")
+  const [onColors, setOnColors] = useState<string>("true")
+  
   // const [closedTrades, setClosedTrades] = useState<Transaction[][]>([])
   // const [openTrades, setOpenTrades] = useState<Transaction[][]>([])
   // const [stockPrices, setStockPrices] = useState<Record<string, number>>({});
@@ -127,17 +127,16 @@ const CurrentPortfolioComponent: React.FC<Props> = ({openTrades, stockPrices}) =
           <tr>
               <th scope="col" className="px-2 py-4">Ticker</th>
               <th scope="col" className="px-0 py-4">Name</th>
-              <th scope="col" className="px-0 py-4">Open Date</th>
-                            
-              <th scope="col" className="px-0 py-4">Avg Open Px</th>
-              <th scope="col" className="px-0 py-4">Shares</th>
-              <th scope="col" className="px-0 py-4">Open Cost</th>
-              <th scope="col" className="px-0 py-4">Current Px</th>
-              <th scope="col" className="px-0 py-4">Current Value</th>
-              <th scope="col" className="px-0 py-4">Gain/Loss</th>
-              <th scope="col" className="px-0 py-4">Gain/Loss %</th>
-              <th scope="col" className="px-0 py-4">Portfolio P/L</th>
-              <th scope="col" className="px-0 py-1">Details</th>
+              <th scope="col" className="pr-2 pl-0 py-4 text-center">Open<br/>Date</th>
+              <th scope="col" className="px-2 py-4 text-center">Avg Open<br/>Price</th>
+              <th scope="col" className="px-2 py-4 text-center">Shares</th>
+              <th scope="col" className="px-2 py-4 text-center">Open<br/>Cost</th>
+              <th scope="col" className="px-2 py-4 text-center">Current<br/>Price</th>
+              <th scope="col" className="px-2 py-4 text-center">Current<br/>Value</th>
+              <th scope="col" className="px-2 py-4 text-center">Gain/<br/>Loss $</th>
+              <th scope="col" className="px-2 py-4 text-center">Gain/<br/>Loss %</th>
+              <th scope="col" className="px-2 py-4 text-center">Portfolio<br/>Impact</th>
+              <th scope="col" className="px-2 py-1 text-center"></th>
           </tr>
         </thead>
         <tbody>
@@ -150,22 +149,24 @@ const CurrentPortfolioComponent: React.FC<Props> = ({openTrades, stockPrices}) =
                   return (
                   <tr key={index} 
                   className={`${
-                      ((currentGainLoss(price, trade))>0)?
-                      'bg-white border-b border-slate-600 dark:bg-lime-800 dark:border-gray-700':
-                      'bg-white border-b border-slate-600 dark:bg-red-800 dark:border-gray-700'}`}>
+                    (onColors === "false" && highlight === "false")? 'noColor':
+                    (onColors === "false" && highlight === "true")? 'noColorHighLight':
+                    (onColors === "true" && highlight === "false" && (currentGainLoss(price, trade))>0)? 'colorsBuy':
+                    (onColors === "true" && highlight === "false" && (currentGainLoss(price, trade))<0)? 'colorsSell':
+                    (onColors === "true" && highlight === "true" && (currentGainLoss(price, trade))>0)? 'colorsHighlightBuy':
+                    'colorsHighlightSell'}`}>
                       <td scope="col" className="px-2 py-2">{trade[0].ticker}</td>
                       <td scope="col" className="px-0 py-2">{trade[0].name}</td>
-                      <td scope="col" className="px-0 py-2">{dateChanger(getOpenDate(trade))}</td>
-                      
-                      <td scope="col" className="px-0 py-2">{formatedPrice(avgOpenPrice(trade))}</td>
-                      <td scope="col" className="px-0 py-2">{currentShares(trade)}</td>
-                      <td scope="col" className="px-4 py-2">{formatedCost(currentOpenCost(trade))}</td>
-                      <td scope="col" className="px-0 py-2">{formatedPrice(price)}</td>                      
-                      <td scope="col" className="px-0 py-2">{formatedCost(currentValue(price, trade))}</td>
-                      <td scope="col" className="px-0 py-2">{formatedCost(currentGainLoss(price, trade))}</td>                      
-                      <td scope="col" className="px-0 py-2">{formatedPercent(currentGainLoss(price, trade)/currentOpenCost(trade)*100)}</td>
-                      <td scope="col" className="px-0 py-2">{formatedPercent(currentGainLoss(price, trade)/currentOpenCost(trade)*100)}</td>                      
-                      <td scope="col" className="px-0 py-2">
+                      <td scope="col" className="pr-2 pl-0 py-2 text-center">{dateChanger(getOpenDate(trade))}</td>
+                      <td scope="col" className="px-2 py-2 text-center">{formatedPrice(avgOpenPrice(trade))}</td>
+                      <td scope="col" className="px-2 py-2 text-center">{currentShares(trade)}</td>
+                      <td scope="col" className="px-2 py-2 text-center">{formatedCost(currentOpenCost(trade))}</td>
+                      <td scope="col" className="px-2 py-2 text-center">{formatedPrice(price)}</td>                      
+                      <td scope="col" className="px-2 py-2 text-center">{formatedCost(currentValue(price, trade))}</td>
+                      <td scope="col" className="px-2 py-2 text-center">{formatedCost(currentGainLoss(price, trade))}</td>                      
+                      <td scope="col" className="px-2 py-2 text-center">{formatedPercent(currentGainLoss(price, trade)/currentOpenCost(trade)*100)}</td>
+                      <td scope="col" className="px-2 py-2 text-center">{formatedPercent(currentGainLoss(price, trade)/(portfolio)*100)}</td>                      
+                      <td scope="col" className="px-2 py-2 text-center">
                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md">
                           <Link href={{
                             pathname: `/current-portfolio/details`,

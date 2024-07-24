@@ -116,8 +116,26 @@ export const userRegisterSchema = z.object({
         })
         .regex(passwordValidation, {
             message: "Your password is NOT valid"
+        }),
+    confirmPassword: z
+        .string({
+            required_error: "Password required"
         })
-})
+        .min(1, {
+            message: "Must be at least 1 character"
+        })
+        .regex(passwordValidation, {
+            message: "Your password is NOT valid"
+        }),
+}).superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
+        ctx.addIssue({
+        code: "custom",
+        message: "The passwords did not match",
+        path: ['confirmPassword']
+        });
+    }
+});
 
 export const userLoginSchema = z.object({
     email: z

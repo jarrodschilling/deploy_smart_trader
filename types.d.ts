@@ -22,7 +22,8 @@ type GroupedTrades = Transaction[]
 type RegisterFormData = {
     name: string,
     email: string,
-    password: string
+    password: string,
+    confirmPassword: string,
 }
 
 type LoginFormData = {
