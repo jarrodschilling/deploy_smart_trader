@@ -169,7 +169,7 @@ const CurrentPortfolioComponent: React.FC<Props> = ({openTrades, stockPrices}) =
                       <td scope="col" className="px-2 py-2 text-center">
                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md">
                           <Link href={{
-                            pathname: `/current-portfolio/details`,
+                            pathname: `/trade-statistics/details`,
                             query: {
                               tradeGroup: JSON.stringify(trade)
                             }}}>DETAILS</Link></button>

@@ -22,7 +22,7 @@ const TradeStatsComponent: React.FC<Props> = ({closedTrades, openTrades, allTrad
   const [onColors, setOnColors] = useState<string>("false")
   const [trades, setTrades] = useState<Transaction[][]>(allTrades)
 
-  
+  const portfolio = 1000000
   const handleHighlight = async () => {
     if (highlight === "false") {
     setHighlight("true")
@@ -79,9 +79,13 @@ const TradeStatsComponent: React.FC<Props> = ({closedTrades, openTrades, allTrad
                 .sort((a, b) => new Date(a[0].date).getTime() - new Date(b[0].date).getTime())
                 .map((trade: Transaction[], index: number) => (
                     <tr key={index} className={`${
-                      (openTradeTrue(trade) === false)? 'border-b border-slate-600':(gainLoss(trade)>0)?
-                      'bg-white border-b border-slate-600 dark:bg-lime-800 dark:border-gray-700':
-                      'bg-white border-b border-slate-600 dark:bg-red-800 dark:border-gray-700'}`}>
+                      (openTradeTrue(trade) === false)? 'border-b border-slate-600':
+                      (onColors === "false" && highlight === "false")? 'noColor':
+                      (onColors === "false" && highlight === "true")? 'noColorHighLight':
+                      (onColors === "true" && highlight === "false" && (gainLoss(trade))>0)? 'colorsBuy':
+                      (onColors === "true" && highlight === "false" && (gainLoss(trade))<0)? 'colorsSell':
+                      (onColors === "true" && highlight === "true" && (gainLoss(trade))>0)? 'colorsHighlightBuy':
+                      'colorsHighlightSell'}`}>
                         <td scope="col" className="px-2 py-2">{trade[0].ticker}</td>
                         <td scope="col" className="px-0 py-2">{trade[0].name}</td>
                         <td scope="col" className="px-0 py-2">{dateChanger(getOpenDate(trade))}</td>

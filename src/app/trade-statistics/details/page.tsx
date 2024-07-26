@@ -6,9 +6,13 @@ import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import ClosedTradeDetailsHeader from "./components/ClosedTradeDetailsHeader"
+import OpenTradeDetailsHeader from "./components/OpenTradeDetailsHeader"
+import { openTradeTrue } from "@/lib/tradeStatFunctions"
 
 
 export default function TradeDetails() {
+    const [highlight, setHighlight] = useState<string>("false")
+    const [onColors, setOnColors] = useState<string>("true")
     const [trade, setTrade] = useState<Transaction[]>([])
     const [advColors, setAdvColors] = useState<string>("false")
     const searchParams = useSearchParams()
@@ -22,6 +26,19 @@ export default function TradeDetails() {
     }
     }, [])
     
+    const handleHighlight = async () => {
+        if (highlight === "false") {
+        setHighlight("true")
+        }
+        else {setHighlight('false')}
+    }
+    
+    const handleOnColors = async () => {
+        if (onColors === "false") {
+        setOnColors("true")
+        }
+        else {setOnColors('false')}
+    }
 
     const handleAdvColors = async () => {
         if (advColors === "false") {
@@ -34,13 +51,30 @@ export default function TradeDetails() {
     return (
         <div className='m-4 mt-20'>
         <PageTitle title={"Trade Details"} />
-        <ClosedTradeDetailsHeader tradeGroup={trade} />
+        {
+            openTradeTrue(trade) === false?
+            <OpenTradeDetailsHeader tradeGroup={trade} />:
+            <ClosedTradeDetailsHeader tradeGroup={trade} />
+        }
         <div className='justify-between flex m-1 mb-2'>
-        <p></p>
+        <div>
+        </div>
+
         <br />
-        <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-        onClick={handleAdvColors}>Advanced Colors</button>
+        <div>
+            <button
+            className={`${(highlight === "false")?'bg-white text-blue-500 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'
+                :'bg-blue-500 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'}`}
+            onClick={handleHighlight}>Highlight</button>
+            <button
+            className={`${(onColors === "false")?'bg-white text-blue-500 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'
+                :'bg-blue-500 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'}`}
+            onClick={handleOnColors}>Colors</button>
+            <button
+            className={`${(advColors === "false")?'bg-white text-blue-500 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'
+                :'bg-blue-500 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'}`}
+            onClick={handleAdvColors}>Advanced</button>
+            </div>
         </div>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200">
@@ -66,13 +100,22 @@ export default function TradeDetails() {
                 trade
                 .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
                 .map((transaction) => (
-                    <tr key={trade.id} 
+                    <tr key={transaction.id} 
                     className={`${
-                    (advColors === "false")?((transaction.buySell === "buy")? 'bg-white hover:bg-blue-400 border-b dark:bg-lime-800 dark:border-gray-700': 
-                    'bg-white border-b dark:bg-red-800 dark:border-gray-700'): (transaction.openTrade === true)? 'bg-white border-b dark:bg-lime-800 dark:border-gray-700'
-                    :(transaction.closeTrade === true)? 'bg-white border-b dark:bg-red-800 dark:border-gray-700'
-                    :(transaction.buySell === "buy")? 'bg-white border-b dark:bg-lime-600 dark:border-gray-700'
-                    :'bg-white border-b dark:bg-red-600 dark:border-gray-700'}`}>
+                        (onColors === "false" && advColors === "false" && highlight === "false")? 'noColor':
+                        (onColors === "false" && advColors === "false" && highlight === "true")? 'noColorHighLight':
+                        (onColors === "true" && advColors === "false" && highlight === "false" && transaction.buySell === "buy")? 'colorsBuy':
+                        (onColors === "true" && advColors === "false" && highlight === "false" && transaction.buySell === "sell")? 'colorsSell':
+                        (onColors === "true" && advColors === "false" && highlight === "true" && transaction.buySell === "buy")? 'colorsHighlightBuy':
+                        (onColors === "true" && advColors === "false" && highlight === "true" && transaction.buySell === "sell")? 'colorsHighlightSell':
+                        (advColors === "true" && highlight === "false" && transaction.buySell === "buy" && transaction.openTrade === false)? 'advancedColorsBuy':
+                        (advColors === "true" && highlight === "false" && transaction.buySell === "sell" && transaction.closeTrade === false)? 'advancedColorsSell':
+                        (advColors === "true" && highlight === "true" && transaction.buySell === "buy" && transaction.openTrade === false)? 'advancedColorsHighlightBuy':
+                        (advColors === "true" && highlight === "true" && transaction.buySell === "sell" && transaction.closeTrade === false)? 'advancedColorsHighlightSell':
+                        (advColors === "true" && highlight === "false" && transaction.openTrade === true)? 'advancedColorsOpen':
+                        (advColors === "true" && highlight === "false" && transaction.closeTrade === true)? 'advancedColorsClose':
+                        (advColors === "true" && highlight === "true" && transaction.openTrade === true)? 'advancedColorsHighlightOpen':
+                        'advancedColorsHighlightClose'}`}>
                         <td scope="col" className="px-2 py-2">{dateChanger(transaction.date)}</td>
                         <td scope="col" className="px-0 py-2">{transaction.ticker}</td>
                         <td scope="col" className="px-0 py-2">{transaction.name}</td>
