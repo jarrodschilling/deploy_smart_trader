@@ -10,7 +10,8 @@ export async function GET(request: Request, { params }: { params: {email: string
             email: userEmail
         },
         include: {
-            transactions: true
+            transactions: true,
+            toDos: true
         }
     })
 

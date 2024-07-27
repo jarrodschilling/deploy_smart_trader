@@ -97,3 +97,18 @@ type CurrentPortfolioHeaderType = {
 type StockPricesType = {
     symbol: number
 }
+
+type AddToDoFormData = {
+    id: string | null,
+    ticker: string,
+    name: string,
+    date: string,
+    buySell: string,
+    shares: number,
+    price: number,
+    shaper: string,
+    tactical: string,
+    closeTrade: Boolean,
+    openTrade: Boolean,
+    userId: string
+}

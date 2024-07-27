@@ -2,19 +2,21 @@
 import { useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { addTransactionFormSchema } from "../../../../../schemas/schema"
 import { useRouter } from "next/navigation"
 import UpdateTransaction from "@/services/updateTransaction"
 import { Transaction } from "@prisma/client"
 import getStockName from "@/services/yahoo/getStockNames"
-import { AddTransactionFormData } from "../../../../../types"
+import { AddTransactionFormData } from "../../../../../../types"
+import { addTransactionFormSchema } from "../../../../../../schemas/schema"
+import CreateTransaction from "@/services/createTransaction"
+import DeleteToDo from "@/services/toDos/deleteToDo"
 
 type TransactionProps = {
     transaction: Transaction
 }
 
 
-export default function EditTransactionForm({ transaction }: TransactionProps) {
+export default function ExecuteTradeForm({ transaction }: TransactionProps) {
     const {
         register,
         handleSubmit,
@@ -41,7 +43,8 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
         const updatedData = {...data, name:stockName}
         // console.log(`updatedData: ${updatedData}`)
         const id = transaction.id
-        UpdateTransaction(updatedData, id)
+        CreateTransaction(updatedData)
+        DeleteToDo(transaction.id)
         router.push('/transactions')
     }
 
@@ -329,7 +332,7 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                     <button 
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
                         type="submit">
-                            Update
+                            Add Transaction
                     </button>
                 </form>
         </div>

@@ -1,0 +1,10 @@
+export default async function DeleteToDo(id: string) {
+
+    const res = await fetch(`http://localhost:3000/api/toDos/${id}`, {
+        method: "DELETE",
+    })
+
+
+    if (!res.ok) throw new Error("failed to fetch data")
+    return res.json()
+}
