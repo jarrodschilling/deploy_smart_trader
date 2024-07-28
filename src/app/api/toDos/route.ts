@@ -28,6 +28,9 @@ export async function POST(request: Request) {
         tactical: toDo.tactical,
         closeTrade: toDo.closeTrade,
         openTrade: toDo.openTrade,
+        updateStop: toDo.updateStop,
+        quickAction: toDo.quickAction,
+        entered: toDo.entered,
         userId: toDo.userId,
     }
     await db.toDo.create({

@@ -5,16 +5,17 @@ import { useForm } from "react-hook-form"
 import { addTransactionFormSchema } from "../../../../../schemas/schema"
 import { useRouter } from "next/navigation"
 import UpdateTransaction from "@/services/updateTransaction"
-import { Transaction } from "@prisma/client"
+import { ToDo, Transaction } from "@prisma/client"
 import getStockName from "@/services/yahoo/getStockNames"
 import { AddTransactionFormData } from "../../../../../types"
+import UpdateToDo from "@/services/toDos/updateToDo"
 
-type TransactionProps = {
-    transaction: Transaction
+type ToDoProps = {
+    toDo: ToDo
 }
 
 
-export default function EditTransactionForm({ transaction }: TransactionProps) {
+export default function EditToDoForm({ toDo }: ToDoProps) {
     const {
         register,
         handleSubmit,
@@ -40,24 +41,24 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
         }
         const updatedData = {...data, name:stockName}
         // console.log(`updatedData: ${updatedData}`)
-        const id = transaction.id
-        UpdateTransaction(updatedData, id)
-        router.push('/transactions')
+        const id = toDo.id
+        UpdateToDo(updatedData, id)
+        router.push('/trade-sheet')
     }
 
 
     useEffect(() => {
-        if (transaction) {
+        if (toDo) {
             const fields: (keyof AddTransactionFormData)[] = ["ticker", "date", "buySell", "shares", "price", "name", "userId", "shaper", "tactical", "openTrade", "closeTrade"]
             fields.forEach(field => {
                 if (field === "openTrade" || field === "closeTrade") {
-                    setValue(field, transaction[field] ? "true" : "false")
+                    setValue(field, toDo[field] ? "true" : "false")
                 } else {
-                    setValue(field, transaction[field])
+                    setValue(field, toDo[field])
                 }
             })
         }
-    }, [transaction, setValue])
+    }, [toDo, setValue])
 
     return (
         <>

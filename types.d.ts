@@ -110,5 +110,8 @@ type AddToDoFormData = {
     tactical: string,
     closeTrade: Boolean,
     openTrade: Boolean,
+    updateStop: Boolean,
+    quickAction: Boolean,
+    entered: Boolean,
     userId: string
 }

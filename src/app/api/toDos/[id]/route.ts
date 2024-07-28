@@ -56,6 +56,9 @@ export async function PUT(request: Request, { params }: { params: {id: string} }
         tactical: toDo.tactical,
         closeTrade: toDo.closeTrade,
         openTrade: toDo.openTrade,
+        updateStop: toDo.updateStop,
+        quickAction: toDo.quickAction,
+        entered: toDo.entered,
         userId: toDo.userId,
     }
     const updateToDo = await db.toDo.update({
@@ -69,3 +72,40 @@ export async function PUT(request: Request, { params }: { params: {id: string} }
     return Response.json(toDo)
 }
 
+
+// export async function PATCH_urgent(request: Request, { params }: { params: {id: string} }) {
+//     // console.log(req)
+//     const toDoId = params.id
+//     const toDo = await request.json()
+//     const updatedToDo = {
+//         quickAction: toDo.quickAction,
+//     }
+//     const updateToDo = await db.toDo.update({
+//         where: {
+//             id: toDoId,
+//         },
+//         data: updatedToDo
+//     })
+    
+//     revalidatePath("toDos")
+//     return Response.json(toDo)
+// }
+
+
+// export async function PATCH_entered(request: Request, { params }: { params: {id: string} }) {
+//     // console.log(req)
+//     const toDoId = params.id
+//     const toDo = await request.json()
+//     const updatedToDo = {
+//         entered: toDo.entered,
+//     }
+//     const updateToDo = await db.toDo.update({
+//         where: {
+//             id: toDoId,
+//         },
+//         data: updatedToDo
+//     })
+    
+//     revalidatePath("toDos")
+//     return Response.json(toDo)
+// }
