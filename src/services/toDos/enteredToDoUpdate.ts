@@ -1,7 +1,7 @@
 import { AddToDoFormData } from "../../../types"
 
-export default async function EnteredToDoUpdate(data: AddToDoFormData, id: string) {
-    const res = await fetch(`http://localhost:3000/api/toDos/${id}/entered`, {
+export default async function EnteredToDoUpdate(data: any, id: string) {
+    const res = await fetch(`http://localhost:3000/api/toDos/${id}`, {
         method: "PATCH",
         body: JSON.stringify(data)
     })

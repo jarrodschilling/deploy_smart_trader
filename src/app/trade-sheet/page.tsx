@@ -66,10 +66,11 @@ export default function TradeSheet() {
     }
   }, [toDos]);
 
-  const makeUrgentHandler = (currentStatus: any, idForChange: string) => {
+  const makeUrgentHandler = (currentStatus: boolean, idForChange: string) => {
     try {
+        
         const newStatus = !currentStatus
-        UrgentToDoUpdate(newStatus, idForChange)
+        UrgentToDoUpdate({quickAction: newStatus}, idForChange)
         setToDos((prevToDos) =>
             prevToDos.map((toDo: ToDo) =>
                 toDo.id === idForChange ? { ...toDo, quickAction: newStatus} : toDo
@@ -79,7 +80,23 @@ export default function TradeSheet() {
     catch (error) {
         console.log(error)
     }
-}
+  }
+
+  const makeEnteredHandler = (currentStatus: boolean, idForChange: string) => {
+    try {
+        
+        const newStatus = !currentStatus
+        UrgentToDoUpdate({entered: newStatus}, idForChange)
+        setToDos((prevToDos) =>
+            prevToDos.map((toDo: ToDo) =>
+                toDo.id === idForChange ? { ...toDo, entered: newStatus} : toDo
+            )
+        )
+    }
+    catch (error) {
+        console.log(error)
+    }
+  }
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -88,7 +105,7 @@ export default function TradeSheet() {
 
   return (
     <div className='m-4 mt-20'>
-      <PageTitle title={"Trade Sheet (To Dos)"} />
+      <PageTitle title={"Trade Sheet"} />
       <div className=''>
         <div className='justify-between flex m-1 mb-2'>
             <div>
@@ -114,12 +131,13 @@ export default function TradeSheet() {
                     <th scope="col" className="px-4 py-4 text-center">Total<br/>Value</th>
                     <th scope="col" className="px-2 py-4">Shaper</th>
                     <th scope="col" className="px-2 py-4">Tactical</th>
-                    <th scope="col" className="px-2 py-4">OPEN</th>
-                    <th scope="col" className="px-2 py-4">CLOSE</th>
-                    <th scope="col" className="px-2 py-1">URGENT</th>
-                    <th scope="col" className="px-2 py-1">EDIT</th>
-                    <th scope="col" className="px-2 py-1">DELETE</th>
-                    <th scope="col" className="px-2 py-1">EXECUTE</th>
+                    {/* <th scope="col" className="px-2 py-4">OPEN</th> */}
+                    {/* <th scope="col" className="px-2 py-4">CLOSE</th> */}
+                    <th scope="col" className="px-2 py-1 text-center">URGENT</th>
+                    <th scope="col" className="px-2 py-1 text-center">ENTERED</th>
+                    <th scope="col" className="px-2 py-1 text-center"></th>
+                    <th scope="col" className="px-2 py-1 text-center"></th>
+                    <th scope="col" className="px-2 py-1 text-center"></th>
                 </tr>
             </thead>
             <tbody>
@@ -130,7 +148,10 @@ export default function TradeSheet() {
                     const price = stockPrices[toDo.ticker]
                     return (
                     <tr key={index} 
-                    className='noColor'>
+                    className={`${
+                      (toDo.entered === true)? 'enteredTrade':
+                      (toDo.quickAction === true)?'urgentTrade':
+                      'noColor'}`}>
                         <td scope="col" className="px-2 py-2">{dateChanger(toDo.date)}</td>
                         <td scope="col" className="px-2 py-2">{toDo.ticker}</td>
                         <td scope="col" className="px-4 py-2">{toDo.buySell.toUpperCase()}</td>
@@ -140,26 +161,33 @@ export default function TradeSheet() {
                         <td scope="col" className="px-4 py-4 text-center">{totalCostFmt(toDo.price, toDo.shares)}</td>
                         <td scope="col" className="px-2 py-2">{toDo.shaper}</td>
                         <td scope="col" className="px-2 py-2">{toDo.tactical}</td>
-                        <td scope="col" className="px-2 py-2">{toDo.openTrade? "Yes": ""}</td>
-                        <td scope="col" className="px-2 py-2">{toDo.closeTrade? "Yes": ""}</td>
+                        {/* <td scope="col" className="px-2 py-2 text-center">{toDo.openTrade? "Yes": ""}</td> */}
+                        {/* <td scope="col" className="px-2 py-2 text-center">{toDo.closeTrade? "Yes": ""}</td> */}
                         
-                        <td scope="col" className="px-2 py-2">
+                        <td scope="col" className="px-2 py-2 text-center">
                         <button 
                           className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"
                           onClick={() => makeUrgentHandler(toDo.quickAction, toDo.id)}>
                             URGENT</button>
                         </td>
 
-                        <td scope="col" className="px-2 py-2">
+                        <td scope="col" className="px-2 py-2 text-center">
+                        <button 
+                          className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"
+                          onClick={() => makeEnteredHandler(toDo.entered, toDo.id)}>
+                            ✓</button>
+                        </td>
+
+                        <td scope="col" className="px-2 py-2 text-center">
                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/trade-sheet/edit/${toDo.id}`}>EDIT</Link></button>
                         </td>
 
-                        <td scope="col" className="px-0 py-2">
+                        <td scope="col" className="px-2 py-2 text-center">
                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/trade-sheet/delete/${toDo.id}`}>DELETE</Link></button>
                         </td>
 
-                        <td scope="col" className="px-0 py-2">
-                        <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/trade-sheet/execute/${toDo.id}`}>EXECUTE</Link></button>
+                        <td scope="col" className="px-0 py-2 text-center">
+                        <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/trade-sheet/execute/${toDo.id}`}>ADD</Link></button>
                         </td>
                     </tr>
                 )

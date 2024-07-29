@@ -77,10 +77,13 @@ export default function Transactions() {
       <div className='justify-between flex m-1 mb-2'>
         <div>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+          className="bg-blue-500 hover:bg-blue-700 text-white mr-4 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
           ><Link href="/transactions/add">Add New Transaction</Link></button>
+          <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+          ><Link href="/transactions/excel">Excel Upload</Link></button>
         </div>
-        <br />
+
         <div>
         <button
           className={`${(highlight === "false")?'bg-white text-blue-500 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'

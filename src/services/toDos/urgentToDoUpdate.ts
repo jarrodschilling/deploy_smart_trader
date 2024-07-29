@@ -1,7 +1,7 @@
 import { AddToDoFormData } from "../../../types"
 
 export default async function UrgentToDoUpdate(data: any, id: string) {
-    const res = await fetch(`http://localhost:3000/api/toDos/${id}/urgent`, {
+    const res = await fetch(`http://localhost:3000/api/toDos/${id}`, {
         method: "PATCH",
         body: JSON.stringify(data)
     })
