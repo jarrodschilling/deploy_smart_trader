@@ -6,8 +6,8 @@ export default function AboutApp() {
         <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
           <p>
             Trade Stats Pro empowers traders to track their trading account statistics in an
-            accurate and timely fasion. It allows for individual historical trade analysis, putting
-            traders in the driver seat to imporve their trading process by targeting inefficiences
+            accurate and timely fashion. It allows for individual historical trade analysis, putting
+            traders in the driver seat to improve their trading process by targeting inefficiencies
             in their trading system.
           </p>
           <p className='mt-4 text-center font-bold'>"What gets measured gets managed"</p>
@@ -16,7 +16,7 @@ export default function AboutApp() {
         <div className='flex justify-center'>
           <div className="border-1 border-slate-200 bg-slate-700 rounded-md w-3/4 p-6 mb-12">
               <iframe 
-                src="https://www.youtube.com/embed/rYBpWkOsyq4"
+                src="https://www.youtube.com/embed/3LGQEPpsngs"
                 width="800"
                 height="400"
                 allowFullScreen
