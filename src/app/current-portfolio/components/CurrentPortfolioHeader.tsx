@@ -76,7 +76,7 @@ let headerCash = formatedCost(portfolio-unrealizedPL(openTrades).cost+rlzGainLos
                     </p>
                     </div>
                     <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                    <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1">Cash Available</label>
+                    <label className="block underline decoration-solid uppercase tracking-wide text-gray-300 text-sm font-extrabold mb-1">Cash</label>
                     <p className='border pl-1'>{headerCash}</p>
                     </div>
             </div>

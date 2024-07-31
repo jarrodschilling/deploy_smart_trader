@@ -39,6 +39,7 @@ export default function AddTransactionForm() {
         }
         const updatedData = {...data, name:stockName}
         // console.log(`updatedData: ${updatedData}`)
+        console.log(updatedData)
         CreateTransaction(updatedData)
         router.push('/transactions')
     }
