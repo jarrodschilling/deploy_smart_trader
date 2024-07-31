@@ -29,7 +29,7 @@ export default function AboutApp() {
           <p>
             No longer do you need to depend on multiple platforms to track and manage historical
             trading records. Simply upload your trades with an Excel file and let Trade Stats
-            Pro to the rest.
+            Pro do the rest.
           </p>
         </div>
 
@@ -43,8 +43,8 @@ export default function AboutApp() {
           <p>
             Now with more advanced ways than ever before to drill down into the details of every
             trade. Are you someone who normally trades around core positions? With TRADE STATS PRO
-            you can now see exactly what the overall return was on all the trades combined for that
-            stock.
+            you can now see exactly what the overall return was on all the transactions combined for that
+            trade.
           </p>
         </div>
         <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
