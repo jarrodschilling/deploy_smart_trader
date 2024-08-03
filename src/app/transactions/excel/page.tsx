@@ -12,6 +12,7 @@ export default function ExcelUpload() {
     const [file, setFile] = useState<File|null>(null)
     const [loading, setLoading] = useState(false)
     const router = useRouter()
+    const { data: session, status } = useSession()
 
     function saveData () {
         if(file) {
@@ -48,11 +49,13 @@ export default function ExcelUpload() {
                             // Convert string to boolean
                             transaction.openTrade = transaction.openTrade.toLowerCase() === 'true';
                         }
-                        return transaction
+                        const userIdData = session?.user?.id
+                        const updatedTransaction = {...transaction, userId:userIdData}
+
+                        return updatedTransaction
                     })
                     // Save to DB
-                    
-                    await CreateBulkTransactions(transactions)
+                    await CreateBulkTransactions(processedTransactions)
                     setLoading(false)
                     router.push('/transactions')
                 }
