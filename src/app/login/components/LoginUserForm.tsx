@@ -75,7 +75,7 @@ export default function LoginUserForm() {
                 </div>
             </div>
                 <button 
-                    className="mb-6 w-44 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                    className="mb-6 mt-4 w-44 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
                     type="submit">
                         Login
                 </button>
@@ -84,8 +84,10 @@ export default function LoginUserForm() {
             </form>
             <GoogleButtonLogin />
                 <p className="mt-1 mb-2 w-44 text-center">OR</p>
-                <button className="w-44 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        <Link href={"/register"}>Create Account</Link>
+                <button className="mt-2">
+                        <Link 
+                            className="w-44 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-7 rounded focus:outline-none focus:shadow-outline"
+                            href={"/register"}>Create Account</Link>
                 </button>
             </div>
             

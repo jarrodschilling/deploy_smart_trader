@@ -14,11 +14,16 @@ export const addTransactionFormSchema = z.object({
         .toUpperCase(),
     date: z
         .string({
-            required_error: "Transaction date required"
+            message: "Transaction date required"
+        })
+        .min(1, {
+            message: "Transaction date required"
         }),
     buySell: z
         .enum(["buy", "sell"], {
-            required_error: "Required"
+            errorMap: (issue, ctx) => {
+                return {message: 'Please select buy or sell'};
+            },
         }),
     shares: z.coerce
         .number({

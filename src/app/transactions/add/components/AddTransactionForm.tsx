@@ -25,6 +25,7 @@ export default function AddTransactionForm() {
         })
 
     const watchBuySell = watch("buySell")
+    const watchDate = watch('date')
 
     const router = useRouter()
     async function handleAddTransaction(data: AddTransactionFormData) {
@@ -43,6 +44,7 @@ export default function AddTransactionForm() {
         CreateTransaction(updatedData)
         router.push('/transactions')
     }
+        console.log(`date ${typeof watchDate}`)
     return (
         <>
         <div className="flex justify-center mx-auto">
@@ -54,7 +56,7 @@ export default function AddTransactionForm() {
                     <label className="block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2" htmlFor="ticker">Ticker*</label>
                     <input
                         {...register("ticker", { required: "This is required." })}
-                        className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        className="appearance-none uppercase block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                         type="text"
                         name="ticker"
                         id="ticker"
@@ -163,27 +165,39 @@ export default function AddTransactionForm() {
                         name="shaper"
                         id="shaper"
                     >
-                        <option value="">Pick One</option>
-                        <option value="Cup w/ Handle">Cup w/ Handle</option>
-                        <option value="Cup no Handle">Cup no Handle</option>
-                        <option value="Volatility Contraction">Volatility Contraction</option>
-                        <option value="Coil">Coil</option>
-                        <option value="Rectangle">Rectangle</option>
-                        <option value="Flat Base">Flat Base</option>
-                        <option value="High Tight Flag">High Tight Flag</option>
-                        <option value="Double Bottom">Double Bottom</option>
-                        <option value="First Touch of 10WK SMA">First Touch of 10WK SMA</option>
-                        <option value="Dollar Cost Averaging">Dollar Cost Averaging</option>
-                        <option value="Inverse Head and Shoulders">Inverse Head and Shoulders</option>
-                        <option value="Add on Buy">Add on Buy</option>
-                        <option value="Initial Stop Hit">Initial Stop Hit</option>
-                        <option value="Stop at Breakeven">Stop at Breakeven</option>
-                        <option value="Stock lost 10WK SMA">Stock lost 10WK SMA</option>
-                        <option value="De-risk">De-risk</option>
-                        <option value="Lock in Some Profit">Lock in Some Profit</option>
-                        <option value="Sell into Strength">Sell into Strength</option>
-                        <option value="Earnings Soon">Earnings Soon</option>
-                        <option value="Carry Over">Carry Over</option>
+                        
+                        {
+                            watchBuySell == "buy"?
+                        <>
+                            <option value="">Pick One</option>
+                            <option value="Cup w/ Handle">Cup w/ Handle</option>
+                            <option value="Cup no Handle">Cup no Handle</option>
+                            <option value="Volatility Contraction">Volatility Contraction</option>
+                            <option value="Coil">Coil</option>
+                            <option value="Rectangle">Rectangle</option>
+                            <option value="Flat Base">Flat Base</option>
+                            <option value="High Tight Flag">High Tight Flag</option>
+                            <option value="Double Bottom">Double Bottom</option>
+                            <option value="First Touch of 10WK SMA">First Touch of 10WK SMA</option>
+                            <option value="Dollar Cost Averaging">Dollar Cost Averaging</option>
+                            <option value="Inverse Head and Shoulders">Inverse Head and Shoulders</option>
+                            <option value="Add on Buy">Add on Buy</option>
+                            <option value="Carry Over">Carry Over</option>
+                            </>:
+                            watchBuySell == "sell"?
+                            <>
+                            <option value="">Pick One</option>
+                            <option value="Initial Stop Hit">Initial Stop Hit</option>
+                            <option value="Stop at Breakeven">Stop at Breakeven</option>
+                            <option value="Stock lost 10WK SMA">Stock lost 10WK SMA</option>
+                            <option value="De-risk">De-risk</option>
+                            <option value="Lock in Some Profit">Lock in Some Profit</option>
+                            <option value="Sell into Strength">Sell into Strength</option>
+                            <option value="Earnings Soon">Earnings Soon</option>
+                            </>:
+                            <option value="">Pick One</option>
+                        }
+                        
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
