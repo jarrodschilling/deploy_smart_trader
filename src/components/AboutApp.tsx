@@ -10,7 +10,7 @@ export default function AboutApp() {
             traders in the driver seat to improve their trading process by targeting inefficiencies
             in their trading system.
           </p>
-          <p className='mt-4 text-center font-bold'>"What gets measured gets managed"</p>
+          <p className='mt-4 text-center font-bold'>&#34;What gets measured gets managed&#34;</p>
           <p className='text-center'>- Peter Drucker</p>
         </div>
         <div className='flex justify-center'>
