@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import db from "@/lib/prisma";
-import { authOptions } from "../auth/[...nextauth]/route";
-import { getServerSession } from "next-auth";
 
 export async function GET(req: any) {
     const toDos = await db.toDo.findMany()
