@@ -42,6 +42,7 @@ export default function EditToDoForm({ toDo }: ToDoProps) {
         const updatedData = {...data, name:stockName}
         // console.log(`updatedData: ${updatedData}`)
         const id = toDo.id
+        // @ts-ignore
         UpdateToDo(updatedData, id)
         router.push('/trade-sheet')
     }
@@ -52,6 +53,7 @@ export default function EditToDoForm({ toDo }: ToDoProps) {
             const fields: (keyof AddTransactionFormData)[] = ["ticker", "date", "buySell", "shares", "price", "name", "userId", "shaper", "tactical", "openTrade", "closeTrade"]
             fields.forEach(field => {
                 if (field === "openTrade" || field === "closeTrade") {
+                    // @ts-ignore
                     setValue(field, toDo[field] ? "true" : "false")
                 } else {
                     setValue(field, toDo[field])

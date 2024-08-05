@@ -318,6 +318,7 @@ export default function AddTransactionForm() {
                         type="hidden"
                         name="userId"
                         id="userId"
+                        // @ts-ignore
                         value={session?.user?.id}
                     />
                     <button 

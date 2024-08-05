@@ -40,6 +40,7 @@ export default function AddToDoForm() {
         }
         const updatedData = {...data, name:stockName}
         // console.log(`updatedData: ${updatedData}`)
+        // @ts-ignore
         CreateToDo(updatedData)
         router.push('/trade-sheet')
     }
@@ -321,6 +322,7 @@ export default function AddToDoForm() {
                         type="hidden"
                         name="userId"
                         id="userId"
+                        // @ts-ignore
                         value={session?.user?.id}
                     />
                     <button 

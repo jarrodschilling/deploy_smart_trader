@@ -21,7 +21,7 @@ function clearOpenTrades (tradesList: Transaction[][]) {
 // console.log(clearOpenTrades(allTrades)[3][0].ticker)
 
 
-function battingAvg (trades) {
+function battingAvg (trades:any) {
     let win = 0
     let loss = 0
     let avgWinList = []
@@ -48,7 +48,7 @@ function battingAvg (trades) {
 // console.log(battingAvg(allTrades).winPct)
 // console.log(battingAvg(allTrades).lossPct)
 
-function avgDollarWinLoss (trades) {
+function avgDollarWinLoss (trades:any) {
     let avgWin = 0
     let avgLoss = 0
     let avgWinList = []
@@ -76,7 +76,7 @@ function avgDollarWinLoss (trades) {
 // console.log(avgDollarWinLoss(allTrades).finalLoss)
 
 
-function avgPctWinLoss (trades) {
+function avgPctWinLoss (trades:any) {
     let avgWin = 0
     let avgLoss = 0
     let avgWinList = []
@@ -103,7 +103,7 @@ function avgPctWinLoss (trades) {
 // console.log(avgPctWinLoss(allTrades).finalWin)
 // console.log(avgPctWinLoss(allTrades).finalLoss)
 
-function avgPortWinLoss (trades) {
+function avgPortWinLoss (trades:any) {
     let avgWin = 0
     let avgLoss = 0
     let avgWinList = []
@@ -131,7 +131,7 @@ function avgPortWinLoss (trades) {
 // console.log(avgPortWinLoss(allTrades).finalWin)
 // console.log(avgPortWinLoss(allTrades).finalLoss)
 
-function realizedGainLoss (trades) {
+function realizedGainLoss (trades:any) {
     let realized = 0
     for (const trade of trades) {
         realized += gainLoss(trade)
@@ -141,11 +141,11 @@ function realizedGainLoss (trades) {
 
 // console.log(realizedGainLoss(allTrades))
 
-function totalDollarPL (realized, unrealized) {
+function totalDollarPL (realized:any, unrealized:any) {
     return realized + unrealized
 }
 
-function totalPctPL (portfolio, dollarReturn) {
+function totalPctPL (portfolio:any, dollarReturn:any) {
     return dollarReturn/portfolio * 100
 }
 

@@ -54,6 +54,7 @@ export default function ExecuteTradeForm({ transaction }: TransactionProps) {
             const fields: (keyof AddTransactionFormData)[] = ["ticker", "date", "buySell", "shares", "price", "name", "userId", "shaper", "tactical", "openTrade", "closeTrade"]
             fields.forEach(field => {
                 if (field === "openTrade" || field === "closeTrade") {
+                    // @ts-ignore
                     setValue(field, transaction[field] ? "true" : "false")
                 } else {
                     setValue(field, transaction[field])

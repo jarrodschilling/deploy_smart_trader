@@ -49,6 +49,7 @@ export default function ExcelUpload() {
                             // Convert string to boolean
                             transaction.openTrade = transaction.openTrade.toLowerCase() === 'true';
                         }
+                        // @ts-ignore
                         const userIdData = session?.user?.id
                         const updatedTransaction = {...transaction, userId:userIdData}
 

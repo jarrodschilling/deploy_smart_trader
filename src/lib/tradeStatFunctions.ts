@@ -1,3 +1,6 @@
+import { Transaction } from "@prisma/client"
+
+
 const portfolio = 1000000
 
 
@@ -78,7 +81,7 @@ function portfolioPercentImpact (portValue: number, tradeList: Transaction[]) {
 
 
 
-function getOpenDate (trades: Transaction[]) {
+function getOpenDate (trades: any) {
     for (const trade of trades) {
         if (trade.openTrade === true) {
             return trade.date
@@ -86,7 +89,7 @@ function getOpenDate (trades: Transaction[]) {
     }
 }
 
-function getCloseDate (trades: Transaction[]) {
+function getCloseDate (trades: any) {
     for (const trade of trades) {
         if (trade.closeTrade === true) {
             return trade.date

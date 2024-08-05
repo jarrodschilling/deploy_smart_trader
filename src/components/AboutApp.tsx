@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 
 export default function AboutApp() {
   return (
@@ -34,10 +35,22 @@ export default function AboutApp() {
         </div>
 
         <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
-          <img src="/about/trade_stats_statistics.png" alt=""></img>
+          {/* <img src="/about/trade_stats_statistics.png" alt=""></img> */}
+          <Image 
+            src="/about/trade_stats_statistics.png"
+            alt=""
+            height={374}
+            width={1102}
+          />
         </div>
         <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
-          <img src="/about/trade_stats_transactions.png" alt=""></img>
+          {/* <img src="/about/trade_stats_transactions.png" alt=""></img> */}
+          <Image 
+            src="/about/trade_stats_transactions.png"
+            alt=""
+            height={374}
+            width={1102}
+          />
         </div>
         <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
           <p>
@@ -48,7 +61,13 @@ export default function AboutApp() {
           </p>
         </div>
         <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
-          <img src="/about/trade_stats_details.png" alt=""></img>
+          {/* <img src="/about/trade_stats_details.png" alt=""></img> */}
+          <Image 
+            src="/about/trade_stats_details.png"
+            alt=""
+            height={374}
+            width={1102}
+          />
         </div>
     </div>
   )
