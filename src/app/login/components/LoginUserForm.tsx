@@ -8,6 +8,7 @@ import { LoginFormData } from "../../../../types"
 import { signIn } from "next-auth/react"
 import Link from "next/link"
 import GoogleButtonLogin from "@/components/GoogleButtonLogin"
+import { useState } from "react"
 
 
 
@@ -15,6 +16,7 @@ import GoogleButtonLogin from "@/components/GoogleButtonLogin"
 
 export default function LoginUserForm() {
     const { data: session, status } = useSession()
+    const [credentialError, setCredentialError] = useState("")
 
     const {
         register,
@@ -26,8 +28,12 @@ export default function LoginUserForm() {
 
     const router = useRouter()
     async function handleAddUser(data: LoginFormData) {
-        signIn('credentials', {...data, callbackUrl: 'http://localhost:3000/dashboard'})
-        // router.push('/dashboard')
+        const login = await signIn('credentials', {...data, callbackUrl: 'http://localhost:3000/dashboard', redirect: false})
+        if (login?.ok) {
+            router.push('/dashboard')
+        } else {
+            setCredentialError("Invalid Credentials")
+        }
     }
     return (
         <div className="flex justify-center mx-auto">
@@ -35,6 +41,7 @@ export default function LoginUserForm() {
         <div className="w-full max-w-lg p-8">
         <form className="" onSubmit={handleSubmit(handleAddUser)}>
             <h1 className="text-3xl font-bold text-slate-200 mb-2">Login to Account</h1>
+            <span className="text-lg font-bold text-blue-500">{credentialError}</span>
             <div className="flex flex-wrap -mx-3 mb-6 mt-6">
                 <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-slate-200 text-sm font-bold mb-2" htmlFor="email">Email*</label>
