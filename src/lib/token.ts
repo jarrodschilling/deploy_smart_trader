@@ -1,8 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
-import { database } from './database';
 import GetTokenByIdentifier from '@/services/tokens/tokenByIdentifier';
+import DeleteVerificationToken from '@/services/tokens/deleteVerificationToken';
+import CreateVerificationToken from '@/services/tokens/createVerificationToken';
 
 export const generateVerificationToken = async (identifier: string) => {
+    console.log(`Step 1: ${identifier}`)
     // Generate a random token 
     const token = uuidv4();
     const expires = new Date().getTime() + 1000 * 60 * 60 * 24; // 24 hours
@@ -11,21 +13,16 @@ export const generateVerificationToken = async (identifier: string) => {
     const existingToken = await GetTokenByIdentifier(identifier)
 
     if(existingToken) {
-        await database.verificationToken.delete({
-            where: {
-                id: existingToken.id
-            }
-        })
+        DeleteVerificationToken(existingToken.token, identifier)
     }
 
     // Create a new verification token
-    const verificationToken = await database.verificationToken.create({
-        data: {
-            email,
-            token,
-            expires: new Date(expires)
-        }
-    })
+    const data = {
+        identifier: identifier,
+        token: token,
+        expires: new Date(expires)
+    }
+    const verificationToken = await CreateVerificationToken(data)
 
     return verificationToken;
 }

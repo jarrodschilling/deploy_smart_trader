@@ -13,16 +13,3 @@ export async function GET(request: Request, { params }: { params: {token: string
 
     return Response.json(verificationToken)
 }
-
-
-// export async function DELETE(request: Request, { params }: { params: {token: string} }) {
-//     // console.log(req)
-//     const tokenToken = params.token
-
-//     const token = await db.verificationToken.delete({
-//         where: {
-//             identifier: tokenToken,
-//         },
-//     })
-//     return Response.json(token)
-// }

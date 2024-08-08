@@ -17,3 +17,22 @@ export async function GET(request: Request, { params }: { params: {email: string
 
     return Response.json(user)
 }
+
+export async function PUT(request: Request, { params }: { params: {email: string} }) {
+    // console.log(req)
+    const userEmail = params.email
+    const user = await request.json()
+    const updatedUser = {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+    }
+    const updateToDo = await db.toDo.update({
+        where: {
+            email: userEmail,
+        },
+        data: updatedUser
+    })
+    
+    return Response.json(toDo)
+}
