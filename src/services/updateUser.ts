@@ -1,6 +1,6 @@
 
-export default async function UpdateUser(data: any, email: string) {
-    const res = await fetch(`http://localhost:3000/api/users/${email}`, {
+export default async function UpdateUser(data: any, id: string) {
+    const res = await fetch(`http://localhost:3000/api/users/${data.email}/${id}`, {
         method: "PUT",
         body: JSON.stringify(data)
     })

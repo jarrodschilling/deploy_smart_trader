@@ -62,6 +62,19 @@ export const authOptions = {
         session.user.id = sessionUser.id
         return session
         },
+        // async signIn({ user, account }) {
+        //     if(account?.provider !== "credentials") {
+        //         return true
+        //     }
+
+        //     const existingUser = await GetUserByEmail(user.email)
+
+        //     if(!existingUser?.emailVerified) {
+        //         return false
+        //     }
+
+        //     return true
+        // },
     },
     pages: {
         signIn: '/login'

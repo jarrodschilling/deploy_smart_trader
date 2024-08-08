@@ -30,7 +30,7 @@ export const newVerification = async (token: string) => {
         email: existingToken.email
     }
 
-    await UpdateUser(userUpdateData, existingUser.email)
+    await UpdateUser(userUpdateData, existingUser.id)
 
     await DeleteVerificationToken(existingToken.id, existingToken.email)
 

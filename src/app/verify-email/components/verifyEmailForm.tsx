@@ -15,11 +15,18 @@ export default function VerifyEmailForm() {
 
         if(!token) {
             setError("no token provided")
+        } else {
+            newVerification(token).then((data) => {
+                if(data.success) {
+                    setSuccess(data.success)
+                }
+                if(data.error) {
+                    setError(data.error)
+                }
+            })
         }
 
-        newVerification(token)
-
-    }, [])
+    }, [token, success, error])
 
     useEffect(() => {
         onSubmit()
