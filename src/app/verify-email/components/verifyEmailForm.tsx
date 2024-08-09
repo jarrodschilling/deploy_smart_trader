@@ -8,6 +8,7 @@ export default function VerifyEmailForm() {
     const [success, setSuccess] = useState<string | undefined>(undefined)
     const searchParams = useSearchParams()
     const token = searchParams.get('token')
+    
     const onSubmit = useCallback(() => {
         if(success || error) {
             return

@@ -6,8 +6,9 @@ import GetTokenByToken from "@/services/tokens/tokenByToken"
 import UpdateUser from "@/services/updateUser"
 
 export const newVerification = async (token: string) => {
+    // console.log(`token: ${token}`)
     const existingToken = await GetTokenByToken(token)
-
+    // console.log(`token email: ${existingToken.identifier}`)
     if(!existingToken) {
         return { error: "Invalid token" }
     }
@@ -18,7 +19,7 @@ export const newVerification = async (token: string) => {
         return { error: "Token has expired" }
     }
 
-    const existingUser = await GetUserByEmail(existingToken.email)
+    const existingUser = await GetUserByEmail(existingToken.identifier)
 
 
     if(!existingUser) {
@@ -27,12 +28,12 @@ export const newVerification = async (token: string) => {
 
     const userUpdateData = {
         emailVerified: new Date(),
-        email: existingToken.email
+        email: existingToken.identifier
     }
 
     await UpdateUser(userUpdateData, existingUser.id)
 
-    await DeleteVerificationToken(existingToken.id, existingToken.email)
+    await DeleteVerificationToken(existingToken.token, existingToken.identifier)
 
     return { success: "Email verified" }
 }

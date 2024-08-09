@@ -8,9 +8,10 @@ export async function PUT(request: Request, { params }: { params: {data: any, id
     const updatedUser = {
         name: user.name,
         email: user.email,
+        emailVerified: user.emailVerified,
         password: user.password,
     }
-    const updateUser = await db.toDo.update({
+    const updateUser = await db.user.update({
         where: {
             id: userId,
         },
