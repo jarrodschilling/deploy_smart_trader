@@ -7,11 +7,13 @@ import { useSession } from "next-auth/react"
 import { RegisterFormData } from "../../../../types"
 import CreateUser from "@/services/createUser"
 import GoogleButtonRegister from "@/components/GoogleButtonRegister"
+import { useState } from "react"
 
 
 
 export default function RegisterUserForm() {
     const { data: session, status } = useSession()
+    const [success, setSuccess] = useState(false)
 
     const {
         register,
@@ -24,8 +26,12 @@ export default function RegisterUserForm() {
     const router = useRouter()
     async function handleAddUser(data: RegisterFormData) {
         console.log(data)
-        CreateUser(data)
-        router.push('/dashboard')
+        CreateUser(data).then((res) => {
+            if(res.success) {
+                setSuccess(true)
+            }
+        })
+        // router.push('/dashboard')
     }
     return (
         <div className="flex justify-center mx-auto">
@@ -96,7 +102,7 @@ export default function RegisterUserForm() {
                 }
                 </div>
             </div>
-            <div className="flex flex-wrap -mx-3 mb-10">
+            <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-slate-200 text-sm font-bold mb-2" htmlFor="confirmPassword">Confirm Password*</label>
                 <input 
@@ -116,6 +122,15 @@ export default function RegisterUserForm() {
                 }
                 </div>
             </div>
+                {
+                    (!success)?<></>:
+                    <p
+                        className="w-full text-center mb-4 -mt-2 bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Email verification was sent!
+                    </p>
+                }
+                
+
                 <button 
                     className="w-44 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
                     type="submit">

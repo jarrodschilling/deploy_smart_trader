@@ -18,18 +18,19 @@ datasource db {
 // "npx prisma db push", then "npx prisma generate" when ready to build
 // npx prisma db push -> this will update table schema if changed, then run "npx prisma generate"
 model User {
-  id            String    @id @default(cuid())
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  name          String?
-  email         String?    @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  session       Session[]
-  account       Account?
-  transactions  Transaction[]
-  toDos         ToDo[]
+  id              String    @id @default(cuid())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  name            String?
+  email           String?    @unique
+  emailVerified   DateTime?
+  image           String?
+  password        String?
+  portfolioValue  Float?
+  session         Session[]
+  account         Account?
+  transactions    Transaction[]
+  toDos           ToDo[]
 
 }
 

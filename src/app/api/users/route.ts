@@ -2,6 +2,7 @@ import bcrypt from "bcrypt"
 import { NextResponse } from "next/server";
 import db from "@/lib/prisma";
 import { generateVerificationToken } from "@/lib/token";
+import { sendVerificationEmail } from "@/lib/mail";
 
 
 export async function GET(request: Request, { params }: { params: {email: string} }) {
@@ -43,6 +44,8 @@ export async function POST(request: Request) {
     }
     // console.log(newUser.email)
     const verificationToken = await generateVerificationToken(newUser.email)
+
+    await sendVerificationEmail(newUser.email, verificationToken.data.token)
 
     await db.user.create({
         data: newUser

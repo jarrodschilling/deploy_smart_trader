@@ -7,6 +7,23 @@ import GetUserByEmail from "@/services/getUserByEmail";
 import { Adapter } from "next-auth/adapters";
 import bcrypt from 'bcrypt'
 
+export interface GoogleProfile extends Record<string, any> {
+    aud: string
+    azp: string
+    email: string
+    email_verified: boolean
+    exp: number
+    family_name: string
+    given_name: string
+    hd: string
+    iat: number
+    iss: string
+    jti: string
+    name: string
+    nbf: number
+    picture: string
+    sub: string
+}
 
 
 export const authOptions = {
@@ -17,6 +34,28 @@ export const authOptions = {
         clientId: process.env.GOOGLE_CLIENT_ID ?? "",
         clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
     }),
+    // {
+    //     id: "google",
+    //     name: "Google",
+    //     type: "oauth",
+    //     wellKnown: "https://accounts.google.com/.well-known/openid-configuration",
+    //     authorization: { params: { scope: "openid email profile" } },
+    //     idToken: true,
+    //     checks: ["pkce", "state"],
+    //     profile(profile: any) {
+    //         console.log(`email verify: ${profile.email_verified}`)
+    //         return {
+    //             id: profile.sub,
+    //             name: profile.name,
+    //             email: profile.email,
+    //             email_verified: profile.email_verified ? new Date() : null,
+    //             image: profile.picture,
+    //         }
+    //     },
+    //     style: { logo: "/google.svg", bg: "#fff", text: "#000" },
+    //     clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+    //     clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+    // },
     CredentialsProvider({
         name: "credentials",
         // `credentials` is used to generate a form on the sign in page.
@@ -36,13 +75,17 @@ export const authOptions = {
             const user = await GetUserByEmail(credentials?.email)
 
             if (!user || !user?.password) {
-            throw new Error('No user found')
+                throw new Error('No user found')
             }
 
             const passwordMatch = await bcrypt.compare(credentials.password, user.password)
 
             if (!passwordMatch) {
                 throw new Error('Incorrect password')
+            }
+
+            if(!user?.emailVerified) {
+                throw new Error('Email not verified')
             }
 
             return user

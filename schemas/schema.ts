@@ -158,3 +158,21 @@ export const userLoginSchema = z.object({
             message: "Must be at least 1 character"
         })
 })
+
+export const userSettingsSchema = z.object({
+    name: z
+        .string({
+            required_error: "Email required"
+        })
+        .email({
+            message: "Invalid email"
+        }),
+    portfolioValue: z.coerce
+        .number({
+            required_error: "Portfolio value required"
+        })
+        .gte(1, {
+            message: "Must be above $1"
+        })
+        .positive(),
+})
