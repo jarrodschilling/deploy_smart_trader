@@ -7,9 +7,6 @@ import { TradeStatsHeaderType } from '../../../../types'
 
 export default function TradeStatsHeader({ tradeStats }: { tradeStats:TradeStatsHeaderType }) {
     
-    const portfolio = 1000000
-
-
 
     return (
         <div className='flex justify-center'>

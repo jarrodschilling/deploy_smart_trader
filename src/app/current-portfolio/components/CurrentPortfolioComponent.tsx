@@ -15,10 +15,11 @@ import { GroupedTrades } from '../../../../types'
 
 interface Props {
   openTrades: Array<GroupedTrades>,
-  stockPrices: Record<string, number>
+  stockPrices: Record<string, number>,
+  portfolioValue: number,
 }
 
-const CurrentPortfolioComponent: React.FC<Props> = ({openTrades, stockPrices}) =>  {
+const CurrentPortfolioComponent: React.FC<Props> = ({openTrades, stockPrices, portfolioValue}) =>  {
   const [highlight, setHighlight] = useState<string>("false")
   const [onColors, setOnColors] = useState<string>("true")
   
@@ -31,7 +32,8 @@ const CurrentPortfolioComponent: React.FC<Props> = ({openTrades, stockPrices}) =
   const { data: session, status } = useSession()
   const router = useRouter()
 
-  const portfolio = 1000000
+  const portfolio = portfolioValue
+  console.log(portfolio)
 
 
   // useEffect (() => {

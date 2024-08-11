@@ -1,6 +1,5 @@
 'use client'
 
-
 import { GroupedTrades, TradeStatsHeaderType, Transaction } from "../../../types"
 import { dateChanger, formatedCost, 
   formatedPercent, formatedPrice } from "@/lib/formatFunctions"
@@ -21,7 +20,6 @@ import getStockPrices from "@/services/yahoo/getStockPrices"
 import { currentGainLoss, currentOpenCost, currentValue } from "@/lib/currentPortfolioCalcs"
 
 
-
 export default function TradeStatistics() {
   const [highlight, setHighlight] = useState<string>("false")
   const [onColors, setOnColors] = useState<string>("true")
@@ -30,9 +28,10 @@ export default function TradeStatistics() {
   const [stockPrices, setStockPrices] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [portfolioValue, setPortfolioValue] = useState(0)
   const { data: session, status } = useSession()
 
-  const portfolio = 1000000
+  
 
   useEffect (() => {
     const fetchTransactions = async () => {
@@ -88,6 +87,21 @@ export default function TradeStatistics() {
       fetchStockPrices();
     }
   }, [openTrades]);
+
+  useEffect (() => {
+    const fetchPortfolioValue = async () => {
+        try {
+            const userEmail = session?.user?.email
+            const response = await GetUserByEmail(userEmail)
+            setPortfolioValue(response.portfolioValue)
+        } catch(error) {
+            setError("Failed to load portfolio value, please reload the page")
+        }
+    };
+    fetchPortfolioValue()
+  }, [])
+
+  const portfolio = portfolioValue
 
   function unrealizedPL (openTrades: GroupedTrades[]) {
     let cost = 0

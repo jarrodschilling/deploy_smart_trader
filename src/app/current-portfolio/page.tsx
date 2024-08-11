@@ -16,6 +16,7 @@ export default function CurrentPortfolioPage() {
   const [stockPrices, setStockPrices] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [portfolioValue, setPortfolioValue] = useState(0)
   const { data: session, status } = useSession()
 
   useEffect (() => {
@@ -75,6 +76,19 @@ export default function CurrentPortfolioPage() {
     }
   }, [openTrades]);
 
+  useEffect (() => {
+    const fetchPortfolioValue = async () => {
+        try {
+            const userEmail = session?.user?.email
+            const response = await GetUserByEmail(userEmail)
+            setPortfolioValue(response.portfolioValue)
+        } catch(error) {
+            setError("Failed to load portfolio value, please reload the page")
+        }
+    };
+    fetchPortfolioValue()
+  }, [])
+
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -83,8 +97,8 @@ export default function CurrentPortfolioPage() {
   return (
     <div className='m-4 mt-20'>
       <PageTitle title={"Current Portfolio"} />
-      <CurrentPortfolioHeader closedTrades ={closedTrades} openTrades={openTrades} stockPrices={stockPrices} />
-      <CurrentPortfolioComponent openTrades={openTrades} stockPrices={stockPrices} />
+      <CurrentPortfolioHeader portfolioValue={portfolioValue} closedTrades ={closedTrades} openTrades={openTrades} stockPrices={stockPrices} />
+      <CurrentPortfolioComponent portfolioValue={portfolioValue} openTrades={openTrades} stockPrices={stockPrices} />
     </div>
   )
 }

@@ -82,7 +82,7 @@ type TradeStatsHeaderType = {
     rlzGainLoss: number,
     unRlzGainLoss: any,
     totalPL: any,
-    totalPLPercent: any
+    totalPLPercent: any,
 }
 
 type CurrentPortfolioHeaderType = {
@@ -114,4 +114,11 @@ type AddToDoFormData = {
     quickAction: Boolean,
     entered: Boolean,
     userId: string
+}
+
+type UserSettings = {
+    name: string,
+    portfolioValue: number,
+    id: string?,
+    email: string?
 }

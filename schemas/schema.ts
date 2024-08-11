@@ -164,8 +164,8 @@ export const userSettingsSchema = z.object({
         .string({
             required_error: "Email required"
         })
-        .email({
-            message: "Invalid email"
+        .min(1, {
+            message: "Must be at least 1 character"
         }),
     portfolioValue: z.coerce
         .number({

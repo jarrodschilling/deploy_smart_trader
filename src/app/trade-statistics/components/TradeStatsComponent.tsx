@@ -14,15 +14,16 @@ interface Props {
   openTrades: Array<GroupedTrades>,
   closedTrades: Array<GroupedTrades>,
   allTrades: Array<GroupedTrades>,
-  stockPrices: Record<string, number>
+  stockPrices: Record<string, number>,
+  portfolioValue: number,
 }
 
-const TradeStatsComponent: React.FC<Props> = ({closedTrades, openTrades, allTrades, stockPrices}) => {
+const TradeStatsComponent: React.FC<Props> = ({portfolioValue, closedTrades, openTrades, allTrades, stockPrices}) => {
   const [highlight, setHighlight] = useState<string>("false")
   const [onColors, setOnColors] = useState<string>("false")
   const [trades, setTrades] = useState<Transaction[][]>(allTrades)
 
-  const portfolio = 1000000
+  const portfolio = portfolioValue
   const handleHighlight = async () => {
     if (highlight === "false") {
     setHighlight("true")

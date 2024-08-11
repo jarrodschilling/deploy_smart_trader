@@ -10,7 +10,9 @@ export async function PUT(request: Request, { params }: { params: {data: any, id
         email: user.email,
         emailVerified: user.emailVerified,
         password: user.password,
+        portfolioValue: user.portfolioValue
     }
+    console.log(JSON.stringify(updatedUser))
     const updateUser = await db.user.update({
         where: {
             id: userId,

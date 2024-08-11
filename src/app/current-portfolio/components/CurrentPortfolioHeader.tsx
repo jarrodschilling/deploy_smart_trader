@@ -7,12 +7,13 @@ import { clearOpenTrades, realizedGainLoss } from '@/lib/PortStatsFunctions'
 interface Props {
   openTrades: Array<GroupedTrades>,
   closedTrades: Array<GroupedTrades>,
-  stockPrices: Record<string, number>
+  stockPrices: Record<string, number>,
+  portfolioValue: number,
 }
 
-const CurrentPortfolioHeader: React.FC<Props> = ({closedTrades, openTrades, stockPrices}) => {
-  const portfolio = 1000000
-  console.log(portfolio)
+const CurrentPortfolioHeader: React.FC<Props> = ({closedTrades, openTrades, stockPrices, portfolioValue}) => {
+  const portfolio = portfolioValue
+  
   function unrealizedPL (openTrades: GroupedTrades[]) {
     let cost = 0
     let curValue = 0
