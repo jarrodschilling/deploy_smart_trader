@@ -34,9 +34,9 @@ export default function AddTransactionForm() {
         try {
             const response = await getStockName(newValue)
             stockName = response.quoteType.result[0].shortName
-            // console.log(`stockName: ${stockName}`)
+            console.log(`stockName: ${stockName}`)
         } catch (error) {
-            // console.error("Error fetching stock name", error)
+            console.error("Error fetching stock name", error)
         }
         const updatedData = {...data, name:stockName}
         // console.log(`updatedData: ${updatedData}`)
@@ -44,7 +44,7 @@ export default function AddTransactionForm() {
         CreateTransaction(updatedData)
         router.push('/transactions')
     }
-        console.log(`date ${typeof watchDate}`)
+        
     return (
         <>
         <div className="flex justify-center mx-auto">
