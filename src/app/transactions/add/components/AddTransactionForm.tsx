@@ -1,5 +1,5 @@
 "use client"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { addTransactionFormSchema } from "../../../../../schemas/schema"
@@ -8,12 +8,25 @@ import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { AddTransactionFormData } from "../../../../../types"
 import getStockName from "@/services/yahoo/getStockNames"
+import { Span } from "next/dist/trace"
 
 
 export default function AddTransactionForm() {
     const { data: session, status } = useSession()
-    console.log(session)
+    const [ sessionUserId, setSessionUserId ] = useState("")
+    const [loading, setLoading] = useState(true)
 
+    useEffect(() => {
+        setLoading(true)
+        const fetchUserId = async () => {
+            // @ts-ignore
+            const newId = await session?.user?.id
+            setSessionUserId(newId)
+        }
+        fetchUserId()
+        setLoading(false)
+    }, [])
+    console.log(sessionUserId)
     const {
         register,
         handleSubmit,
@@ -44,6 +57,11 @@ export default function AddTransactionForm() {
         CreateTransaction(updatedData)
         router.push('/transactions')
     }
+    if(loading) {
+        return (
+            <>Loading...</>
+        )
+    } else {
         
     return (
         <>
@@ -319,7 +337,8 @@ export default function AddTransactionForm() {
                         name="userId"
                         id="userId"
                         // @ts-ignore
-                        value={session?.user?.id}
+                        value={sessionUserId}
+                        // value={session?.user?.id}
                     />
                     <button 
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
@@ -332,4 +351,5 @@ export default function AddTransactionForm() {
         </div>
         </>
     )
+}
 }

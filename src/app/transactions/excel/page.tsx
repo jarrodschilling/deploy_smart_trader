@@ -13,6 +13,8 @@ export default function ExcelUpload() {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const { data: session, status } = useSession()
+    // @ts-ignore
+    const idData = session?.user?.id
 
     function saveData () {
         if(file) {
@@ -50,7 +52,7 @@ export default function ExcelUpload() {
                             transaction.openTrade = transaction.openTrade.toLowerCase() === 'true';
                         }
                         // @ts-ignore
-                        const userIdData = session?.user?.id
+                        const userIdData = idData
                         const updatedTransaction = {...transaction, userId:userIdData}
 
                         return updatedTransaction

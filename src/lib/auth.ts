@@ -98,12 +98,24 @@ export const authOptions = {
     debug: process.env.NODE_ENV === "development",
     callbacks: {
         // @ts-ignore
-        async session({session}) {
-        const emailCheck = await session.user.email
-        const sessionUser = await GetUserByEmail(emailCheck)
-
-        session.user.id = sessionUser.id
-        return session
+        async jwt({ token, session, user}) {
+            if (user) {
+                return {
+                    ...token,
+                    id: user.id,
+                }
+            }
+            return token
+        },
+        // @ts-ignore
+        async session({session, token, user}) {
+            return {
+                ...session,
+                user: {
+                    ...session.user,
+                    id: token.id,
+                }
+            }
         },
         // async signIn({ user, account }) {
         //     if(account?.provider !== "credentials") {
