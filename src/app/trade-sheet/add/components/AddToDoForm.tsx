@@ -1,5 +1,5 @@
 "use client"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { addTransactionFormSchema } from "../../../../../schemas/schema"
@@ -9,11 +9,24 @@ import { useSession } from "next-auth/react"
 import { AddTransactionFormData } from "../../../../../types"
 import getStockName from "@/services/yahoo/getStockNames"
 import CreateToDo from "@/services/toDos/createToDo"
+import GetUserByEmail from "@/services/getUserByEmail"
 
 
 export default function AddToDoForm() {
     const { data: session, status } = useSession()
-    console.log(session)
+    const [dbUserId, setDbUserId] = useState("")
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        setLoading(true)
+        const fetchUserId = async () => {
+            const userEmail = session?.user?.email
+            const response = await GetUserByEmail(userEmail)
+            setDbUserId(response.id)
+        }
+        fetchUserId()
+        setLoading(false)
+    }, [])
 
     const {
         register,
@@ -27,6 +40,7 @@ export default function AddToDoForm() {
 
     const watchBuySell = watch("buySell")
 
+
     const router = useRouter()
     async function handleAddToDo(data: AddTransactionFormData) {
         const newValue = data.ticker
@@ -38,8 +52,7 @@ export default function AddToDoForm() {
         } catch (error) {
             // console.error("Error fetching stock name", error)
         }
-        const updatedData = {...data, name:stockName}
-        // console.log(`updatedData: ${updatedData}`)
+        const updatedData = {...data, name:stockName, userId: dbUserId}
         // @ts-ignore
         CreateToDo(updatedData)
         router.push('/trade-sheet')
@@ -322,8 +335,6 @@ export default function AddToDoForm() {
                         type="hidden"
                         name="userId"
                         id="userId"
-                        // @ts-ignore
-                        value={session?.user?.id}
                     />
                     <button 
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 

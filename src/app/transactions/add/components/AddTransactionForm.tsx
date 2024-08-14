@@ -9,24 +9,39 @@ import { useSession } from "next-auth/react"
 import { AddTransactionFormData } from "../../../../../types"
 import getStockName from "@/services/yahoo/getStockNames"
 import { Span } from "next/dist/trace"
+import GetUserByEmail from "@/services/getUserByEmail"
 
 
 export default function AddTransactionForm() {
     const { data: session, status } = useSession()
     const [ sessionUserId, setSessionUserId ] = useState("")
+    const [dbUserId, setDbUserId] = useState("")
     const [loading, setLoading] = useState(true)
+
+
+    // useEffect(() => {
+    //     setLoading(true)
+    //     const fetchUserId = async () => {
+    //         // @ts-ignore
+    //         const newId = await session?.user?.id
+    //         setSessionUserId(newId)
+    //     }
+    //     fetchUserId()
+    //     setLoading(false)
+    // }, [])
+    // console.log(sessionUserId)
 
     useEffect(() => {
         setLoading(true)
         const fetchUserId = async () => {
-            // @ts-ignore
-            const newId = await session?.user?.id
-            setSessionUserId(newId)
+            const userEmail = session?.user?.email
+            const response = await GetUserByEmail(userEmail)
+            setDbUserId(response.id)
         }
         fetchUserId()
         setLoading(false)
     }, [])
-    console.log(sessionUserId)
+
     const {
         register,
         handleSubmit,
@@ -47,13 +62,13 @@ export default function AddTransactionForm() {
         try {
             const response = await getStockName(newValue)
             stockName = response.quoteType.result[0].shortName
-            console.log(`stockName: ${stockName}`)
+            // console.log(`stockName: ${stockName}`)
         } catch (error) {
             console.error("Error fetching stock name", error)
         }
-        const updatedData = {...data, name:stockName}
+        const updatedData = {...data, name:stockName, userId: dbUserId}
         // console.log(`updatedData: ${updatedData}`)
-        console.log(updatedData)
+        // console.log(updatedData)
         CreateTransaction(updatedData)
         router.push('/transactions')
     }
@@ -337,7 +352,7 @@ export default function AddTransactionForm() {
                         name="userId"
                         id="userId"
                         // @ts-ignore
-                        value={sessionUserId}
+                        // value={dbUserId}
                         // value={session?.user?.id}
                     />
                     <button 

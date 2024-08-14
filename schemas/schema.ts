@@ -80,13 +80,13 @@ export const addTransactionFormSchema = z.object({
     //             message: "Must be at least 1 character"
     //         }),
     //     ),
-    userId: z
-        .string({
-            required_error: "Name required"
-        })
-        .min(1, {
-            message: "Must be at least 1 character"
-        }),
+    // userId: z
+    //     .string({
+    //         required_error: "Name required"
+    //     })
+    //     .min(1, {
+    //         message: "Must be at least 1 character"
+    //     }),
 })
 
 

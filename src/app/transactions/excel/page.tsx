@@ -3,18 +3,29 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
-import { use, useState } from "react"
+import { use, useEffect, useState } from "react"
 import * as XLSX from "xlsx"
 import CreateBulkTransactions from "@/services/createBulkTransactions"
 import { AddTransactionFormData } from "../../../../types"
+import GetUserByEmail from "@/services/getUserByEmail"
 
 export default function ExcelUpload() {
     const [file, setFile] = useState<File|null>(null)
     const [loading, setLoading] = useState(false)
     const router = useRouter()
+    const [dbUserId, setDbUserId] = useState("")
     const { data: session, status } = useSession()
-    // @ts-ignore
-    const idData = session?.user?.id
+
+    useEffect(() => {
+        setLoading(true)
+        const fetchUserId = async () => {
+            const userEmail = session?.user?.email
+            const response = await GetUserByEmail(userEmail)
+            setDbUserId(response.id)
+        }
+        fetchUserId()
+        setLoading(false)
+    }, [])
 
     function saveData () {
         if(file) {
@@ -52,7 +63,7 @@ export default function ExcelUpload() {
                             transaction.openTrade = transaction.openTrade.toLowerCase() === 'true';
                         }
                         // @ts-ignore
-                        const userIdData = idData
+                        const userIdData = dbUserId
                         const updatedTransaction = {...transaction, userId:userIdData}
 
                         return updatedTransaction
