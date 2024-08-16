@@ -1,5 +1,5 @@
 "use client"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { addTransactionFormSchema } from "../../../../../schemas/schema"
@@ -15,6 +15,8 @@ type TransactionProps = {
 
 
 export default function EditTransactionForm({ transaction }: TransactionProps) {
+    const [stockNameError, setStockNameError] = useState("")
+
     const {
         register,
         handleSubmit,
@@ -38,11 +40,14 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
         } catch (error) {
             // console.error("Error fetching stock name", error)
         }
-        const updatedData = {...data, name:stockName}
-        // console.log(`updatedData: ${updatedData}`)
-        const id = transaction.id
-        UpdateTransaction(updatedData, id)
-        router.push('/transactions')
+        if(stockName){
+            const updatedData = {...data, name:stockName}
+            const id = transaction.id
+            UpdateTransaction(updatedData, id)
+            router.push('/transactions')
+        }else{
+            setStockNameError("Invalid Symbol")
+        }
     }
 
 
@@ -82,6 +87,11 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                             <p>
                                 {errors.ticker.message}
                             </p>
+                        )
+                    }
+                    {
+                        stockNameError && (
+                            <p className="text-lg font-bold text-blue-500">{stockNameError}</p>
                         )
                     }
                     </div>

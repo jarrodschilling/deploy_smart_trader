@@ -17,6 +17,7 @@ export default function AddTransactionForm() {
     const [ sessionUserId, setSessionUserId ] = useState("")
     const [dbUserId, setDbUserId] = useState("")
     const [loading, setLoading] = useState(true)
+    const [stockNameError, setStockNameError] = useState("")
 
 
     // useEffect(() => {
@@ -66,11 +67,13 @@ export default function AddTransactionForm() {
         } catch (error) {
             console.error("Error fetching stock name", error)
         }
-        const updatedData = {...data, name:stockName, userId: dbUserId}
-        // console.log(`updatedData: ${updatedData}`)
-        // console.log(updatedData)
-        CreateTransaction(updatedData)
-        router.push('/transactions')
+        if(stockName){
+            const updatedData = {...data, name:stockName, userId: dbUserId}
+            CreateTransaction(updatedData)
+            router.push('/transactions')
+        }else{
+            setStockNameError("Invalid Symbol")
+        }
     }
     if(loading) {
         return (
@@ -100,6 +103,11 @@ export default function AddTransactionForm() {
                             <p>
                                 {errors.ticker.message}
                             </p>
+                        )
+                    }
+                    {
+                        stockNameError && (
+                            <p className="text-lg font-bold text-blue-500">{stockNameError}</p>
                         )
                     }
                     </div>
@@ -361,6 +369,7 @@ export default function AddTransactionForm() {
                             Add Transaction
                     </button>
                 </form>
+                
         </div>
         </div>
         </div>

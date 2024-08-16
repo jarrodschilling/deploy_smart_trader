@@ -16,6 +16,7 @@ export default function AddToDoForm() {
     const { data: session, status } = useSession()
     const [dbUserId, setDbUserId] = useState("")
     const [loading, setLoading] = useState(true)
+    const [stockNameError, setStockNameError] = useState("")
 
     useEffect(() => {
         setLoading(true)
@@ -52,10 +53,15 @@ export default function AddToDoForm() {
         } catch (error) {
             // console.error("Error fetching stock name", error)
         }
-        const updatedData = {...data, name:stockName, userId: dbUserId}
-        // @ts-ignore
-        CreateToDo(updatedData)
-        router.push('/trade-sheet')
+        
+        if(stockName){
+            const updatedData = {...data, name:stockName, userId: dbUserId}
+            // @ts-ignore
+            CreateToDo(updatedData)
+            router.push('/trade-sheet')
+        }else{
+            setStockNameError("Invalid Symbol")
+        }
     }
     return (
         <>
@@ -79,6 +85,11 @@ export default function AddToDoForm() {
                             <p>
                                 {errors.ticker.message}
                             </p>
+                        )
+                    }
+                    {
+                        stockNameError && (
+                            <p className="text-lg font-bold text-blue-500">{stockNameError}</p>
                         )
                     }
                     </div>
