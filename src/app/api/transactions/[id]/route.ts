@@ -5,9 +5,8 @@ import { revalidatePath } from "next/cache";
 
 
 export async function GET(request: Request, { params }: { params: {id: string} }) {
-    // console.log(req)
+    
     const transactionId = params.id
-    // console.log(transactionId)
 
     const transaction = await db.transaction.findUnique({
         where: {
@@ -28,9 +27,9 @@ export async function GET(request: Request, { params }: { params: {id: string} }
 }
 
 export async function DELETE(request: Request, { params }: { params: {id: string} }) {
-    // console.log(req)
+    
     const transactionId = params.id
-    console.log(transactionId)
+    
 
     const transaction = await db.transaction.delete({
         where: {
@@ -52,7 +51,7 @@ export async function DELETE(request: Request, { params }: { params: {id: string
 }
 
 export async function PUT(request: Request, { params }: { params: {id: string} }) {
-    // console.log(req)
+    
     const transactionId = params.id
     const transaction = await request.json()
     const updatedTransaction = {

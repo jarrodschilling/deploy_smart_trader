@@ -30,7 +30,7 @@ const TradeSheetHeader: React.FC<Props> = ({closedTrades, openTrades, stockPrice
 let headerTotalCost = formatedCost(unrealizedPL(openTrades).cost)
 let headerCurrentValue = formatedCost(unrealizedPL(openTrades).curValue)
 let headerUnRlzPL = (unrealizedPL(openTrades).unrlzPL)
-// console.log(headerUnRlzPL)
+
 let headerUnrealizedPLPct = formatedPercent(unrealizedPL(openTrades).unrlzPL/unrealizedPL(openTrades).cost*100)
 let headerPortfolioPL = formatedPercent(unrealizedPL(openTrades).unrlzPL/portfolio*100)
 

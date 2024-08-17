@@ -6,9 +6,9 @@ import GetTokenByToken from "@/services/tokens/tokenByToken"
 import UpdateUser from "@/services/updateUser"
 
 export const newVerification = async (token: string) => {
-    // console.log(`token: ${token}`)
+    
     const existingToken = await GetTokenByToken(token)
-    // console.log(`token email: ${existingToken.identifier}`)
+    
     if(!existingToken) {
         return { error: "Invalid token" }
     }

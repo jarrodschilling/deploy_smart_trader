@@ -4,9 +4,9 @@ import { revalidatePath } from "next/cache";
 
 
 export async function GET(request: Request, { params }: { params: {id: string} }) {
-    // console.log(req)
+    
     const toDoId = params.id
-    // console.log(toDoId)
+    
 
     const toDo = await db.toDo.findUnique({
         where: {
@@ -27,9 +27,9 @@ export async function GET(request: Request, { params }: { params: {id: string} }
 }
 
 export async function DELETE(request: Request, { params }: { params: {id: string} }) {
-    // console.log(req)
+    
     const toDoId = params.id
-    console.log(toDoId)
+    
 
     const toDo = await db.toDo.delete({
         where: {
@@ -42,7 +42,7 @@ export async function DELETE(request: Request, { params }: { params: {id: string
 }
 
 export async function PUT(request: Request, { params }: { params: {id: string} }) {
-    // console.log(req)
+    
     const toDoId = params.id
     const toDo = await request.json()
     const updatedToDo = {
@@ -74,7 +74,7 @@ export async function PUT(request: Request, { params }: { params: {id: string} }
 
 
 export async function PATCH(request: Request, { params }: { params: {id: string} }) {
-    // console.log(req)
+    
     const toDoId = params.id
     const toDo = await request.json()
     const updatedToDo = {

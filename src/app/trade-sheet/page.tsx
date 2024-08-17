@@ -25,10 +25,10 @@ export default function TradeSheet() {
       try {
         const userEmail = session?.user?.email
         const response = await GetUserByEmail(userEmail)
-        console.log(response.toDos)
+        
         setToDos(response.toDos)
       } catch(error) {
-        console.log("Error:", error)
+        
         // router.push("/")
         setError("Failed to load to dos, please reload the page")
       } finally {
@@ -78,7 +78,7 @@ export default function TradeSheet() {
         )
     }
     catch (error) {
-        console.log(error)
+        
     }
   }
 
@@ -94,7 +94,7 @@ export default function TradeSheet() {
         )
     }
     catch (error) {
-        console.log(error)
+        
     }
   }
 

@@ -25,7 +25,7 @@ export default function RegisterUserForm() {
 
     const router = useRouter()
     async function handleAddUser(data: RegisterFormData) {
-        console.log(data)
+        
         CreateUser(data).then((res) => {
             if(res.success) {
                 setSuccess(true)
@@ -71,7 +71,7 @@ export default function RegisterUserForm() {
                     name="email"
                     id="email"
                     placeholder="luke_skywalk82@email.com"
-                    // onChange={(e) => console.log(e.target.value)}
+                    
                 />
                 {
                     errors.email && (

@@ -4,7 +4,7 @@ import DeleteVerificationToken from '@/services/tokens/deleteVerificationToken';
 import CreateVerificationToken from '@/services/tokens/createVerificationToken';
 
 export const generateVerificationToken = async (identifier: string) => {
-    console.log(`Step 1: ${identifier}`)
+    
     // Generate a random token 
     const token = uuidv4();
     const expires = new Date().getTime() + 1000 * 60 * 60 * 24; // 24 hours

@@ -25,21 +25,19 @@ export default function CurrentPortfolioPage() {
       try {
         const userEmail = session?.user?.email
         const response = await GetUserByEmail(userEmail)
-        // const response = await GetAllTransactions()
+        
         const transGroup = groupTrades(response.transactions)
         setClosedTrades(transGroup)
         let newTrades = transGroup
-        console.log(`new trades array? ${newTrades}`)
+
         let openTradesArray = []
         for (let i = 0; i < newTrades.length; i++) {
           if (openTradeTrue(newTrades[i]) === false) {
             openTradesArray.push(newTrades[i])
           }
         }
-        console.log(`open trades array? ${openTradesArray}`)
         setOpenTrades(openTradesArray)
       } catch(error) {
-        console.log("Error:", error)
         setError("Failed to load transactions, please reload the page")
       } finally {
         setIsLoading(false)

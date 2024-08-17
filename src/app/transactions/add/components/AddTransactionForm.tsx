@@ -63,7 +63,7 @@ export default function AddTransactionForm() {
         try {
             const response = await getStockName(newValue)
             stockName = response.quoteType.result[0].shortName
-            // console.log(`stockName: ${stockName}`)
+            
         } catch (error) {
             console.error("Error fetching stock name", error)
         }
@@ -120,7 +120,7 @@ export default function AddTransactionForm() {
                         type="date"
                         name="date"
                         id="date"
-                        // onChange={(e) => console.log(e.target.value)}
+                        
                     />
                     {
                         errors.date && (

@@ -51,7 +51,7 @@ export default function TradeStatistics() {
         }
         setOpenTrades(openTradesArray)
       } catch(error) {
-        console.log("Error:", error)
+        
         setError("Failed to load transactions, please reload the page")
       } finally {
         setIsLoading(false)

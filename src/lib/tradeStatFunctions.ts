@@ -40,7 +40,7 @@ function avgOpenPrice (tradeList: Transaction[]) {
     let avgPrice = totalCost(tradeList)/totalShares
     return avgPrice
 }
-// console.log(`Avg Open Price: ${avgOpenPrice(trades)}`)
+
 
 function totalSold (tradeList: Transaction[]) {
     let value = 0

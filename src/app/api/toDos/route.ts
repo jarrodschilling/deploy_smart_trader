@@ -3,11 +3,6 @@ import db from "@/lib/prisma";
 
 export async function GET(req: any) {
     const toDos = await db.toDo.findMany()
-    // const session = await getServerSession(authOptions)
-    // // console.log(session)
-    // if (!session) {
-    //     return Response.error()
-    // }
 
     return Response.json(toDos)
 }

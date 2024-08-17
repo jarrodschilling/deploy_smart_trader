@@ -4,11 +4,7 @@ import db from "@/lib/prisma";
 
 export async function GET(req: any) {
     const transactions = await db.transaction.findMany()
-    // const session = await getServerSession(authOptions)
-    // // console.log(session)
-    // if (!session) {
-    //     return Response.error()
-    // }
+
 
     return Response.json(transactions)
     // return NextResponse.json(

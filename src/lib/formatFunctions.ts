@@ -1,7 +1,7 @@
 function dateChanger(dateISO: string) {
     if ((typeof dateISO) === "string" ) {
         const dateObject = new Date(dateISO);
-        // console.log(dateObject)
+        
         const newDate = `${(dateObject.getUTCMonth() + 1).toString().padStart(2, '0')}/${dateObject.getUTCDate().toString().padStart(2, '0')}/${dateObject.getUTCFullYear()}`;
 
         return newDate;

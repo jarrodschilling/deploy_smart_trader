@@ -27,13 +27,13 @@ const CurrentPortfolioComponent: React.FC<Props> = ({openTrades, stockPrices, po
   // const [openTrades, setOpenTrades] = useState<Transaction[][]>([])
   // const [stockPrices, setStockPrices] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(true)
-  // console.log(await tradesData)
+  
   const [error, setError] = useState<string | null>(null)
   const { data: session, status } = useSession()
   const router = useRouter()
 
   const portfolio = portfolioValue
-  console.log(portfolio)
+  
 
 
   // useEffect (() => {

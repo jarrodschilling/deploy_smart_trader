@@ -6,7 +6,7 @@ import { sendVerificationEmail } from "@/lib/mail";
 
 
 export async function GET(request: Request, { params }: { params: {email: string} }) {
-    // console.log(`route.ts: ${request}`)
+    
     const userEmail = params.email
     const user = await db.user.findUnique({
         where: {
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
         email: lowercaseEmail,
         password: hashedPassword,
     }
-    // console.log(newUser.email)
+    
     const verificationToken = await generateVerificationToken(newUser.email)
 
     await sendVerificationEmail(newUser.email, verificationToken.data.token)

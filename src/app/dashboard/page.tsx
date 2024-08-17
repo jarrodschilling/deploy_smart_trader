@@ -40,7 +40,7 @@ export default function Dashboard() {
         }
         setOpenTrades(openTradesArray)
       } catch(error) {
-        console.log("Error:", error)
+        
         setError("Failed to load transactions, please reload the page")
       } finally {
         setIsLoading(false)
@@ -109,9 +109,11 @@ export default function Dashboard() {
       <DashboardCalcs portfolioValue={portfolioValue} closedTrades={closedTrades} openTrades={openTrades} stockPrices={stockPrices} />
       <CurrentPortfolioComponent portfolioValue={portfolioValue} openTrades={openTrades} stockPrices={stockPrices} />
       <br />
-      <br />
-      
       <TradeSheet />
+      <br />
+      <br />
+      <br />
+
     </div>
   )
 }

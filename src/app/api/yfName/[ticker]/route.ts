@@ -1,6 +1,6 @@
 
 export async function GET(request: Request, { params }: { params: {ticker: string} }) {
-    // console.log(`route.ts: ${request}`)
+    
     const ticker = params.ticker
     
 

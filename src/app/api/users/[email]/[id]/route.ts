@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+
 import db from "@/lib/prisma";
 
 export async function PUT(request: Request, { params }: { params: {data: any, id: string} }) {
-    // console.log(req)
+    
     const userId = params.id
     const user = await request.json()
     const updatedUser = {
@@ -12,7 +12,7 @@ export async function PUT(request: Request, { params }: { params: {data: any, id
         password: user.password,
         portfolioValue: user.portfolioValue
     }
-    console.log(JSON.stringify(updatedUser))
+    
     const updateUser = await db.user.update({
         where: {
             id: userId,

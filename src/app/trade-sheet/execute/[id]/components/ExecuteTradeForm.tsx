@@ -36,12 +36,12 @@ export default function ExecuteTradeForm({ transaction }: TransactionProps) {
         try {
             const response = await getStockName(newValue)
             stockName = response.quoteType.result[0].shortName
-            // console.log(`stockName: ${stockName}`)
+            
         } catch (error) {
-            // console.error("Error fetching stock name", error)
+            
         }
         const updatedData = {...data, name:stockName}
-        // console.log(`updatedData: ${updatedData}`)
+
         const id = transaction.id
         CreateTransaction(updatedData)
         DeleteToDo(transaction.id)

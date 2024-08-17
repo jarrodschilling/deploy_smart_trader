@@ -15,7 +15,6 @@ interface Props {
 
 const TradeSheetComponent: React.FC<Props> = ({toDos, stockPrices}) =>  {
     const [isLoading, setIsLoading] = useState(true)
-    // console.log(await tradesData)
     const [error, setError] = useState<string | null>(null)
     const { data: session, status } = useSession()
     const router = useRouter()

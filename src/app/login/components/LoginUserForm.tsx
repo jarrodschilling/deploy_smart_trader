@@ -9,6 +9,7 @@ import { signIn } from "next-auth/react"
 import Link from "next/link"
 import GoogleButtonLogin from "@/components/GoogleButtonLogin"
 import { useState } from "react"
+import {customAuth} from "@/lib/customAuth"
 
 
 export default function LoginUserForm() {
@@ -25,12 +26,14 @@ export default function LoginUserForm() {
 
     const router = useRouter()
     async function handleAddUser(data: LoginFormData) {
-        const login = await signIn('credentials', {...data, callbackUrl: 'http://localhost:3000/dashboard', redirect: false})
-        if (login?.ok) {
-            router.push('/dashboard')
+        const checkCredentials = await customAuth(data)
+        if (checkCredentials) {
+            const login = await signIn('credentials', {...data, callbackUrl: 'http://localhost:3000/dashboard'})
         } else {
             setCredentialError("Invalid Credentials")
         }
+
+
     }
     return (
         <div className="flex justify-center mx-auto">
@@ -48,7 +51,7 @@ export default function LoginUserForm() {
                     type="email"
                     name="email"
                     id="email"
-                    // onChange={(e) => console.log(e.target.value)}
+                    
                 />
                 {
                     errors.email && (

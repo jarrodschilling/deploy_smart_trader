@@ -16,7 +16,6 @@ export default function Transactions() {
   const [advColors, setAdvColors] = useState<string>("false")
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  // console.log(await tradesData)
   const [error, setError] = useState<string | null>(null)
   const { data: session, status } = useSession()
   const router = useRouter()
@@ -27,10 +26,8 @@ export default function Transactions() {
       try {
         const userEmail = session?.user?.email
         const response = await GetUserByEmail(userEmail)
-        console.log("Error:", error)
         setTransactions(response.transactions)
       } catch(error) {
-        console.log("Error:", error)
         // router.push("/")
         setError("Failed to load transactions, please reload the page")
       } finally {
