@@ -3,6 +3,8 @@ import "./globals.css";
 import AboutApp from "@/components/AboutApp";
 import HomePageTitleBar from "@/components/HomePageTitleBar";
 import CreateAccountButton from "@/components/CreateAccountButton";
+import FinancialDisclosure from "@/components/FinancialDisclosure";
+import YahooDisclosure from "@/components/YahooDisclosure";
 
 
 export default async function Home() {
@@ -14,6 +16,8 @@ export default async function Home() {
       <HomePageTitleBar />
       <CreateAccountButton />
       <AboutApp />
+      <FinancialDisclosure />
+      <YahooDisclosure />
       </div>
       </div>
     </div>

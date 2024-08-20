@@ -94,11 +94,11 @@ export default function RegisterUserForm() {
                     placeholder="**********"
                 />
                 {
-                    errors.password && (
+                    errors.password?(
                         <p>
                             {errors.password.message}
                         </p>
-                    )
+                    ):<p className="text-xs text-blue-500">*Uppercase, lowercase, number, and symbol required*</p>
                 }
                 </div>
             </div>

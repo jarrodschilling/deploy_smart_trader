@@ -116,9 +116,9 @@ export const userRegisterSchema = z.object({
         .string({
             required_error: "Password required"
         })
-        .min(1, {
-            message: "Must be at least 1 character"
-        })
+        // .min(1, {
+        //     message: "Must be at least 1 character"
+        // })
         .regex(passwordValidation, {
             message: "Your password is NOT valid"
         }),
@@ -126,9 +126,9 @@ export const userRegisterSchema = z.object({
         .string({
             required_error: "Password required"
         })
-        .min(1, {
-            message: "Must be at least 1 character"
-        })
+        // .min(1, {
+        //     message: "Must be at least 1 character"
+        // })
         .regex(passwordValidation, {
             message: "Your password is NOT valid"
         }),

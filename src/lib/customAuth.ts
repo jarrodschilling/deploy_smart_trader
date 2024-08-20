@@ -25,9 +25,9 @@ export const customAuth = async (credentials: Credentials) => {
             return false
         }
 
-        if(!user?.emailVerified) {
-            return false
-        }
+        // if(!user?.emailVerified) {
+        //     return false
+        // }
 
         return true
 }
