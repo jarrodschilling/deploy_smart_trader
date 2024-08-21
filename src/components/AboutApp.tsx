@@ -37,16 +37,7 @@ export default function AboutApp() {
         <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
           {/* <img src="/about/trade_stats_statistics.png" alt=""></img> */}
           <Image 
-            src="/about/trade_stats_statistics.png"
-            alt=""
-            height={374}
-            width={1102}
-          />
-        </div>
-        <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
-          {/* <img src="/about/trade_stats_transactions.png" alt=""></img> */}
-          <Image 
-            src="/about/trade_stats_transactions.png"
+            src="/about/trade_stats_statistics_2.png"
             alt=""
             height={374}
             width={1102}
@@ -61,9 +52,33 @@ export default function AboutApp() {
           </p>
         </div>
         <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
-          {/* <img src="/about/trade_stats_details.png" alt=""></img> */}
           <Image 
             src="/about/trade_stats_details.png"
+            alt=""
+            height={374}
+            width={1102}
+          />
+        </div>
+        <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
+          <p>
+            Prepare for the day ahead with a customizable Trade Sheet for trades you want
+            to take. Sorted by distance from trigger price and easily added to your transactions
+            with a few clicks of a button once they execute on your preferred brokerage platform.
+            No longer do you have to be in the
+            dark about what the trading day ahead looks like.
+          </p>
+        </div>
+        <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
+          <Image 
+            src="/about/trade_stats_todo.png"
+            alt=""
+            height={374}
+            width={1102}
+          />
+        </div>
+        <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
+          <Image 
+            src="/about/trade_stats_transactions.png"
             alt=""
             height={374}
             width={1102}

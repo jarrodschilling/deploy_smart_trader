@@ -95,7 +95,7 @@ export const authOptions = {
     session: {
         strategy: "jwt",
     },
-    debug: process.env.NODE_ENV === "development",
+    // debug: process.env.NODE_ENV === "development",
     callbacks: {
         // @ts-ignore
         async jwt({ token, session, user}) {

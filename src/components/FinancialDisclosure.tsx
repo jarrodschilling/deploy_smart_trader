@@ -4,8 +4,8 @@ import Image from 'next/image'
 export default function FinancialDisclosure() {
   return (
     <div className="flex-col justify-between">
-        <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
-            <p>
+        <div className="text-center bg-slate-800 rounded-md p-6 mt-20 mb-4">
+            <p className='text-xs'>
                 <strong>NO INVESTMENT ADVICE </strong>
 
                 This website content is for informational purposes only, you should not construe any such information or other material as legal, tax, investment, financial, or other advice. Nothing contained on this site constitutes a solicitation, recommendation, endorsement, or offer to buy or sell any securities or other financial instruments in this or in in any other jurisdiction in which such solicitation or offer would be unlawful under the securities laws of such jurisdiction.
