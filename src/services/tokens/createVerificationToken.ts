@@ -1,7 +1,8 @@
+import { app_domain } from "@/lib/domain"
 
 
 export default async function CreateVerificationToken(data: any) {
-    const res = await fetch('http://localhost:3000/api/tokens', {
+    const res = await fetch(`${app_domain}/api/tokens`, {
         method: "POST",
         body: JSON.stringify(data)
     })

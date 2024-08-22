@@ -1,6 +1,8 @@
+import { app_domain } from "@/lib/domain"
+
 export default async function DeleteVerificationToken(token: string, identifier: string) {
 
-    const res = await fetch(`http://localhost:3000/api/tokens/${token}/${identifier}`, {
+    const res = await fetch(`${app_domain}/api/tokens/${token}/${identifier}`, {
         method: "DELETE",
     })
 

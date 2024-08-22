@@ -1,7 +1,8 @@
+import { app_domain } from "@/lib/domain"
 import { AddToDoFormData } from "../../../types"
 
 export default async function EnteredToDoUpdate(data: any, id: string) {
-    const res = await fetch(`http://localhost:3000/api/toDos/${id}`, {
+    const res = await fetch(`${app_domain}/api/toDos/${id}`, {
         method: "PATCH",
         body: JSON.stringify(data)
     })

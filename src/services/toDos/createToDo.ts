@@ -1,7 +1,8 @@
+import { app_domain } from "@/lib/domain"
 import { AddToDoFormData } from "../../../types"
 
 export default async function CreateToDo(data: AddToDoFormData) {
-    const res = await fetch('http://localhost:3000/api/toDos', {
+    const res = await fetch(`${app_domain}/api/toDos`, {
         method: "POST",
         body: JSON.stringify(data)
     })

@@ -1,6 +1,8 @@
+import { app_domain } from "@/lib/domain"
+
 export default async function GetTokenByToken(token: string) {
     
-    const res = await fetch(`http://localhost:3000/api/tokens/${token}`, {
+    const res = await fetch(`${app_domain}/api/tokens/${token}`, {
         method: "GET",
     })
 

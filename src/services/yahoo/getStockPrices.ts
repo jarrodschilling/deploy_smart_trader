@@ -1,7 +1,8 @@
+import { app_domain } from "@/lib/domain"
 
 
 export default async function getStockName(stockTicker: string) {
-    const res = await fetch(`http://localhost:3000/api/yfQuote/${stockTicker}`,
+    const res = await fetch(`${app_domain}/api/yfQuote/${stockTicker}`,
         {mode: 'no-cors'}
     )
     

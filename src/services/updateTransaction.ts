@@ -1,7 +1,8 @@
+import { app_domain } from "@/lib/domain"
 import { AddTransactionFormData } from "../../types"
 
 export default async function UpdateTransaction(data: AddTransactionFormData, id: string) {
-    const res = await fetch(`http://localhost:3000/api/transactions/${id}`, {
+    const res = await fetch(`${app_domain}/api/transactions/${id}`, {
         method: "PUT",
         body: JSON.stringify(data)
     })

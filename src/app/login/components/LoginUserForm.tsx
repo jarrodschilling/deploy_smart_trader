@@ -10,6 +10,7 @@ import Link from "next/link"
 import GoogleButtonLogin from "@/components/GoogleButtonLogin"
 import { useState } from "react"
 import {customAuth} from "@/lib/customAuth"
+import { app_domain } from "@/lib/domain"
 
 
 export default function LoginUserForm() {
@@ -28,7 +29,7 @@ export default function LoginUserForm() {
     async function handleAddUser(data: LoginFormData) {
         const checkCredentials = await customAuth(data)
         if (checkCredentials) {
-            const login = await signIn('credentials', {...data, callbackUrl: 'http://localhost:3000/dashboard'})
+            const login = await signIn('credentials', {...data, callbackUrl: `${app_domain}/dashboard`})
         } else {
             setCredentialError("Invalid Credentials")
         }
@@ -97,11 +98,6 @@ export default function LoginUserForm() {
                             href={"/register"}>Create Account</Link>
                 </button>
             </div>
-            
-            {/* <button 
-                onClick={() => signIn('google', {callbackUrl: 'http://localhost:3000/dashboard'})}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >Sign In</button> */}
             
         </div>
         </div>

@@ -1,5 +1,7 @@
+import { app_domain } from "@/lib/domain"
+
 export default async function GetAllTransactions() {
-    const res = await fetch('http://localhost:3000/api/transactions', {
+    const res = await fetch(`${app_domain}/api/transactions`, {
         method: 'GET',
         cache: 'no-store',
         next: { tags: ['collection']}

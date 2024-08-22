@@ -1,8 +1,9 @@
 import { Resend } from 'resend'
+import { app_domain } from './domain'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-const domain = "http://localhost:3000"
+const domain = `${app_domain}`
 
 export const sendVerificationEmail = async (email: string, token: string) => {
 
