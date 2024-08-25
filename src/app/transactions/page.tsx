@@ -24,7 +24,7 @@ export default function Transactions() {
     const fetchTransactions = async () => {
       setIsLoading(true)
       try {
-        const userEmail = "madeup@email.com"
+        const userEmail = session?.user?.email
         const response = await GetUserByEmail(userEmail)
         setTransactions(response.transactions)
       } catch(error) {

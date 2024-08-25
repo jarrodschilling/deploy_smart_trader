@@ -1,13 +1,13 @@
 export { default } from "next-auth/middleware"
 
 export const config = { matcher: [
-    // "/dashboard",
-    // "/current-portfolio",
-    // "/transactions",
-    // "/equity-curve",
-    // "/trade-sheet",
-    // "/trade-statistics",
-    // "/users",
+    "/dashboard",
+    "/current-portfolio",
+    "/transactions",
+    "/equity-curve",
+    "/trade-sheet",
+    "/trade-statistics",
+    "/users",
 
 ]}
 
