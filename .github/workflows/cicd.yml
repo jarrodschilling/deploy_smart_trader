@@ -29,4 +29,4 @@ jobs:
             - name: Delete old container
               run: docker rm -f tradestatspro-container
             - name: Run docker container
-              run: docker run -d -b 3000:3000 --name tradestatspro-container jarrodschilling/trade_stats_pro
+              run: docker run -d -p 3000:3000 --name tradestatspro-container jarrodschilling/trade_stats_pro
