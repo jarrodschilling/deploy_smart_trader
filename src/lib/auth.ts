@@ -84,9 +84,9 @@ export const authOptions = {
                 throw new Error('Incorrect password')
             }
 
-            // if(!user?.emailVerified) {
-            //     throw new Error('Email not verified')
-            // }
+            if(!user?.emailVerified) {
+                throw new Error('Email not verified')
+            }
 
             return user
         }

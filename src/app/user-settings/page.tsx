@@ -3,6 +3,7 @@ import GetUserByEmail from '@/services/getUserByEmail'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import SettingsForm from './components/SettingsForm'
+import DeleteAccountForm from './components/DeleteAccountForm'
 
 
 export default function UserSettings() {
@@ -26,6 +27,7 @@ export default function UserSettings() {
     return (
         <div className='m-4 mt-20'>
             <SettingsForm user={user} />
+            <DeleteAccountForm user={user} />
         </div>
     )
 }

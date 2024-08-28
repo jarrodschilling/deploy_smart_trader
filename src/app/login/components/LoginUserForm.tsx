@@ -27,7 +27,7 @@ export default function LoginUserForm() {
 
     const router = useRouter()
     async function handleAddUser(data: LoginFormData) {
-        console.log(data)
+        
         const checkCredentials = await customAuth(data)
         if (checkCredentials) {
             const login = await signIn('credentials', {...data, callbackUrl: `${app_domain}/dashboard`})

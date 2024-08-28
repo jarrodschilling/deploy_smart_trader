@@ -8,7 +8,7 @@ const domain = `${app_domain}`
 export const sendVerificationEmail = async (email: string, token: string) => {
 
     const confirmationLink = `${domain}/verify-email?token=${token}`
-
+    
     await resend.emails.send({
         from: "onboarding@resend.dev",
         to: email,

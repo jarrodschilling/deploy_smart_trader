@@ -1,8 +1,8 @@
 import { app_domain } from "@/lib/domain"
 
-export default async function DeleteUser(data: any, id: string | null) {
+export default async function DeleteAccount(id: any) {
 
-    const res = await fetch(`${app_domain}/api/users/${data.email}/${id}`, {
+    const res = await fetch(`${app_domain}/api/account/${id}`, {
         method: "DELETE",
     })
 

@@ -22,3 +22,19 @@ export async function PUT(request: Request, { params }: { params: {data: any, id
     
     return Response.json(updateUser)
 }
+
+
+export async function DELETE(request: Request, { params }: { params: {id: string} }) {
+    
+    const userId = params.id
+    
+
+    const user = await db.user.delete({
+        where: {
+            id: userId,
+        },
+    })
+
+    return Response.json(user)
+
+}

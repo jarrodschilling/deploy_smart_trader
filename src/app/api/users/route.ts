@@ -45,9 +45,9 @@ export async function POST(request: Request) {
     
     // FOR TESTING: comment out next two lines and one line in auth.ts AND customAuth.ts file for emailverification
 
-    // const verificationToken = await generateVerificationToken(newUser.email)
+    const verificationToken = await generateVerificationToken(newUser.email)
 
-    // await sendVerificationEmail(newUser.email, verificationToken.data.token)
+    await sendVerificationEmail(newUser.email, verificationToken.data.token)
 
     await db.user.create({
         data: newUser

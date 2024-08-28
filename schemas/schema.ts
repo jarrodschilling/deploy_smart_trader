@@ -176,3 +176,7 @@ export const userSettingsSchema = z.object({
         })
         .positive(),
 })
+
+export const deleteUserSchema = z.object({
+
+})
