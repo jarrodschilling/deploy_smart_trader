@@ -24,9 +24,11 @@ jobs:
         needs: build
         runs-on: self-hosted
         steps:
+            - name: Prune all docker to free space
+              run: echo y | docker system prune
             - name: Pull image from docker hub
               run: docker pull jarrodschilling/trade_stats_pro:latest
-            - name: Delete old container
-              run: docker rm -f tradestatspro-container
+            # - name: Delete old container
+            #   run: docker rm -f tradestatspro-container
             - name: Run docker container
               run: docker run -d -p 3000:3000 --name tradestatspro-container jarrodschilling/trade_stats_pro

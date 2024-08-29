@@ -2,12 +2,13 @@
 import GetUserByEmail from '@/services/getUserByEmail'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
-import SettingsForm from './components/SettingsForm'
-import DeleteAccountForm from './components/DeleteAccountForm'
-import DeleteAccountButton from './components/DeleteAccountButton'
+import DeleteAccountButton from '../components/DeleteAccountButton'
+import DeleteAccountForm from '../components/DeleteAccountForm'
+import PageTitle from '@/components/PageTitle'
 
 
-export default function UserSettings() {
+
+export default function DeleteAccount() {
     const { data: session } = useSession()
     const [user, setUser] = useState({})
     const [error, setError] = useState("")
@@ -27,8 +28,9 @@ export default function UserSettings() {
 
     return (
         <div className='m-4 mt-20'>
-            <SettingsForm user={user} />
-            <DeleteAccountButton user={user} />
+            <PageTitle title={'Delete User Account'} />
+            <h1 className='font-bold text-center text-xl'>Are you sure you want to PERMANENTLY DELETE this user account?</h1>
+            <DeleteAccountForm user={user} />
         </div>
     )
 }

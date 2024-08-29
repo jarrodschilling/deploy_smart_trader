@@ -12,6 +12,7 @@ import GetUserByEmail from "@/services/getUserByEmail"
 import groupTrades from "@/lib/groupTrades"
 import { openTradeTrue } from "@/lib/tradeStatFunctions"
 import Link from "next/link"
+import BetaTesting from "@/components/BetaTesting"
 
 export default function Dashboard() {
   const [closedTrades, setClosedTrades] = useState<Transaction[][]>([])
@@ -97,6 +98,7 @@ export default function Dashboard() {
   
   return (
     <div className='m-4 mt-20'>
+      <BetaTesting />
       <PageTitle title={"Dashboard"} />
       <div className='flex justify-center'>
       <button

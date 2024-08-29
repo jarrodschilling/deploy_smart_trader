@@ -57,9 +57,9 @@ export default function DeleteAccountForm({ user }: UserProps) {
         
         <form className="" onSubmit={handleSubmit(handleDeleteUser)}>
                 <button 
-                    className="mb-6 w-80 bg-red-500 hover:bg-red-700 text-white font-bold py-4 px-4 rounded focus:outline-none focus:shadow-outline" 
+                    className="mt-10 mb-6 w-80 bg-red-500 hover:bg-red-700 text-white font-bold py-4 px-4 rounded focus:outline-none focus:shadow-outline" 
                     type="submit">
-                        REMOVE ACCOUNT
+                        DELETE ACCOUNT
                 </button>
             </form>
             </div>
