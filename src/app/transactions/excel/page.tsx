@@ -8,6 +8,7 @@ import * as XLSX from "xlsx"
 import CreateBulkTransactions from "@/services/createBulkTransactions"
 import { AddTransactionFormData } from "../../../../types"
 import GetUserByEmail from "@/services/getUserByEmail"
+import getStockName from "@/services/yahoo/getStockNames"
 
 export default function ExcelUpload() {
     const [file, setFile] = useState<File|null>(null)
@@ -15,6 +16,18 @@ export default function ExcelUpload() {
     const router = useRouter()
     const [dbUserId, setDbUserId] = useState("")
     const { data: session, status } = useSession()
+
+    async function handleAddName(ticker: any) {
+        let stockName
+        try {
+            const response = await getStockName(ticker)
+            stockName = response.quoteType.result[0].shortName
+        } catch (error) {
+            console.error("Error fetching stock name", error)
+        }
+        console.log(stockName)
+        return stockName
+    }
 
     useEffect(() => {
         setLoading(true)
@@ -42,9 +55,13 @@ export default function ExcelUpload() {
                     // JSON
                     const transactions:AddTransactionFormData[] = XLSX.utils.sheet_to_json(workSheet, { raw: false })
                     // setJsonData(JSON.stringify(json, null, 2))
-                    const processedTransactions = transactions.map((transaction: any) => {
+                    const processedTransactions = await Promise.all(transactions.map(async (transaction: any) => {
                         if (transaction.date) {
                             transaction.date = new Date(transaction.date).toISOString().split('T')[0]
+                        }
+                        if (transaction.ticker) {
+                            // Convert Price to integer (or float if needed)
+                            transaction.name = await handleAddName(transaction.ticker);
                         }
                         if (transaction.shares) {
                             // Convert Shares to integer
@@ -67,7 +84,7 @@ export default function ExcelUpload() {
                         const updatedTransaction = {...transaction, userId:userIdData}
 
                         return updatedTransaction
-                    })
+                    }))
                     // Save to DB
                     await CreateBulkTransactions(processedTransactions)
                     setLoading(false)

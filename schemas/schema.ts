@@ -8,8 +8,8 @@ export const addTransactionFormSchema = z.object({
         .min(1, {
             message: "Must be at least 1 character"
         })
-        .max(5, {
-            message: "Cannot be longer than 5 characters"
+        .max(8, {
+            message: "Cannot be longer than 8 characters"
         })
         .toUpperCase(),
     date: z
