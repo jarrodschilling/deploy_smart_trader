@@ -8,5 +8,5 @@ COPY . .
 COPY prisma ./prisma
 RUN npx prisma generate
 RUN npm run build
-EXPOSE 443
+EXPOSE 80
 CMD [ "npm","run","start" ]
