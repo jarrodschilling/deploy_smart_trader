@@ -10,6 +10,9 @@ export async function GET(request: Request, { params }: { params: {identifier: s
             identifier: tokenIdentifier
         }
     })
-
+    
+    if(!tokenIdentifier) {
+        return Response.json(false)
+    }
     return Response.json(verificationToken)
 }

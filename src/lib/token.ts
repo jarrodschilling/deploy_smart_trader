@@ -10,7 +10,9 @@ export const generateVerificationToken = async (identifier: string) => {
     const expires = new Date().getTime() + 1000 * 60 * 60 * 24; // 24 hours
 
     // Check if a token already exists for the user
+    
     const existingToken = await GetTokenByIdentifier(identifier)
+    
 
     if(existingToken) {
         DeleteVerificationToken(existingToken.token, identifier)
