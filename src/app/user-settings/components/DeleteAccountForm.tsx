@@ -40,9 +40,9 @@ export default function DeleteAccountForm({ user }: UserProps) {
 
     async function handleDeleteUser(data: UserSettings) {
         const updatedData = {...data, email:user.email}
-        console.log(user.id)
+        
         const userAccount = await GetAccountById(user.id)
-        console.log(userAccount)
+        
         if (userAccount) {
             DeleteAccount(user.id)
         }

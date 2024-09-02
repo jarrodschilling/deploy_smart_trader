@@ -43,7 +43,7 @@ export default function LoginUserForm() {
         <div className="w-full max-w-lg p-8">
         <form className="" onSubmit={handleSubmit(handleAddUser)}>
             <h1 className="text-3xl font-bold text-slate-200 mb-2">Login to Account</h1>
-            <span className="text-lg font-bold text-blue-500">{credentialError}</span>
+            <span className="text-lg font-bold text-red-500">{credentialError}</span>
             <div className="flex flex-wrap -mx-3 mb-6 mt-6">
                 <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-slate-200 text-sm font-bold mb-2" htmlFor="email">Email*</label>

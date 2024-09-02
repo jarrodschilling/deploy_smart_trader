@@ -8,12 +8,14 @@ import { RegisterFormData } from "../../../../types"
 import CreateUser from "@/services/createUser"
 import GoogleButtonRegister from "@/components/GoogleButtonRegister"
 import { useState } from "react"
+import { registrationError } from "@/lib/registrationError"
 
 
 
 export default function RegisterUserForm() {
     const { data: session, status } = useSession()
     const [success, setSuccess] = useState(false)
+    const [error, setError] = useState<string | null>(null)
 
     const {
         register,
@@ -25,12 +27,19 @@ export default function RegisterUserForm() {
 
     const router = useRouter()
     async function handleAddUser(data: RegisterFormData) {
+        const checkEmail = await registrationError(data)
         
-        CreateUser(data).then((res) => {
-            if(res.success) {
-                setSuccess(true)
-            }
-        })
+        if(checkEmail){
+            CreateUser(data).then((res) => {
+                if(res.success) {
+                    setSuccess(true)
+                }
+            })
+        } else {
+            // alert("Email already exists")
+            setError("EMAIL ALREADY EXISTS")
+        }
+
         // router.push('/dashboard')
     }
     return (
@@ -40,7 +49,10 @@ export default function RegisterUserForm() {
         
         <form className="" onSubmit={handleSubmit(handleAddUser)}>
         <h1 className="text-3xl font-bold text-slate-200 mb-2">Create Account</h1>
-        <h4 className="text-sm">Take back control of your trading</h4>
+        {
+            error?<h4 className="text-lg font-bold text-red-500">{error}</h4>:
+            <h4 className="text-sm">Take back control of your trading</h4>
+        }
             <div className="flex flex-wrap -mx-3 mb-4 mt-6">
                 <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-slate-200 text-sm font-bold mb-2" htmlFor="name">Name*</label>

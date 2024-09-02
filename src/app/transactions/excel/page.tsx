@@ -1,6 +1,5 @@
 "use client"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { use, useEffect, useState } from "react"
@@ -25,7 +24,7 @@ export default function ExcelUpload() {
         } catch (error) {
             console.error("Error fetching stock name", error)
         }
-        console.log(stockName)
+        
         return stockName
     }
 
@@ -99,6 +98,11 @@ export default function ExcelUpload() {
         <div className="flex justify-center mx-auto mt-20">
         <div className="border-2 border-slate-200 bg-black rounded-md w-1/3 flex justify-center mt-10">
         <div className="w-full max-w-lg p-8">
+        {loading?
+            <div className="">
+            <h1 className="text-3xl font-bold text-slate-200 mb-2">Uploading Data...</h1>
+            </div>:
+
         <div className="">
             <h1 className="text-3xl font-bold text-slate-200 mb-2">Upload Excel File</h1>
             
@@ -126,6 +130,7 @@ export default function ExcelUpload() {
                 
                 
             </div>
+        }
             </div>
         </div>
         </div>

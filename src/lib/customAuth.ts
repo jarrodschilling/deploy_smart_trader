@@ -14,6 +14,7 @@ export const customAuth = async (credentials: Credentials) => {
         }
 
         const user = await GetUserByEmail(credentials?.email)
+        
 
         if (!user || !user?.password) {
             return false

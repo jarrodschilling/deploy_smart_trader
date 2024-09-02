@@ -6,7 +6,7 @@ import { sendVerificationEmail } from "@/lib/mail";
 
 
 export async function GET(request: Request, { params }: { params: {email: string} }) {
-    
+    console.log(`route.ts: ${params.email}`)
     const userEmail = params.email
     const user = await db.user.findUnique({
         where: {
@@ -31,7 +31,11 @@ export async function POST(request: Request) {
     })
 
     if(exist) {
-        throw new Error('email already exists')
+        // throw new Error('email already exists')
+        return NextResponse.json(
+            { success: false, message: 'Email already exists.' },
+            { status: 400 } // Bad Request
+        );
     }
     
     const hashedPassword = await bcrypt.hash(user.password, 10)

@@ -9,6 +9,9 @@ import getStockPrices from "@/services/yahoo/getStockPrices";
 import { Transaction } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import CurrentPortfolioHeader from "./components/CurrentPortfolioHeader";
+import { Metadata } from "next";
+
+
 
 export default function CurrentPortfolioPage() {
   const [closedTrades, setClosedTrades] = useState<Transaction[][]>([])

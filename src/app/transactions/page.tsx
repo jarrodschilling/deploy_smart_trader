@@ -77,8 +77,11 @@ export default function Transactions() {
           className="bg-blue-500 hover:bg-blue-700 text-white mr-4 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
           ><Link href="/transactions/add">Add New Transaction</Link></button>
           <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+          className="bg-blue-500 hover:bg-blue-700 text-white mr-4 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
           ><Link href="/transactions/excel">Excel Upload</Link></button>
+          <button
+          className="bg-red-500 hover:bg-red-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+          ><Link href="/transactions/deleteAll">Delete ALL Transactions</Link></button>
         </div>
 
         <div>

@@ -8,7 +8,10 @@ import Header from "@/components/Header";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Smart Trader",
+  title: {
+    default: "Trade Stats Pro",
+    template: "Trade Stats Pro | %s",
+  },
   description: "Track and review stock trades systematically",
 };
 
