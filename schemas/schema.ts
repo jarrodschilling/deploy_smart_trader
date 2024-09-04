@@ -45,7 +45,7 @@ export const addTransactionFormSchema = z.object({
         })
         .positive(),
     shaper: z
-        .optional(
+        .nullable(
             z.string({
                 message: "Must be a string"
             })
@@ -54,7 +54,7 @@ export const addTransactionFormSchema = z.object({
             })
         ),
     tactical: z
-        .optional(
+        .nullable(
             z.string({
                 message: "Must be a string"
             })

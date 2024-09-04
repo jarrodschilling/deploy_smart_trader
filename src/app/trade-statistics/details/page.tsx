@@ -127,6 +127,7 @@ export default function TradeDetails() {
                         <td scope="col" className="px-0 py-2">{transaction.tactical}</td>
                         <td scope="col" className="px-0 py-2">{transaction.openTrade? "Yes": ""}</td>
                         <td scope="col" className="px-0 py-2">{transaction.closeTrade? "Yes": ""}</td>
+                        
                         <td scope="col" className="px-0 py-2">
                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/transactions/edit/${transaction.id}`}>EDIT</Link></button>
                         </td>

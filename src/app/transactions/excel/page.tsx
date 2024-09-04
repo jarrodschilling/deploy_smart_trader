@@ -60,7 +60,12 @@ export default function ExcelUpload() {
                         }
                         if (transaction.ticker) {
                             // Convert Price to integer (or float if needed)
-                            transaction.name = await handleAddName(transaction.ticker);
+                            const yahooName = await handleAddName(transaction.ticker);
+                            if(yahooName) {
+                                transaction.name = yahooName
+                            } else {
+                                transaction.name = "yfinance"
+                            }
                         }
                         if (transaction.shares) {
                             // Convert Shares to integer
@@ -69,6 +74,10 @@ export default function ExcelUpload() {
                         if (transaction.price) {
                             // Convert Price to integer (or float if needed)
                             transaction.price = parseFloat(transaction.price);
+                        }
+                        if (transaction.buySell) {
+                            // Convert string to boolean
+                            transaction.buySell = transaction.buySell.toLowerCase();
                         }
                         if (transaction.closeTrade) {
                             // Convert string to boolean
@@ -113,7 +122,7 @@ export default function ExcelUpload() {
                 <input 
                     className="block w-full text-base text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                     type="file"
-                    accept=".xls,.xlsx"
+                    accept=".xls,.xlsx,.csv"
                     name="fileName"
                     id="fileName"
                     placeholder="No file chosen"
