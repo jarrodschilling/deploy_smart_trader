@@ -205,8 +205,8 @@ export default function TradeStatistics() {
                 .sort((a, b) => new Date(a[0].date).getTime() - new Date(b[0].date).getTime())
                 .map((trade: Transaction[], index: number) => (
                     <tr key={index} className={`${
-                      (openTradeTrue(trade) === false && highlight === "false")? 'bg-slate-200 text-slate-800 border-b dark:bg-slate-500 dark:border-gray-700 dark:border-b-white':
-                      (openTradeTrue(trade) === false && highlight === "true")? 'bg-slate-200 text-slate-800 border-b dark:bg-slate-500 dark:border-gray-700 dark:border-b-white hover:bg-blue-400':
+                      (openTradeTrue(trade) === false && highlight === "false")? 'bg-slate-200 text-slate-800 border-b dark:bg-slate-500 dark:border-gray-700 dark:border-b-white dark:text-white':
+                      (openTradeTrue(trade) === false && highlight === "true")? 'bg-slate-200 text-slate-800 border-b dark:bg-slate-500 dark:border-gray-700 dark:border-b-white hover:bg-blue-400 dark:text-white':
                       (onColors === "false" && highlight === "false")? 'noColor':
                       (onColors === "false" && highlight === "true")? 'noColorHighLight':
                       (onColors === "true" && highlight === "false" && (gainLoss(trade))>0)? 'colorsBuy':

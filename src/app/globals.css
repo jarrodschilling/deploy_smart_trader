@@ -32,11 +32,11 @@ body {
 
 @layer components {
   .noColor {
-    @apply bg-white text-slate-800 border-b dark:bg-slate-500 dark:border-gray-700 dark:border-b-white 
+    @apply bg-white text-slate-800 border-b dark:bg-slate-500 dark:border-gray-700 dark:border-b-white dark:text-white
   }
 
   .noColorHighLight {
-    @apply bg-white text-slate-800 border-b dark:bg-slate-500 dark:border-gray-700 dark:border-b-white hover:bg-blue-400
+    @apply bg-white text-slate-800 border-b dark:bg-slate-500 dark:border-gray-700 dark:text-white dark:border-b-white hover:bg-blue-400
   }
 
   .colorsBuy {
