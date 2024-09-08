@@ -4,7 +4,7 @@ import Image from 'next/image'
 export default function YahooDisclosure() {
   return (
     <div className="flex-col justify-between">
-        <div className="text-center bg-slate-800 rounded-md p-6 mb-4">
+        <div className="text-center bg-slate-800 text-slate-300 rounded-md p-6 mb-4">
             <p className='text-sm'>
                 Nothing on this website should be considered financial advice. Please consult a financial advisor for investment related questions.
             </p>
@@ -13,7 +13,7 @@ export default function YahooDisclosure() {
 
         </div>
 
-        <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
+        <div className="text-center bg-slate-800 text-slate-300 rounded-md p-6 mb-12">
                 <p className='font-bold text-sm'>
                     yahoo! Finance API Disclosure
                 </p>

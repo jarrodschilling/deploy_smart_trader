@@ -182,7 +182,7 @@ export default function TradeStatistics() {
 
         <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg max-h-96 -mb-10">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200">
-          <thead className="sticky top-0 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
+          <thead className="sticky top-0 text-sm text-gray-300 uppercase bg-gray-700 dark:bg-gray-700 dark:text-gray-300">
             <tr>
               <th scope="col" className="px-2 py-4">Ticker</th>
               <th scope="col" className="px-0 py-4">Name</th>
@@ -205,8 +205,8 @@ export default function TradeStatistics() {
                 .sort((a, b) => new Date(a[0].date).getTime() - new Date(b[0].date).getTime())
                 .map((trade: Transaction[], index: number) => (
                     <tr key={index} className={`${
-                      (openTradeTrue(trade) === false && highlight === "false")? 'border-b border-slate-600':
-                      (openTradeTrue(trade) === false && highlight === "true")? 'border-b border-slate-600 hover:bg-blue-400':
+                      (openTradeTrue(trade) === false && highlight === "false")? 'bg-slate-200 text-slate-800 border-b dark:bg-slate-500 dark:border-gray-700 dark:border-b-white':
+                      (openTradeTrue(trade) === false && highlight === "true")? 'bg-slate-200 text-slate-800 border-b dark:bg-slate-500 dark:border-gray-700 dark:border-b-white hover:bg-blue-400':
                       (onColors === "false" && highlight === "false")? 'noColor':
                       (onColors === "false" && highlight === "true")? 'noColorHighLight':
                       (onColors === "true" && highlight === "false" && (gainLoss(trade))>0)? 'colorsBuy':

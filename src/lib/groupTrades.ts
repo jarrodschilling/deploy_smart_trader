@@ -43,8 +43,17 @@ type GroupedTransaction = Transaction[][];
 export default function groupTrades(trades: Transaction[]): GroupedTransaction {
     const tradeGroups = new Map<string, Transaction[][]>();
     
-    trades.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .forEach((trade) => {
+    trades.sort((a, b) => {
+        const dateComparison = new Date(a.date).getTime() - new Date(b.date).getTime();
+        
+        // If dates are the same, prioritize openTrade over closeTrade
+        if (dateComparison === 0) {
+            if (a.openTrade && !b.openTrade) return -1;
+            if (!a.openTrade && b.openTrade) return 1;
+        }
+        
+        return dateComparison;
+    }).forEach((trade) => {
         const tickerKey = `${trade.ticker}`;
         
         if (!tradeGroups.has(tickerKey)) {

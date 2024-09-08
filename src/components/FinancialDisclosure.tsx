@@ -4,7 +4,7 @@ import Image from 'next/image'
 export default function FinancialDisclosure() {
   return (
     <div className="flex-col justify-between">
-        <div className="text-center bg-slate-800 rounded-md p-6 mt-20 mb-4">
+        <div className="text-center bg-slate-800 text-slate-300 rounded-md p-6 mt-20 mb-4">
             <p className='text-xs'>
                 <strong>NO INVESTMENT ADVICE </strong>
 

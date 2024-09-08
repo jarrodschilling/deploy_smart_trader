@@ -11,7 +11,7 @@ export default function HomePageTitleBar() {
                 {title.toUpperCase()}
                 {/* WELCOME<br/>TO<br/>TRADE STATS PRO */}
             </h1>
-            <h2 className='mb-12 text-center font-bold overline decoration-gray-400'>
+            <h2 className='mb-12 text-center text-gray-400 font-bold overline decoration-gray-400'>
                 Take back control of your trading system
             </h2>
         </div>

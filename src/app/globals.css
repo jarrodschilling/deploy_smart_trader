@@ -3,9 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 31, 41, 55;
+  /* --foreground-rgb: 31, 41, 55;
   --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255; */
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 17, 24, 39;
+  --background-end-rgb: 0, 0, 0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,59 +32,59 @@ body {
 
 @layer components {
   .noColor {
-    @apply bg-white border-b dark:bg-slate-500 dark:border-gray-700 dark:border-b-white
+    @apply bg-white text-slate-800 border-b dark:bg-slate-500 dark:border-gray-700 dark:border-b-white 
   }
 
   .noColorHighLight {
-    @apply bg-white border-b dark:bg-slate-500 dark:border-gray-700 dark:border-b-white hover:bg-blue-400
+    @apply bg-white text-slate-800 border-b dark:bg-slate-500 dark:border-gray-700 dark:border-b-white hover:bg-blue-400
   }
 
   .colorsBuy {
-    @apply bg-white border-b dark:bg-lime-800 dark:border-gray-700
+    @apply bg-lime-800 border-b dark:bg-lime-800 dark:border-gray-700 text-white
   }
 
   .colorsSell {
-    @apply bg-white border-b dark:bg-red-800 dark:border-gray-700
+    @apply bg-red-800 border-b dark:bg-red-800 dark:border-gray-700 text-white
   }
 
   .colorsHighlightBuy {
-    @apply bg-white hover:bg-blue-400 border-b dark:bg-lime-800 dark:border-gray-700
+    @apply bg-lime-800 hover:bg-blue-400 border-b dark:bg-lime-800 dark:border-gray-700 text-white
   }
 
   .colorsHighlightSell {
-    @apply bg-white hover:bg-blue-400 border-b dark:bg-red-800 dark:border-gray-700
+    @apply bg-red-800 hover:bg-blue-400 border-b dark:bg-red-800 dark:border-gray-700 text-white
   }
 
   .advancedColorsBuy {
-    @apply bg-white border-b dark:bg-lime-600 dark:border-gray-700
+    @apply bg-lime-600 border-b dark:bg-lime-600 dark:border-gray-700 text-white
   }
 
   .advancedColorsSell {
-    @apply bg-white border-b dark:bg-red-600 dark:border-gray-700
+    @apply bg-red-600 border-b dark:bg-red-600 dark:border-gray-700 text-white
   }
 
   .advancedColorsHighlightBuy {
-    @apply bg-white hover:bg-blue-400 border-b dark:bg-lime-600 dark:border-gray-700
+    @apply bg-lime-600 hover:bg-blue-400 border-b dark:bg-lime-600 dark:border-gray-700 text-white
   }
 
   .advancedColorsHighlightSell {
-    @apply bg-white hover:bg-blue-400 border-b dark:bg-red-600 dark:border-gray-700
+    @apply bg-red-600 hover:bg-blue-400 border-b dark:bg-red-600 dark:border-gray-700 text-white
   }
 
   .advancedColorsOpen {
-    @apply bg-white border-b dark:bg-lime-800 dark:border-gray-700
+    @apply bg-lime-800 border-b dark:bg-lime-800 dark:border-gray-700 text-white
   }
 
   .advancedColorsClose {
-    @apply bg-white border-b dark:bg-red-800 dark:border-gray-700
+    @apply bg-red-800 border-b dark:bg-red-800 dark:border-gray-700 text-white
   }
 
   .advancedColorsHighlightOpen {
-    @apply bg-white hover:bg-blue-400 border-b dark:bg-lime-800 dark:border-gray-700
+    @apply bg-lime-800 hover:bg-blue-400 border-b dark:bg-lime-800 dark:border-gray-700 text-white
   }
 
   .advancedColorsHighlightClose {
-    @apply bg-white hover:bg-blue-400 border-b dark:bg-red-800 dark:border-gray-700
+    @apply bg-red-800 hover:bg-blue-400 border-b dark:bg-red-800 dark:border-gray-700 text-white
   }
 
   .tradeStatsNoColor {
