@@ -19,7 +19,7 @@ export default function Header() {
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Trade Stats Pro</span>
         </a>
 
-        {/* Hamburger icon for mobile */}
+        
         <div className="flex md:hidden">
           <button
             onClick={toggleMenu}
@@ -44,12 +44,12 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Right-side Auth Button */}
+        
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse items-center">
           <AuthButton />
         </div>
 
-        {/* Menu links */}
+        
         <div
           className={`${
             isOpen ? 'block' : 'hidden'

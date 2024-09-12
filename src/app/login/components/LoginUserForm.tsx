@@ -39,7 +39,7 @@ export default function LoginUserForm() {
     }
     return (
         <div className="flex justify-center mx-auto">
-        <div className="border-2 border-slate-200 bg-black rounded-md w-1/4 flex justify-center mt-10">
+        <div className="border-2 border-slate-200 bg-black rounded-md md:w-1/4 w-lg flex justify-center md:mt-10 mt-16">
         <div className="w-full max-w-lg p-8">
         <form className="" onSubmit={handleSubmit(handleAddUser)}>
             <h1 className="text-3xl font-bold text-slate-200 mb-2">Login to Account</h1>

@@ -14,7 +14,7 @@ export default function AuthButton() {
                     <br></br>
                     {session?.user?.name}
                 </span>
-                <button onClick={() => signOut({callbackUrl: `${app_domain}`})} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign Out</button>
+                <button onClick={() => signOut({callbackUrl: `${app_domain}`})} className="md:mt-0 md:mb-0 mt-4 mb-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign Out</button>
             </>
         )
     }
@@ -24,7 +24,7 @@ export default function AuthButton() {
                     
                 </span>
             {/* <button onClick={() => signIn()} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign In</button> */}
-            <button><Link className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" href="/login">Sign In</Link></button>
+            <button className="md:mt-0 md:mb-0 mt-4 mb-2"><Link className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" href="/login">Sign In</Link></button>
         </>
     )
 }
