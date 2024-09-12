@@ -5,7 +5,7 @@ export default function BetaTesting() {
   const title = "Beta Testing Mode"
 
   return (
-    <div className='flex justify-center bg-red-400 py-4 mx-14 mt-3 mb-2 border'>
+    <div className='flex justify-center bg-red-400 py-4 md:mx-14 md:mt-3 mx-0 mt-14 mb-2 border'>
         <div>
             <h1 className="text-white font-bold text-4xl mb-1 text-center">
                 {title.toUpperCase()}

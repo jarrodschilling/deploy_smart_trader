@@ -97,7 +97,7 @@ export default function Dashboard() {
 
   
   return (
-    <div className='m-4 mt-20'>
+    <div className='m-4 md:mt-24 mt-36'>
       <BetaTesting />
       <PageTitle title={"Dashboard"} />
       <div className='flex justify-center'>

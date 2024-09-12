@@ -77,10 +77,10 @@ export default function Transactions() {
           className="bg-blue-500 hover:bg-blue-700 text-white mr-4 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
           ><Link href="/transactions/add">Add New Transaction</Link></button>
           <button
-          className="bg-blue-500 hover:bg-blue-700 text-white mr-4 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+          className="bg-blue-500 hover:bg-blue-700 text-white md:mt-0 mt-2 mr-4 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
           ><Link href="/transactions/excel">Excel Upload</Link></button>
           <button
-          className="bg-red-500 hover:bg-red-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+          className="bg-red-500 hover:bg-red-700 text-white md:mt-0 mt-2 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
           ><Link href="/transactions/deleteAll">Delete ALL Transactions</Link></button>
         </div>
 
@@ -90,12 +90,12 @@ export default function Transactions() {
             :'bg-blue-500 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'}`}
           onClick={handleHighlight}>Highlight</button>
         <button
-          className={`${(onColors === "false")?'bg-white text-blue-500 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'
-            :'bg-blue-500 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'}`}
+          className={`${(onColors === "false")?'bg-white text-blue-500 md:mt-0 mt-2 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'
+            :'bg-blue-500 text-white font-semibold md:mt-0 mt-2 py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'}`}
           onClick={handleOnColors}>Colors</button>
         <button
-          className={`${(advColors === "false")?'bg-white text-blue-500 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'
-            :'bg-blue-500 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'}`}
+          className={`${(advColors === "false")?'bg-white text-blue-500 md:mt-0 mt-2 font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'
+            :'bg-blue-500 text-white font-semibold md:mt-0 mt-2 py-1 px-2 rounded focus:outline-none focus:shadow-outline mr-2'}`}
           onClick={handleAdvColors}>Advanced</button>
         </div>
         </div>
