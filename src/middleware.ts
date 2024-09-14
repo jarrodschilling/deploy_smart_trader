@@ -13,6 +13,10 @@ export const config = { matcher: [
 
 // export const config = { matcher: ["/((?!register|api/auth|login|$).*)"]}
 
+// export const config = { matcher: ['/((?!login|register|api/auth|$).*)']}
+
+
+
 
 
 // export default function middleware() {

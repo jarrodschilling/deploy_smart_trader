@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { AddTransactionFormData } from "../../../../../types"
 import getStockName from "@/services/yahoo/getStockNames"
-import { Span } from "next/dist/trace"
 import GetUserByEmail from "@/services/getUserByEmail"
 
 
