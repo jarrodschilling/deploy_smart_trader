@@ -6,16 +6,16 @@ import { openTradeTrue } from "@/lib/tradeStatFunctions";
 import getStockPrices from "@/services/yahoo/getStockPrices";
 import { Transaction } from "@prisma/client";
 import { getServerSession } from "next-auth";
+import MainHeader from "./components/MainHeader";
+
 import { avgDollarWinLoss, avgPctWinLoss, avgPortWinLoss, battingAvg, clearOpenTrades, realizedGainLoss, totalDollarPL, totalPctPL } from "@/lib/PortStatsFunctions";
 import { formatedCost, formatedPercent } from "@/lib/formatFunctions";
 import { currentGainLoss, currentOpenCost, currentValue } from "@/lib/currentPortfolioCalcs";
 import { GroupedTrades, TradeStatsHeaderType } from "../../../types";
-import TradeStatsHeader from "./components/TradeStatsHeader";
-import TradeStatsComponent from "./components/TradeStatsComponent";
+import MainComponent from "./components/MainComponent";
 
 
-
-export default async function TradeStatistics() {
+export default async function CurrentPortfolioPage() {
   const session = await getServerSession();
   let trades: Transaction[][] = []
   let openTrades: Transaction[][] = []
@@ -125,9 +125,9 @@ export default async function TradeStatistics() {
       ) : (
           <>
             <PageTitle title={"Trade Statistics"} />
-            <TradeStatsHeader tradeStats={tradeStats} />
+            <MainHeader tradeStats={tradeStats} />
             {pricingError? <p className="text-red-500">{pricingError}</p>:<></>}
-            <TradeStatsComponent trades={trades} portfolio={portfolio} />
+            <MainComponent trades={trades} portfolio={portfolio} />
           </>
       )}
     </div>

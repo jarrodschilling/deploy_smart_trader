@@ -9,7 +9,6 @@ export default async function Transactions() {
   let user = null
   let transactions = null
   let error = ""
-  let xyz = ""
 
   if (!session?.user?.email) {
     error = "No session found, please log in."
@@ -18,14 +17,21 @@ export default async function Transactions() {
           const userEmail = session.user.email
           user = await GetUserByEmail(userEmail)
       } catch (err) {
-          error = "Failed to load User, please reload the page."
+          error = "Failed to load Transactions, please reload the page."
       }
   }
 
   return (
-    <div className='m-4 mt-20'>
-      <PageTitle title={"Transactions"} />
-      <AllTransactions user={user} />
+    <div className='m-4 mt-20 mb-20'>
+      {error? (
+        <p className="text-red-500">{error}</p>
+        ) : (
+          <>
+            <PageTitle title={"Transactions"} />
+            <AllTransactions user={user} />
+          </>
+      )}
+      
     </div>
   )
 }

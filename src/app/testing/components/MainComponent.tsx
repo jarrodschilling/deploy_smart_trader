@@ -13,7 +13,7 @@ interface Props {
   portfolio: number,
 }
 
-const TradeStatsComponent: React.FC<Props> = ({trades, portfolio}) =>  {
+const MainComponent: React.FC<Props> = ({trades, portfolio}) =>  {
   const [highlight, setHighlight] = useState<string>("false")
   const [onColors, setOnColors] = useState<string>("true")
 
@@ -116,4 +116,4 @@ const TradeStatsComponent: React.FC<Props> = ({trades, portfolio}) =>  {
 }
 
 
-export default TradeStatsComponent
+export default MainComponent
