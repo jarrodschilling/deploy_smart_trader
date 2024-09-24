@@ -1,28 +1,19 @@
 
 import PageTitle from "@/components/PageTitle"
 import GetUserByEmail from "@/services/getUserByEmail";
-import groupTrades from "@/lib/groupTrades";
-import { openTradeTrue } from "@/lib/tradeStatFunctions";
 import getStockPrices from "@/services/yahoo/getStockPrices";
-import { Transaction } from "@prisma/client";
+import { ToDo, Transaction } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import MainHeader from "./components/MainHeader";
-
-import { avgDollarWinLoss, avgPctWinLoss, avgPortWinLoss, battingAvg, clearOpenTrades, realizedGainLoss, totalDollarPL, totalPctPL } from "@/lib/PortStatsFunctions";
-import { formatedCost, formatedPercent } from "@/lib/formatFunctions";
-import { currentGainLoss, currentOpenCost, currentValue } from "@/lib/currentPortfolioCalcs";
-import { GroupedTrades, TradeStatsHeaderType } from "../../../types";
 import MainComponent from "./components/MainComponent";
 
 
 export default async function CurrentPortfolioPage() {
   const session = await getServerSession();
-  let trades: Transaction[][] = []
-  let openTrades: Transaction[][] = []
+  let toDosData: ToDo[] = []
   let stockPrices:Record<string, number> = {}
   let dbError = ""
   let pricingError = ""
-  let portfolioValue = 0
   let user = null
   let transGroup = null
 
@@ -32,30 +23,20 @@ export default async function CurrentPortfolioPage() {
     } else {
         try {
             const userEmail = session.user.email;
-            user = await GetUserByEmail(userEmail);
-            // Fetch portfolio value
-            portfolioValue = user.portfolioValue
+            user = await GetUserByEmail(userEmail)
 
             // Fetch open trades
-            transGroup = groupTrades(user.transactions)
-            trades = transGroup
-            let newTrades = transGroup
-            let openTradesArray = []
-            for (let i = 0; i < newTrades.length; i++) {
-              if (openTradeTrue(newTrades[i]) === false) {
-                openTradesArray.push(newTrades[i])
-              }
-            }
-            openTrades = openTradesArray
+            toDosData = user.toDos
+            
         } catch (err) {
           dbError = "Failed to load User data, please reload the page.";
         }
     }
 
-    if (openTrades.length > 0) {
+    if (toDosData.length > 0) {
       try {
-        const promises = openTrades.map(async (trade) => {
-          const symbol = trade[0].ticker;
+        const promises = toDosData.map(async (toDo) => {
+          const symbol = toDo.ticker;
           const response = await getStockPrices(symbol);
           const stockPrice = response.chart.result[0].meta.regularMarketPrice;
           return { symbol, stockPrice };
@@ -71,52 +52,6 @@ export default async function CurrentPortfolioPage() {
       }
     }
 
-  const portfolio = portfolioValue
-
-  function unrealizedPL (openTrades: GroupedTrades[]) {
-    let cost = 0
-    let curValue = 0
-    let unrlzPL = 0
-    let unrlzPLPct = 0
-    for (let i = 0; i < openTrades.length; i++) {
-        const symbol = openTrades[i][0].ticker
-        const price = stockPrices[symbol]
-        cost += currentOpenCost(openTrades[i])
-        curValue += currentValue(price, openTrades[i])
-        unrlzPL += currentGainLoss(price, openTrades[i])
-    }
-    return { cost, curValue, unrlzPL }
-}
-  let unRlzGainLoss = (unrealizedPL(openTrades).unrlzPL)
-  // Trade Stats Header Calcs
-  let updatedTrades = clearOpenTrades(trades)
-  let winPct = formatedPercent(battingAvg(updatedTrades).winPct)
-  let lossPct = formatedPercent(battingAvg(updatedTrades).lossPct)
-  let avgWinUSD = formatedCost(avgDollarWinLoss(updatedTrades).finalWin)
-  let avgLossUSD = formatedCost(avgDollarWinLoss(updatedTrades).finalLoss)
-  let avgWinPct = formatedPercent(avgPctWinLoss(updatedTrades).finalWin)
-  let avgLossPct = formatedPercent(avgPctWinLoss(updatedTrades).finalLoss)
-  let avgPortWin = formatedPercent(avgPortWinLoss(updatedTrades).finalWin)
-  let avgPortLoss = formatedPercent(avgPortWinLoss(updatedTrades).finalLoss)
-  let rlzGainLoss = realizedGainLoss(updatedTrades)
-  let totalPL = totalDollarPL(rlzGainLoss, unRlzGainLoss)
-  let totalPLPct = totalPctPL(portfolio, totalPL)
-
-  const tradeStats: TradeStatsHeaderType = {
-    winPercent: winPct,
-    lossPercent: lossPct,
-    avgWinUSD: avgWinUSD,
-    avgLossUSD: avgLossUSD,
-    avgWinPercent: avgWinPct,
-    avgLossPercent: avgLossPct,
-    avgPortWin: avgPortWin,
-    avgPortLoss: avgPortLoss,
-    rlzGainLoss: rlzGainLoss,
-    unRlzGainLoss: unRlzGainLoss,
-    totalPL: totalPL,
-    totalPLPercent: totalPLPct,
-  }
-
 
   return (
     <div className='m-4 mt-20 mb-24'>
@@ -124,10 +59,9 @@ export default async function CurrentPortfolioPage() {
           <p className="text-red-500">{dbError}</p>
       ) : (
           <>
-            <PageTitle title={"Trade Statistics"} />
-            <MainHeader tradeStats={tradeStats} />
+            <PageTitle title={"Trade Sheet"} />
             {pricingError? <p className="text-red-500">{pricingError}</p>:<></>}
-            <MainComponent trades={trades} portfolio={portfolio} />
+            <MainComponent toDosData={toDosData} stockPrices={stockPrices}/>
           </>
       )}
     </div>

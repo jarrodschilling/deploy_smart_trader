@@ -62,10 +62,10 @@ export default function groupTrades(trades: Transaction[]): GroupedTransaction {
 
         const tickerGroup = tradeGroups.get(tickerKey)!; // Use non-null assertion
         
-        if (trade.openTrade) {
+        if (trade.openTrade && trade.buySell === "buy") {
             // Start a new trade group
             tickerGroup.push([trade]);
-        } else if (trade.closeTrade) {
+        } else if (trade.closeTrade && trade.buySell === "sell") {
             // Find the last open trade group for the ticker and add to it
             const lastOpenGroup = tickerGroup[tickerGroup.length - 1];
             if (lastOpenGroup) {

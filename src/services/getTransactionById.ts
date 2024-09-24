@@ -4,6 +4,7 @@ export default async function GetTransactionById(id: string) {
     
     const res = await fetch(`${app_domain}/api/transactions/${id}`, {
         method: "GET",
+        cache: 'no-store',
     })
 
 

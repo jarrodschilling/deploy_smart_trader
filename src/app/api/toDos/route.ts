@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import db from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function GET(req: any) {
     const toDos = await db.toDo.findMany()
 
+    revalidatePath("toDos")
     return Response.json(toDos)
 }
 

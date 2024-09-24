@@ -4,6 +4,7 @@ export default async function GetUserByEmail(email: string | null | undefined) {
     
     const res = await fetch(`${app_domain}/api/users/${email}`, {
         method: "GET",
+        cache: 'no-store',
     })
 
 

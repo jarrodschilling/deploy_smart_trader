@@ -213,6 +213,7 @@ export default function AddTransactionForm() {
                             <option value="Cup w/ Handle">Cup w/ Handle</option>
                             <option value="Cup no Handle">Cup no Handle</option>
                             <option value="Volatility Contraction">Volatility Contraction</option>
+                            <option value="Ascending Triangle">Ascending Triangle</option>
                             <option value="Coil">Coil</option>
                             <option value="Rectangle">Rectangle</option>
                             <option value="Flat Base">Flat Base</option>
@@ -272,6 +273,7 @@ export default function AddTransactionForm() {
                         <option value="Breakout PB to 20EMA">Breakout PB to 20EMA</option>
                         <option value="Base Retest">Base Retest</option>
                         <option value="Pullback to VWAP">Pullback to VWAP</option>
+                        <option value="Early Cheat">Early Cheat</option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -298,8 +300,8 @@ export default function AddTransactionForm() {
                         name="closeTrade"
                         id="closeTrade"
                     >
-                        <option value="true">Yes</option>
                         <option value="false">No</option>
+                        <option value="true">Yes</option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -329,8 +331,8 @@ export default function AddTransactionForm() {
                         name="openTrade"
                         id="openTrade"
                     >
-                        <option value="true">Yes</option>
                         <option value="false">No</option>
+                        <option value="true">Yes</option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>

@@ -38,7 +38,7 @@ export default function AboutApp() {
           {/* <img src="/about/trade_stats_statistics.png" alt=""></img> */}
           <Image 
             src="/about/trade_stats_statistics_2.png"
-            alt=""
+            alt="trade_stats_statistics"
             height={374}
             width={1102}
           />
@@ -54,7 +54,7 @@ export default function AboutApp() {
         <div className="text-center bg-slate-800 text-slate-300 rounded-md p-6 mb-12">
           <Image 
             src="/about/trade_stats_details.png"
-            alt=""
+            alt="trade_stats_details"
             height={374}
             width={1102}
           />
@@ -71,7 +71,7 @@ export default function AboutApp() {
         <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
           <Image 
             src="/about/trade_stats_todo.png"
-            alt=""
+            alt="trade_stats_todo"
             height={374}
             width={1102}
           />
@@ -79,7 +79,7 @@ export default function AboutApp() {
         <div className="text-center bg-slate-800 rounded-md p-6 mb-12">
           <Image 
             src="/about/trade_stats_transactions.png"
-            alt=""
+            alt="trade_stats_transactions"
             height={374}
             width={1102}
           />

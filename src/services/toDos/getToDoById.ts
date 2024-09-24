@@ -4,6 +4,7 @@ export default async function GetToDoById(id: string) {
 
     const res = await fetch(`${app_domain}/api/toDos/${id}`, {
         method: "GET",
+        cache: 'no-store',
     })
 
 
