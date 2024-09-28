@@ -8,14 +8,38 @@ import UpdateTransaction from "@/services/updateTransaction"
 import { Transaction } from "@prisma/client"
 import getStockName from "@/services/yahoo/getStockNames"
 import { AddTransactionFormData } from "../../../../../types"
+import { mutate } from "swr"
+import { useSession } from "next-auth/react"
+import { app_domain } from "@/lib/domain"
+import GetTransactionById from "@/services/getTransactionById"
 
 type TransactionProps = {
-    transaction: Transaction
+    transactionData: Transaction
 }
 
-
-export default function EditTransactionForm({ transaction }: TransactionProps) {
+export default function EditTransactionForm({ transactionData }: TransactionProps) {
     const [stockNameError, setStockNameError] = useState("")
+    const { data: session } = useSession();
+    const [transaction, setTransaction] = useState<TransactionProps>()
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState("")
+    const email = session?.user?.email;
+
+    useEffect (() => {
+        const fetchToDos = async () => {
+            setIsLoading(true)
+            try {
+            const response = await GetTransactionById(transactionData.id)
+            setTransaction(response.data)
+            console.log(`RESPONSE: ${JSON.stringify(response.data)}`)
+            } catch(error) {
+            setError("Failed to load transaction, please reload the page")
+            } finally {
+            setIsLoading(false)
+            }
+        };
+        fetchToDos()
+        }, [transactionData])
 
     const {
         register,
@@ -30,6 +54,7 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
     const watchBuySell = watch("buySell")
 
     const router = useRouter()
+    
     async function handleAddTransaction(data: AddTransactionFormData) {
         const newValue = data.ticker
         let stockName
@@ -42,8 +67,9 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
         }
         if(stockName){
             const updatedData = {...data, name:stockName}
-            const id = transaction.id
-            UpdateTransaction(updatedData, id)
+            const id = transactionData.id
+            await UpdateTransaction(updatedData, id)
+            mutate(`${app_domain}/api/users/${email}`)
             router.push('/transactions')
         }else{
             setStockNameError("Invalid Symbol")
@@ -59,11 +85,15 @@ export default function EditTransactionForm({ transaction }: TransactionProps) {
                     // @ts-ignore
                     setValue(field, transaction[field] ? "true" : "false")
                 } else {
+                    // @ts-ignore
                     setValue(field, transaction[field])
                 }
             })
         }
     }, [transaction, setValue])
+
+    if(error) return <div>{error}</div>
+    if(!transaction) return <div>Failed to load transaction, please reload the page</div>
 
     return (
         <>

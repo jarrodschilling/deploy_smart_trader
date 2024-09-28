@@ -10,6 +10,7 @@ export default async function Transactions() {
   let transactions = null
   let error = ""
 
+  
   if (!session?.user?.email) {
     error = "No session found, please log in."
   } else {

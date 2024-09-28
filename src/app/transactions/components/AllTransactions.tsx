@@ -4,40 +4,53 @@ import { dateChanger, totalCostFmt, formatedPrice } from '@/lib/formatFunctions'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import GetUserByEmail from '@/services/getUserByEmail'
 import { useRouter } from 'next/navigation'
-import { Transaction } from '@prisma/client'
-import PageTitle from '@/components/PageTitle'
+import useSWR from 'swr'
 import { User } from '../../../../types'
+import { app_domain } from "@/lib/domain"
 
 type UserProps = {
   user: User
 }
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 export default function AllTransactions({user}: UserProps) {
   const [highlight, setHighlight] = useState<string>("false")
   const [onColors, setOnColors] = useState<string>("false")
   const [advColors, setAdvColors] = useState<string>("false")
   const [transactions, setTransactions] = useState(user.transactions)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  // const [isLoading, setIsLoading] = useState(true)
+  // const [error, setError] = useState<string | null>(null)
   const { data: session, status } = useSession()
   const router = useRouter()
 
-  useEffect (() => {
-    const fetchTransactions = async () => {
-      setIsLoading(true)
-      try {
-        setTransactions(user.transactions)
-      } catch(error) {
-        // router.push("/")
-        setError("Failed to load transactions, please reload the page")
-      } finally {
-        setIsLoading(false)
-      }
-    };
-    fetchTransactions()
-  }, [])
+  // useEffect (() => {
+  //   const fetchTransactions = async () => {
+  //     setIsLoading(true)
+  //     try {
+  //       setTransactions(user.transactions)
+  //     } catch(error) {
+  //       // router.push("/")
+  //       setError("Failed to load transactions, please reload the page")
+  //     } finally {
+  //       setIsLoading(false)
+  //     }
+  //   };
+  //   fetchTransactions()
+  // }, [])
+
+  
+  const email = user.email
+  // const email = ""
+
+  const { data, error, isLoading, mutate } = useSWR<User>(`${app_domain}/api/users/${email}`, fetcher,
+    { fallbackData: user }
+  )
+
+
+  // const consoleData = JSON.stringify(data.transactions[1])
+  // console.log(`${consoleData} 91KE`)
 
   // const handleDelete = async (id: string) => {
   //   try {
@@ -70,6 +83,8 @@ export default function AllTransactions({user}: UserProps) {
     else {setAdvColors('false')}
   }
 
+  if (error) return <div>Failed to load transactions</div>
+
   return (
     <>
       <div className='justify-between flex m-1 mb-2'>
@@ -100,7 +115,7 @@ export default function AllTransactions({user}: UserProps) {
           onClick={handleAdvColors}>Advanced</button>
         </div>
         </div>
-      {error && <p>{error}</p>}
+      {/* {error && <p>{error}</p>} */}
       {isLoading ? (<p>Loading transactions...</p>):
       
       <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg max-h-96 -mb-10">
@@ -124,7 +139,7 @@ export default function AllTransactions({user}: UserProps) {
         </thead>
         <tbody>
             {
-              transactions
+              data?.transactions
               .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
               .map((transaction) => (
                   <tr key={transaction.id} 

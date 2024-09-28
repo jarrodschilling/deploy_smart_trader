@@ -16,7 +16,7 @@ export default function DeleteTransactionForm({ transaction }: TransactionProps)
       event.preventDefault()
       const user = Object.fromEntries(new FormData(event.currentTarget))
       DeleteTransaction(transaction.id)
-      router.push('/transactions')
+      router.push('/transactions?updated=true')
     } catch (error: any) {
       console.error({ error })
     }

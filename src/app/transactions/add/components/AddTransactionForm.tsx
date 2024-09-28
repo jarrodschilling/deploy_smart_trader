@@ -9,10 +9,13 @@ import { useSession } from "next-auth/react"
 import { AddTransactionFormData } from "../../../../../types"
 import getStockName from "@/services/yahoo/getStockNames"
 import GetUserByEmail from "@/services/getUserByEmail"
+import { mutate } from "swr"
+import { app_domain } from "@/lib/domain"
 
 
 export default function AddTransactionForm() {
-    const { data: session, status } = useSession()
+    const { data: session } = useSession();
+    const email = session?.user?.email;
     const [ sessionUserId, setSessionUserId ] = useState("")
     const [dbUserId, setDbUserId] = useState("")
     const [loading, setLoading] = useState(true)
@@ -69,6 +72,7 @@ export default function AddTransactionForm() {
         if(stockName){
             const updatedData = {...data, name:stockName, userId: dbUserId}
             CreateTransaction(updatedData)
+            mutate(`${app_domain}/api/users/${email}`)
             router.push('/transactions')
         }else{
             setStockNameError("Invalid Symbol")
