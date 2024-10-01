@@ -1,4 +1,5 @@
 "use client"
+import React from "react"
 import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -10,10 +11,13 @@ import { AddTransactionFormData } from "../../../../../types"
 import getStockName from "@/services/yahoo/getStockNames"
 import CreateToDo from "@/services/toDos/createToDo"
 import GetUserByEmail from "@/services/getUserByEmail"
+import { mutate } from "swr"
+import { app_domain } from "@/lib/domain"
 
 
 export default function AddToDoForm() {
-    const { data: session, status } = useSession()
+    const { data: session } = useSession()
+    const email = session?.user?.email;
     const [dbUserId, setDbUserId] = useState("")
     const [loading, setLoading] = useState(true)
     const [stockNameError, setStockNameError] = useState("")
@@ -58,6 +62,7 @@ export default function AddToDoForm() {
             const updatedData = {...data, name:stockName, userId: dbUserId}
             // @ts-ignore
             CreateToDo(updatedData)
+            mutate(`${app_domain}/api/users/${email}`)
             router.push('/trade-sheet')
         }else{
             setStockNameError("Invalid Symbol")

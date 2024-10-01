@@ -1,23 +1,42 @@
 "use client"
+import React from "react"
 import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
-import UpdateTransaction from "@/services/updateTransaction"
-import { Transaction } from "@prisma/client"
+import { Transaction, ToDo } from "@prisma/client"
 import getStockName from "@/services/yahoo/getStockNames"
 import { AddTransactionFormData } from "../../../../../../types"
 import { addTransactionFormSchema } from "../../../../../../schemas/schema"
 import CreateTransaction from "@/services/createTransaction"
 import DeleteToDo from "@/services/toDos/deleteToDo"
+import GetToDoById from "@/services/toDos/getToDoById"
 
-type TransactionProps = {
-    transaction: Transaction
+type ToDoProps = {
+    toDoData: ToDo
 }
 
 
-export default function ExecuteTradeForm({ transaction }: TransactionProps) {
+export default function ExecuteTradeForm({ toDoData }: ToDoProps) {
     const [stockNameError, setStockNameError] = useState("")
+    const [toDo, setToDo] = useState<ToDoProps>()
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState("")
+
+    useEffect (() => {
+        const fetchToDo = async () => {
+            setIsLoading(true)
+            try {
+            const response = await GetToDoById(toDoData.id)
+            setToDo(response.data)
+            } catch(error) {
+            setError("Failed to load transaction, please reload the page")
+            } finally {
+            setIsLoading(false)
+            }
+        };
+        fetchToDo()
+        }, [toDoData])
     
     const {
         register,
@@ -43,10 +62,10 @@ export default function ExecuteTradeForm({ transaction }: TransactionProps) {
             console.error("Error fetching stock name", error)
         }
         if (stockName){
-            const updatedData = {...data, name:stockName, userId: transaction.userId}
-            const id = transaction.id
+            const updatedData = {...data, name:stockName, userId: toDoData.userId}
+            const id = toDoData.id
             CreateTransaction(updatedData)
-            DeleteToDo(transaction.id)
+            DeleteToDo(toDoData.id)
             router.push('/transactions')
         } else{
             setStockNameError("Invalid Symbol")
@@ -55,18 +74,19 @@ export default function ExecuteTradeForm({ transaction }: TransactionProps) {
 
 
     useEffect(() => {
-        if (transaction) {
+        if (toDo) {
             const fields: (keyof AddTransactionFormData)[] = ["ticker", "date", "buySell", "shares", "price", "name", "userId", "shaper", "tactical", "openTrade", "closeTrade"]
             fields.forEach(field => {
                 if (field === "openTrade" || field === "closeTrade") {
                     // @ts-ignore
-                    setValue(field, transaction[field] ? "true" : "false")
+                    setValue(field, toDo[field] ? "true" : "false")
                 } else {
-                    setValue(field, transaction[field])
+                    // @ts-ignore
+                    setValue(field, toDo[field])
                 }
             })
         }
-    }, [transaction, setValue])
+    }, [toDo, setValue])
 
     return (
         <>

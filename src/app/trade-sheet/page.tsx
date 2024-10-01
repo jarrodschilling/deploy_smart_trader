@@ -208,6 +208,7 @@ import getStockPrices from "@/services/yahoo/getStockPrices";
 import { ToDo, Transaction } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import AllToDos from "./components/TradeSheetComponent";
+import React from "react";
 
 
 export default async function TradeSheet() {
@@ -222,37 +223,37 @@ export default async function TradeSheet() {
   // Fetch all data
   if (!session?.user?.email) {
     dbError = "No session found, please log in.";
-    } else {
-        try {
-            const userEmail = session.user.email;
-            user = await GetUserByEmail(userEmail)
-
-            // Fetch open trades
-            toDosData = user.toDos
-            
-        } catch (err) {
-          dbError = "Failed to load User data, please reload the page.";
-        }
-    }
-
-    if (toDosData.length > 0) {
+  } else {
       try {
-        const promises = toDosData.map(async (toDo) => {
-          const symbol = toDo.ticker;
-          const response = await getStockPrices(symbol);
-          const stockPrice = response.chart.result[0].meta.regularMarketPrice;
-          return { symbol, stockPrice };
-        });
-        const prices = await Promise.all(promises);
-        const priceMap = prices.reduce((acc, { symbol, stockPrice }) => {
-          acc[symbol] = stockPrice;
-          return acc;
-        }, {} as Record<string, number>);
-        stockPrices = priceMap
+          const userEmail = session.user.email;
+          user = await GetUserByEmail(userEmail)
+
+          // Fetch open trades
+          toDosData = user.toDos
+          
       } catch (err) {
-        pricingError = "Failed to load current stock price, please reload the page.";
+        dbError = "Failed to load User data, please reload the page.";
       }
-    }
+  }
+
+  // if (toDosData.length > 0) {
+  //   try {
+  //     const promises = toDosData.map(async (toDo) => {
+  //       const symbol = toDo.ticker;
+  //       const response = await getStockPrices(symbol);
+  //       const stockPrice = response.chart.result[0].meta.regularMarketPrice;
+  //       return { symbol, stockPrice };
+  //     });
+  //     const prices = await Promise.all(promises);
+  //     const priceMap = prices.reduce((acc, { symbol, stockPrice }) => {
+  //       acc[symbol] = stockPrice;
+  //       return acc;
+  //     }, {} as Record<string, number>);
+  //     stockPrices = priceMap
+  //   } catch (err) {
+  //     pricingError = "Failed to load current stock price, please reload the page.";
+  //   }
+  // }
 
 
   return (
@@ -260,11 +261,11 @@ export default async function TradeSheet() {
       {dbError ? (
           <p className="text-red-500">{dbError}</p>
       ) : (
-          <>
+          <div>
             <PageTitle title={"Trade Sheet"} />
             {pricingError? <p className="text-red-500">{pricingError}</p>:<></>}
-            <AllToDos toDosData={toDosData} stockPrices={stockPrices}/>
-          </>
+            <AllToDos user={user}/>
+          </div>
       )}
     </div>
   )

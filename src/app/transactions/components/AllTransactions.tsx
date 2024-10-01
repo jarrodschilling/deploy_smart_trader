@@ -4,10 +4,10 @@ import { dateChanger, totalCostFmt, formatedPrice } from '@/lib/formatFunctions'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import useSWR from 'swr'
 import { User } from '../../../../types'
 import { app_domain } from "@/lib/domain"
+import React from 'react'
 
 type UserProps = {
   user: User
@@ -20,26 +20,8 @@ export default function AllTransactions({user}: UserProps) {
   const [onColors, setOnColors] = useState<string>("false")
   const [advColors, setAdvColors] = useState<string>("false")
   const [transactions, setTransactions] = useState(user.transactions)
-  // const [isLoading, setIsLoading] = useState(true)
-  // const [error, setError] = useState<string | null>(null)
   const { data: session, status } = useSession()
-  const router = useRouter()
-
-  // useEffect (() => {
-  //   const fetchTransactions = async () => {
-  //     setIsLoading(true)
-  //     try {
-  //       setTransactions(user.transactions)
-  //     } catch(error) {
-  //       // router.push("/")
-  //       setError("Failed to load transactions, please reload the page")
-  //     } finally {
-  //       setIsLoading(false)
-  //     }
-  //   };
-  //   fetchTransactions()
-  // }, [])
-
+  
   
   const email = user.email
   // const email = ""
@@ -48,20 +30,6 @@ export default function AllTransactions({user}: UserProps) {
     { fallbackData: user }
   )
 
-
-  // const consoleData = JSON.stringify(data.transactions[1])
-  // console.log(`${consoleData} 91KE`)
-
-  // const handleDelete = async (id: string) => {
-  //   try {
-  //     await DeleteTransaction(id)
-  //     setTransactions((prevTransactions) => 
-  //       prevTransactions?.filter((i) => i.id !== id)
-  //   )
-  //   } catch(error) {
-  //     setError("Failed to delete transaction, please try again")
-  //   }
-  // }
   const handleHighlight = async () => {
     if (highlight === "false") {
     setHighlight("true")
@@ -172,7 +140,6 @@ export default function AllTransactions({user}: UserProps) {
                       <td scope="col" className="px-2 py-2">
                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/transactions/edit/${transaction.id}`}>EDIT</Link></button>
                       </td>
-                      {/* <td><button onClick={() => handleDelete(transaction.id)}>DELETE Render</button></td> */}
                       
                       <td scope="col" className="px-0 py-2">
                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/transactions/delete/${transaction.id}`}>DELETE</Link></button>

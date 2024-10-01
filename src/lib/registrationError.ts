@@ -14,7 +14,7 @@ export const registrationError = async (credentials: Credentials) => {
         }
 
         const user = await GetUserByEmail(credentials?.email)
-        console.log(`reg: ${user}`)
+        // console.log(`reg: ${user}`)
 
         if (user) {
             return false

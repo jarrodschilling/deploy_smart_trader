@@ -11,6 +11,7 @@ import getStockName from "@/services/yahoo/getStockNames"
 import GetUserByEmail from "@/services/getUserByEmail"
 import { mutate } from "swr"
 import { app_domain } from "@/lib/domain"
+import React from "react"
 
 
 export default function AddTransactionForm() {

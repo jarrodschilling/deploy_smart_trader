@@ -1,162 +1,71 @@
-// 'use client'
-
-// import { dateChanger, totalCostFmt, formatedPrice, formatedCost, formatedPercent } from '@/lib/formatFunctions'
-// import Link from 'next/link'
-// import { useEffect, useState } from 'react'
-// import { useSession } from 'next-auth/react'
-// import { useRouter } from 'next/navigation'
-// import { ToDo, Transaction } from '@prisma/client'
-// import UrgentToDoUpdate from '@/services/toDos/urgentToDoUpdate'
-
-// interface Props {
-//     toDos: Array<ToDo>,
-//     stockPrices: Record<string, number>,
-// }
-
-// const TradeSheetComponent: React.FC<Props> = ({toDos, stockPrices}) =>  {
-//     const [isLoading, setIsLoading] = useState(true)
-//     const [error, setError] = useState<string | null>(null)
-//     const { data: session, status } = useSession()
-//     const router = useRouter()
-
-//     const portfolio = 1000000
-    
-
-//     // const makeUrgentHandler = (idForChange: string, currentStatus: boolean) => {
-//     //     try {
-//     //         const newStatus = !currentStatus
-//     //         UrgentToDoUpdate({quickAction: newStatus}, idForChange)
-//     //         setToDos((prevToDos) =>
-//     //             prevToDos.map((toDo: ToDo) =>
-//     //                 toDo.id === idForChange ? { ...toDo, quickAction: newStatus} : toDo
-//     //             )
-//     //         )
-//     //     }
-//     //     catch (error) {
-//     //         console.log(error)
-//     //     }
-//     // }
-
-
-//     if (!toDos) {
-//         return (
-//             <>
-//             <span>No To Dos</span>
-//             <button
-//                 className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-//                 ><Link href="/trade-sheet/add">Add New To Do</Link></button>
-//             </>
-//         )
-//     }
-
-
-//     return (
-//         <div className=''>
-//         <div className='justify-between flex m-1 mb-2'>
-//             <div>
-//                 <button
-//                 className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-//                 ><Link href="/trade-sheet/add">Add New To Do</Link></button>
-//             </div>
-//             <br />
-//             <div></div>
-//         </div>
-//         {error && <p>{error}</p>}
-        
-//         <div className="relative overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg max-h-96 -mb-10">
-//             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200">
-//                 <thead className="sticky top-0 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
-//                 <tr>
-//                     <th scope="col" className="px-2 py-4">Date</th>
-//                     <th scope="col" className="px-2 py-4">Ticker</th>
-//                     <th scope="col" className="px-2 py-4 text-center">Buy/<br/>Sell</th>
-//                     <th scope="col" className="px-4 py-4 text-center">Price</th>
-//                     <th scope="col" className="px-4 py-4 text-center">Distance</th>
-//                     <th scope="col" className="px-4 py-4 text-center">Shares</th>
-//                     <th scope="col" className="px-4 py-4 text-center">Total<br/>Value</th>
-//                     <th scope="col" className="px-2 py-4">Shaper</th>
-//                     <th scope="col" className="px-2 py-4">Tactical</th>
-//                     <th scope="col" className="px-2 py-4">OPEN</th>
-//                     <th scope="col" className="px-2 py-4">CLOSE</th>
-//                     <th scope="col" className="px-2 py-1">EDIT</th>
-//                     <th scope="col" className="px-2 py-1">DELETE</th>
-//                     <th scope="col" className="px-2 py-1">EXECUTE</th>
-//                 </tr>
-//             </thead>
-//             <tbody>
-//                 {
-//                 toDos
-//                 .sort((a, b) => (a.buySell.localeCompare(b.buySell)) || (Math.abs((a.price-stockPrices[a.ticker])/a.price*100) - Math.abs((b.price-stockPrices[b.ticker])/b.price*100)))
-//                 .map((toDo: ToDo, index: number) => {
-//                     const price = stockPrices[toDo.ticker]
-//                     return (
-//                     <tr key={index} 
-//                     className='noColor'>
-//                         <td scope="col" className="px-2 py-2">{dateChanger(toDo.date)}</td>
-//                         <td scope="col" className="px-2 py-2">{toDo.ticker}</td>
-//                         <td scope="col" className="px-4 py-2">{toDo.buySell.toUpperCase()}</td>
-//                         <td scope="col" className="px-4 py-4 text-center">{formatedPrice(toDo.price)}</td>
-//                         <td scope="col" className="px-4 py-4 text-center">{formatedPercent((toDo.price-price)/toDo.price*100)}</td>
-//                         <td scope="col" className="px-4 py-4 text-center">{toDo.shares}</td>
-//                         <td scope="col" className="px-4 py-4 text-center">{totalCostFmt(toDo.price, toDo.shares)}</td>
-//                         <td scope="col" className="px-2 py-2">{toDo.shaper}</td>
-//                         <td scope="col" className="px-2 py-2">{toDo.tactical}</td>
-//                         <td scope="col" className="px-2 py-2">{toDo.openTrade? "Yes": ""}</td>
-//                         <td scope="col" className="px-2 py-2">{toDo.closeTrade? "Yes": ""}</td>
-                        
-//                         <td scope="col" className="px-2 py-2">
-//                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/trade-sheet/edit/${toDo.id}`}>EDIT</Link></button>
-//                         </td>
-
-//                         <td scope="col" className="px-0 py-2">
-//                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/trade-sheet/delete/${toDo.id}`}>DELETE</Link></button>
-//                         </td>
-
-//                         <td scope="col" className="px-0 py-2">
-//                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/trade-sheet/execute/${toDo.id}`}>EXECUTE</Link></button>
-//                         </td>
-//                     </tr>
-//                 )
-//                 })}
-//             </tbody>
-//             </table>
-//         </div>
-
-//         </div>
-//         )
-//     }
-
-// export default TradeSheetComponent
-
 
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToDo } from "@prisma/client";
 import { dateChanger, formatedPercent, formatedPrice, totalCostFmt } from "@/lib/formatFunctions";
 import Link from "next/link";
 import UrgentToDoUpdate from "@/services/toDos/urgentToDoUpdate";
+import getStockPrices from "@/services/yahoo/getStockPrices";
+import useSWR from 'swr'
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { app_domain } from "@/lib/domain";
+import { User } from "../../../../types";
+import GetUserByEmail from "@/services/getUserByEmail";
 
 
-interface Props {
-  toDosData: Array<ToDo>,
-  stockPrices: Record<string, number>,
+type UserProps = {
+  user: User
 }
 
-const AllToDos: React.FC<Props> = ({toDosData, stockPrices}) =>  {
-  const [toDos, setToDos] = useState<ToDo[]>(toDosData)
-  const [error, setError] = useState<string | null>(null)
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
+export default function AllToDos({user}: UserProps){
+  const [toDos, setToDos] = useState<ToDo[]>(user.toDos)
+  const [csrToDos, setCsrToDos] = useState<ToDo[]>()
+  // const [error, setError] = useState<string | null>(null)
+  const [pricingError, setPricingError] = useState<string|null>("")
+  const [stockPrices, setStockPrices] = useState<Record<string, number>>({})
+  const { data: session, status } = useSession()
+  
+
+  const email = user.email
+  // const email = ""
+
+  const { data, error, isLoading, mutate } = useSWR<User>(`${app_domain}/api/users/${email}`, fetcher,
+    { fallbackData: user }
+  )
+
+
+  useEffect(() => {
+    const combineData = async () => {
+    const toDosData = user.toDos
+    if (toDosData.length > 0) {
+      try {
+        const promises = toDosData.map(async (toDo) => {
+          const symbol = toDo.ticker;
+          const response = await getStockPrices(symbol);
+          const stockPrice = response.chart.result[0].meta.regularMarketPrice;
+          return { symbol, stockPrice };
+        });
+        const prices = await Promise.all(promises);
+        const priceMap = prices.reduce((acc, { symbol, stockPrice }) => {
+          acc[symbol] = stockPrice;
+          return acc;
+        }, {} as Record<string, number>);
+        setStockPrices(priceMap)
+      } catch (err) {
+        setPricingError("Failed to load current stock price, please reload the page.")
+      }
+    }}
+    combineData()
+  }, [])
 
   const makeUrgentHandler = (currentStatus: boolean, idForChange: string) => {
     try {
-        
         const newStatus = !currentStatus
         UrgentToDoUpdate({quickAction: newStatus}, idForChange)
-        setToDos((prevToDos) =>
-            prevToDos.map((toDo: ToDo) =>
-                toDo.id === idForChange ? { ...toDo, quickAction: newStatus} : toDo
-            )
-        )
+        mutate()
     }
     catch (error) {
         
@@ -165,14 +74,14 @@ const AllToDos: React.FC<Props> = ({toDosData, stockPrices}) =>  {
 
   const makeEnteredHandler = (currentStatus: boolean, idForChange: string) => {
     try {
-        
         const newStatus = !currentStatus
         UrgentToDoUpdate({entered: newStatus}, idForChange)
-        setToDos((prevToDos) =>
-            prevToDos.map((toDo: ToDo) =>
-                toDo.id === idForChange ? { ...toDo, entered: newStatus} : toDo
-            )
-        )
+        mutate()
+        // setToDos((prevToDos) =>
+        //     prevToDos.map((toDo: ToDo) =>
+        //         toDo.id === idForChange ? { ...toDo, entered: newStatus} : toDo
+        //     )
+        // )
     }
     catch (error) {
         
@@ -218,7 +127,7 @@ const AllToDos: React.FC<Props> = ({toDosData, stockPrices}) =>  {
             </thead>
             <tbody>
                 {
-                toDos
+                data?.toDos
                 .sort((a, b) => (a.buySell.localeCompare(b.buySell)) || (Math.abs((a.price-stockPrices[a.ticker])/a.price*100) - Math.abs((b.price-stockPrices[b.ticker])/b.price*100)))
                 .map((toDo: ToDo, index: number) => {
                     const price = stockPrices[toDo.ticker]
@@ -278,4 +187,3 @@ const AllToDos: React.FC<Props> = ({toDosData, stockPrices}) =>  {
 }
 
 
-export default AllToDos

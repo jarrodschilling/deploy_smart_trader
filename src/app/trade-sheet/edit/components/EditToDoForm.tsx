@@ -9,14 +9,39 @@ import { ToDo, Transaction } from "@prisma/client"
 import getStockName from "@/services/yahoo/getStockNames"
 import { AddTransactionFormData } from "../../../../../types"
 import UpdateToDo from "@/services/toDos/updateToDo"
+import React from "react"
+import { mutate } from "swr"
+import { app_domain } from "@/lib/domain"
+import { useSession } from "next-auth/react"
+import GetToDoById from "@/services/toDos/getToDoById"
 
 type ToDoProps = {
-    toDo: ToDo
+    toDoData: ToDo
 }
 
 
-export default function EditToDoForm({ toDo }: ToDoProps) {
+export default function EditToDoForm({ toDoData }: ToDoProps) {
     const [stockNameError, setStockNameError] = useState("")
+    const { data: session, status } = useSession()
+    const email = session?.user?.email;
+    const [toDo, setToDo] = useState<ToDoProps>()
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState("")
+
+    useEffect (() => {
+        const fetchToDo = async () => {
+            setIsLoading(true)
+            try {
+            const response = await GetToDoById(toDoData.id)
+            setToDo(response.data)
+            } catch(error) {
+            setError("Failed to load transaction, please reload the page")
+            } finally {
+            setIsLoading(false)
+            }
+        };
+        fetchToDo()
+        }, [toDoData])
 
     const {
         register,
@@ -44,9 +69,10 @@ export default function EditToDoForm({ toDo }: ToDoProps) {
         
         if(stockName){
             const updatedData = {...data, name:stockName}
-            const id = toDo.id
+            const id = toDoData.id
             // @ts-ignore
             UpdateToDo(updatedData, id)
+            mutate(`${app_domain}/api/users/${email}`)
             router.push('/trade-sheet')
         }else{
             setStockNameError("Invalid Symbol")
@@ -62,6 +88,7 @@ export default function EditToDoForm({ toDo }: ToDoProps) {
                     // @ts-ignore
                     setValue(field, toDo[field] ? "true" : "false")
                 } else {
+                    // @ts-ignore
                     setValue(field, toDo[field])
                 }
             })

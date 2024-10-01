@@ -2,6 +2,7 @@ import GetUserByEmail from '@/services/getUserByEmail'
 import PageTitle from '@/components/PageTitle'
 import { getServerSession } from "next-auth";
 import AllTransactions from './components/AllTransactions'
+import React from 'react';
 
 
 export default async function Transactions() {

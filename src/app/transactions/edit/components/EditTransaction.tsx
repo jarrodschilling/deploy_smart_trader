@@ -1,4 +1,5 @@
 "use client"
+import React from "react"
 import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -26,19 +27,18 @@ export default function EditTransactionForm({ transactionData }: TransactionProp
     const email = session?.user?.email;
 
     useEffect (() => {
-        const fetchToDos = async () => {
+        const fetchTransactions = async () => {
             setIsLoading(true)
             try {
             const response = await GetTransactionById(transactionData.id)
             setTransaction(response.data)
-            console.log(`RESPONSE: ${JSON.stringify(response.data)}`)
             } catch(error) {
             setError("Failed to load transaction, please reload the page")
             } finally {
             setIsLoading(false)
             }
         };
-        fetchToDos()
+        fetchTransactions()
         }, [transactionData])
 
     const {
