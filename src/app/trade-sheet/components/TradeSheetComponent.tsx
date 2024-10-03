@@ -163,15 +163,15 @@ export default function AllToDos({user}: UserProps){
                             ✓</button>
                         </td>
 
-                        <td scope="col" className="px-2 py-2 text-center">
+                        <td scope="col" className="px-1 py-2 text-center">
                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/trade-sheet/edit/${toDo.id}`}>EDIT</Link></button>
                         </td>
 
-                        <td scope="col" className="px-2 py-2 text-center">
+                        <td scope="col" className="px-1 py-2 text-center">
                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/trade-sheet/delete/${toDo.id}`}>DELETE</Link></button>
                         </td>
 
-                        <td scope="col" className="px-0 py-2 text-center">
+                        <td scope="col" className="pl-1 pr-2 py-2 text-center">
                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/trade-sheet/execute/${toDo.id}`}>ADD</Link></button>
                         </td>
                     </tr>

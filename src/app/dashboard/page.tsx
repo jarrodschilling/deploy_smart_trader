@@ -70,12 +70,12 @@ export default async function Dashboard() {
 
   
   return (
-    <div className='m-4 md:mt-24 mt-36'>
-      <BetaTesting />
+    <div className='m-4 mt-20 mb-20'>
+      {/* <BetaTesting /> */}
       <PageTitle title={"Dashboard"} />
       <div className='flex justify-center'>
       <button
-        className="mb-2 w-44 bg-blue-500 hover:bg-blue-700 text-white font-bold py-0 px-4 rounded focus:outline-none focus:shadow-outline">
+        className="mb-2 w-44 bg-blue-500 hover:bg-blue-700 text-white font-bold text-lg py-2 px-6 rounded focus:outline-none focus:shadow-outline">
           <Link href={"/user-settings"}>
           User Settings
           </Link>
