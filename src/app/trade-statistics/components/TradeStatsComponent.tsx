@@ -54,8 +54,8 @@ const TradeStatsComponent: React.FC<Props> = ({trades, portfolio}) =>  {
             <tr>
               <th scope="col" className="px-2 py-4">Ticker</th>
               <th scope="col" className="px-0 py-4">Name</th>
-              <th scope="col" className="px-2 py-4">Open<br/>Date</th>
-              <th scope="col" className="px-2 py-4">Close<br/>Date</th>
+              <th scope="col" className="px-0 py-4">Open<br/>Date</th>
+              <th scope="col" className="px-0 py-4">Close<br/>Date</th>
               <th scope="col" className="px-2 py-4">Avg Open<br/>Price</th>
               <th scope="col" className="px-2 py-4">Shares</th>
               <th scope="col" className="px-2 py-4">Open<br/>Cost</th>

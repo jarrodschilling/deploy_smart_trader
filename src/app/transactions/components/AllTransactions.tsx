@@ -8,6 +8,7 @@ import useSWR from 'swr'
 import { User } from '../../../../types'
 import { app_domain } from "@/lib/domain"
 import React from 'react'
+import { Transaction } from '@prisma/client'
 
 type UserProps = {
   user: User
@@ -21,6 +22,8 @@ export default function AllTransactions({user}: UserProps) {
   const [advColors, setAdvColors] = useState<string>("false")
   const [transactions, setTransactions] = useState(user.transactions)
   const { data: session, status } = useSession()
+  const [sortedTransactions, setSortedTransactions] = useState<Transaction[]>(transactions)
+  const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null)
   
   
   const email = user.email
@@ -29,6 +32,36 @@ export default function AllTransactions({user}: UserProps) {
   const { data, error, isLoading, mutate } = useSWR<User>(`${app_domain}/api/users/${email}`, fetcher,
     { fallbackData: user }
   )
+
+  // @ts-ignore
+  const dataTransactions = data?.transactions.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  
+  useEffect(() => {
+    // @ts-ignore
+    setSortedTransactions(dataTransactions)
+  }, [])
+
+  const handleSort = (key: keyof Transaction) => {
+    let direction = "ascending"
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending"
+    }
+    
+    // @ts-ignore
+    const sortedArray = [...dataTransactions].sort((a, b) => {
+      const aValue = a[key] ?? ""
+      const bValue = b[key] ?? ""
+      
+      if (aValue < bValue) return direction === "ascending" ? -1 : 1
+      
+      if (aValue > bValue) return direction === "ascending" ? 1 : -1
+      return 0
+    })
+
+    setSortConfig({ key, direction })
+    setSortedTransactions(sortedArray)
+  }
+
 
   const handleHighlight = async () => {
     if (highlight === "false") {
@@ -90,16 +123,16 @@ export default function AllTransactions({user}: UserProps) {
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200">
           <thead className="sticky top-0 text-sm text-gray-300 uppercase bg-gray-700 dark:bg-gray-700 dark:text-gray-300">
           <tr>
-              <th scope="col" className="px-2 py-4">Date</th>
+              <th scope="col" className="px-2 py-4">Date <button onClick={() => handleSort("date")}>🔼🔽</button></th>
               <th scope="col" className="px-2 py-4">Ticker</th>
               <th scope="col" className="px-2 py-4">Name</th>
               <th scope="col" className="px-2 py-4 text-center">Buy/<br/>Sell</th>
               <th scope="col" className="px-4 py-4 text-center">Price</th>
               <th scope="col" className="px-4 py-4 text-center">Shares</th>
               <th scope="col" className="px-4 py-4 text-center">Total<br/>Value</th>
-              <th scope="col" className="px-2 py-4">Shaper</th>
-              <th scope="col" className="px-2 py-4">Tactical</th>
-              <th scope="col" className="px-2 py-4">OPEN</th>
+              <th scope="col" className="px-2 py-4">Shaper <button onClick={() => handleSort("shaper")}>🔼🔽</button></th>
+              <th scope="col" className="px-2 py-4">Tactical <button onClick={() => handleSort("tactical")}>🔼🔽</button></th>
+              <th scope="col" className="pl-0 pr-2 py-4">OPEN</th>
               <th scope="col" className="px-2 py-4">CLOSE</th>
               <th scope="col" className="px-2 py-1"></th>
               <th scope="col" className="px-2 py-1"></th>
@@ -107,8 +140,8 @@ export default function AllTransactions({user}: UserProps) {
         </thead>
         <tbody>
             {
-              data?.transactions
-              .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+              // @ts-ignore
+              sortedTransactions
               .map((transaction) => (
                   <tr key={transaction.id} 
                   className={`${
@@ -135,7 +168,7 @@ export default function AllTransactions({user}: UserProps) {
                       <td scope="col" className="px-4 py-4 text-center">{totalCostFmt(transaction.price, transaction.shares)}</td>
                       <td scope="col" className="px-2 py-2">{transaction.shaper}</td>
                       <td scope="col" className="px-2 py-2">{transaction.tactical}</td>
-                      <td scope="col" className="px-2 py-2">{transaction.openTrade? "Yes": ""}</td>
+                      <td scope="col" className="px-0 py-2">{transaction.openTrade? "Yes": ""}</td>
                       <td scope="col" className="px-2 py-2">{transaction.closeTrade? "Yes": ""}</td>
                       <td scope="col" className="px-2 py-2">
                         <button className="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-0 px-2 border border-blue-500 hover:border-transparent rounded-md"><Link href={`/transactions/edit/${transaction.id}`}>EDIT</Link></button>
