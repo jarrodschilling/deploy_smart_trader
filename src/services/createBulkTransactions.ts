@@ -9,7 +9,7 @@ export default async function CreateBulkTransactions(transactions: AddTransactio
             method: "POST",
             body: JSON.stringify(transaction)
         })
-
+        // handle this on error.ts
         if (!res.ok) throw new Error("failed to fetch data")
         // return res.json()
     }
