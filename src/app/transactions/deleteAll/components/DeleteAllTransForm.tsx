@@ -1,11 +1,13 @@
 'use client'
 
+import { app_domain } from "@/lib/domain"
 import DeleteAllTransactions from "@/services/deleteAllTransactions"
 import GetUserByEmail from "@/services/getUserByEmail"
 import { Transaction, User } from "@prisma/client"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { mutate } from "swr"
 
 
 
@@ -13,6 +15,7 @@ export default function DeleteAllTransForm() {
     const [user, setUser] = useState<User | any>(null)
     const [error, setError] = useState("")
     const { data: session, status } = useSession()
+    const email = session?.user?.email;
 
     useEffect (() => {
         const fetchUser = async () => {
@@ -37,6 +40,7 @@ export default function DeleteAllTransForm() {
         e.preventDefault()
         const userId = await user.id
         await DeleteAllTransactions(userId)
+        await mutate(`${app_domain}/api/users/${email}`)
         router.push('/transactions')
     }
     

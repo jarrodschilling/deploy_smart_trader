@@ -34,12 +34,16 @@ export default function AllTransactions({user}: UserProps) {
   )
 
   // @ts-ignore
-  const dataTransactions = data?.transactions.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  const dataTransactions = data?.transactions
   
   useEffect(() => {
+    if (!data?.transactions) return
+    const sortedArray = [...data.transactions].sort((a, b) => {
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    })
     // @ts-ignore
-    setSortedTransactions(dataTransactions)
-  }, [])
+    setSortedTransactions(sortedArray)
+  }, [data?.transactions])
 
   const handleSort = (key: keyof Transaction) => {
     let direction = "ascending"

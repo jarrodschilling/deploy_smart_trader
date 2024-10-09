@@ -8,6 +8,8 @@ import CreateBulkTransactions from "@/services/createBulkTransactions"
 import { AddTransactionFormData } from "../../../../types"
 import GetUserByEmail from "@/services/getUserByEmail"
 import getStockName from "@/services/yahoo/getStockNames"
+import { mutate } from "swr"
+import { app_domain } from "@/lib/domain"
 
 export default function ExcelUpload() {
     const [file, setFile] = useState<File|null>(null)
@@ -15,6 +17,7 @@ export default function ExcelUpload() {
     const router = useRouter()
     const [dbUserId, setDbUserId] = useState("")
     const { data: session, status } = useSession()
+    const email = session?.user?.email;
 
     async function handleAddName(ticker: any) {
         let stockName
@@ -69,7 +72,7 @@ export default function ExcelUpload() {
                         }
                         if (transaction.shares) {
                             // Convert Shares to integer
-                            transaction.shares = parseInt(transaction.shares, 10);
+                            transaction.shares = Math.abs(parseInt(transaction.shares, 10))
                         }
                         if (transaction.price) {
                             // Convert Price to integer (or float if needed)
@@ -96,6 +99,7 @@ export default function ExcelUpload() {
                     // Save to DB
                     await CreateBulkTransactions(processedTransactions)
                     setLoading(false)
+                    await mutate(`${app_domain}/api/users/${email}`)
                     router.push('/transactions')
                 }
             }
