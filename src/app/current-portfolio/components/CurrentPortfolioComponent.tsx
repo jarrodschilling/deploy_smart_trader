@@ -18,16 +18,48 @@ interface Props {
   portfolioValue: number,
 }
 
+
 const CurrentPortfolioComponent: React.FC<Props> = ({openTrades, stockPrices, portfolioValue}) =>  {
   const [highlight, setHighlight] = useState<string>("false")
   const [onColors, setOnColors] = useState<string>("true")
   const [isLoading, setIsLoading] = useState(true)
-  
+  const [sortedTransactions, setSortedTransactions] = useState<GroupedTrades[]>(openTrades)
+  const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null)
   const [error, setError] = useState<string | null>(null)
   const { data: session, status } = useSession()
   const router = useRouter()
 
   const portfolio = portfolioValue
+
+  useEffect(() => {
+    if (!openTrades) return
+    const sortedArray = [...openTrades].sort((a, b) => {
+      return new Date(a[0].date).getTime() - new Date(b[0].date).getTime()
+    })
+    // @ts-ignore
+    setSortedTransactions(sortedArray)
+  }, [openTrades])
+
+  const handleSort = (key: keyof Transaction) => {
+    let direction = "ascending"
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending"
+    }
+    
+    // @ts-ignore
+    const sortedArray = [...openTrades].sort((a, b) => {
+      const aValue = a[0][key] ?? ""
+      const bValue = b[0][key] ?? ""
+      
+      if (aValue < bValue) return direction === "ascending" ? -1 : 1
+      
+      if (aValue > bValue) return direction === "ascending" ? 1 : -1
+      return 0
+    })
+
+    setSortConfig({ key, direction })
+    setSortedTransactions(sortedArray)
+  }
   
 
 
