@@ -25,7 +25,8 @@ jobs:
         runs-on: self-hosted
         steps:
             - name: Prune all docker to free space
-              run: echo y | docker system prune
+              # run: echo y | docker system prune
+              run: echo y | docker system prune -a --volumes
             - name: Pull image from docker hub
               run: docker pull jarrodschilling/trade_stats_pro:latest
             - name: Delete old container
